@@ -2,7 +2,7 @@ import { Express, Router } from "express";
 import multer from "multer";
 import { incentiveController } from "../controllers/incentiveController";
 
-const upload = multer();
+const upload = multer({ storage: multer.memoryStorage() });
 
 export function setupRoutes(app: Express) {
   const router = Router();
