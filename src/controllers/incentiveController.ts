@@ -1,6 +1,6 @@
-import { errorResponseHandler } from "@utils/errorResponseHandler";
 import { Request, Response } from "express";
 import * as XLSX from "xlsx";
+import { errorResponseHandler } from "../utils/errorResponseHandler";
 
 export const incentiveController = {
   uploadFile: async (req: Request, res: Response) => {
