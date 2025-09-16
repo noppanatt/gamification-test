@@ -4,7 +4,8 @@ const app = express();
 const port = process.env.APP_PORT || 3000;
 
 setupRoutes(app);
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // Start server
 export default app;
 // app.listen(port, () => {
