@@ -1,6 +1,6 @@
 import { Express, Router } from "express";
 import multer from "multer";
-import { incentiveController } from "src/controllers/incentiveController";
+import { incentiveController } from "../controllers/incentiveController";
 
 const upload = multer();
 
