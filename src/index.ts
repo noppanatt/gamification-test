@@ -9,8 +9,9 @@ initModels(sequelize);
 setupRoutes(app);
 
 // Start server
-app.listen(port, () => {
-  console.log(`🔥 Server is running on port ${port} 🔥`);
-});
+export default app;
+// app.listen(port, () => {
+//   console.log(`🔥 Server is running on port ${port} 🔥`);
+// });
 
-console.log("hello Gamification");
+// console.log("hello Gamification");
