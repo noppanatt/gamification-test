@@ -5,7 +5,7 @@ import { errorResponseHandler } from "../utils/errorResponseHandler";
 export const incentiveController = {
   uploadFile: async (req: Request, res: Response) => {
     try {
-      console.log(req.body);
+      console.log({ body: req?.body, file: req?.file });
 
       if (!req.file) {
         return res.status(400).json({ error: "File is required" });
