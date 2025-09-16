@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2018",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "paths": {
+      "@routes/*": ["src/routes/*"],
+      "@utils/*": ["src/utils/*"],
+      "@constants/*": ["src/constants/*"],
+      "@dto/*": ["src/dto/*"],
+      "@validation/*": ["src/middlewares/validation/*"],
+      "@database/*": ["src/database/*"],
+      ".commit-id": ["commit-id"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "commonjs": true,
+    "require": ["tsconfig-paths/register"],
+    "esm": false
+  }
+}

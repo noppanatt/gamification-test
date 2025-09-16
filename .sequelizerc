@@ -1,0 +1,10 @@
+// .sequelizerc
+const path = require("path");
+require("ts-node/register"); // allow .ts migrations/config to load
+
+module.exports = {
+  config: path.resolve("src/database/config", "config.js"),
+  "models-path": path.resolve("src/database", "sequelize"),
+  "seeders-path": path.resolve("src/database", "seeders"),
+  "migrations-path": path.resolve("src/database", "migrations"),
+};
