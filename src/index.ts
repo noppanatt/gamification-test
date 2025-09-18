@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 setupRoutes(app);
-
+console.log("Sawasdee");
 // initModels(sequelize);
 
 //* Start server DEV ONLY
