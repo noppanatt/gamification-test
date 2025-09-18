@@ -11,10 +11,10 @@
             "src": "/(.*)",
             "dest": "api/index.ts"
         }
-    ],
-    "functions": {
-        "api/index.ts": {
-            "includeFiles": "tsconfig.json"
-        }
-    }
+    ]
+    // "functions": {
+    //     "api/index.ts": {
+    //         "includeFiles": "tsconfig.json"
+    //     }
+    // }
 }
