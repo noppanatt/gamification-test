@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import "tsconfig-paths/register";
 import { setupRoutes } from "./routes";
 
 const env = dotenv.config();
