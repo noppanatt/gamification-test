@@ -1,5 +1,17 @@
-import "tsconfig-paths/register";
+import * as tsconfigPaths from "tsconfig-paths";
 import app from "../src/index";
 
-// export the app (no app.listen here)
+tsconfigPaths.register({
+  baseUrl: process.cwd(),
+  paths: {
+    "@routes/*": ["src/routes/*"],
+    "@utils/*": ["src/utils/*"],
+    "@constants/*": ["src/constants/*"],
+    "@dto/*": ["src/dto/*"],
+    "@validation/*": ["src/middlewares/validation/*"],
+    "@database/*": ["src/database/*"],
+    ".commit-id": ["commit-id"],
+  },
+});
+
 export default app;
