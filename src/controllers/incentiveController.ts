@@ -1,4 +1,14 @@
+import sequelize from "@database/index";
+import { CustomerMasterModel } from "@database/sequelize/customerMaster";
+import { GameModel } from "@database/sequelize/game";
+import { RuleBookModel } from "@database/sequelize/ruleBook";
+import customResponse from "@utils/response";
 import { Request, Response } from "express";
+import {
+  CreateGameRuleBody,
+  CreateGameRuleBodySchema,
+} from "src/validation/rulebook";
+import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 
@@ -32,16 +42,85 @@ export const incentiveController = {
         });
       }
 
-      res.json({
+      return customResponse(res, 200, {
         message: "Upload OK",
         filename: req.file.originalname,
         size: req.file.size,
         mimeType: req.file.mimetype,
         data: xlsxData?.slice(0, 10),
       });
-      // return customResponse(res, 200, {  : "Upload accepted", body });
     } catch (error) {
       errorResponseHandler(error, req, res);
+    }
+  },
+  getCustomerMaster: async (req: Request, res: Response) => {
+    try {
+      const result = await CustomerMasterModel.findAll();
+
+      return customResponse(res, 200, { result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  createGameRule: async (
+    req: Request<any, any, CreateGameRuleBody>,
+    res: Response
+  ) => {
+    const transaction = await sequelize.transaction();
+    try {
+      const parsed = CreateGameRuleBodySchema.parse(req.body);
+
+      if (parsed?.data.length) {
+        const ruleBookPayload = {
+          id: uuidv4(),
+          fileName: parsed.fileName ?? null,
+          active: false,
+          appMasterId: 1,
+        };
+
+        const ruleBook = await RuleBookModel.create(
+          ruleBookPayload as unknown as RuleBookModel,
+          {
+            transaction,
+          }
+        );
+
+        const gamesPayload = parsed.data.map((r) => ({
+          id: uuidv4(),
+          gameId: r.gameId,
+          gameMasterDataId: r.gameMasterDataId ?? null,
+          customerMasterDataId: r.customerMasterDataId ?? null,
+          version: r.version ?? null,
+          trafficPercentage: r.trafficPercentage ?? null,
+          page: r.page ?? null,
+          durationDays: r.durationDays ?? null,
+          point: r.point ?? null,
+          rewardIds: r.rewardId,
+          dropOffDays: r.dropOffDays != null ? String(r.dropOffDays) : null,
+          pushMessage: r.pushMessage ?? null,
+          timeToPush: r.timeToPush ? new Date(r.timeToPush) : null,
+          startDate: r?.startDate ? new Date(r.startDate) : null,
+          endDate: r?.endDate ? new Date(r.endDate) : null,
+          active: r.active ?? false,
+          appMasterId: ruleBook.appMasterId,
+          ruleBookId: ruleBook.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }));
+
+        await GameModel.bulkCreate(gamesPayload as any[], { transaction });
+        await transaction.commit();
+
+        return customResponse(res, 201, {
+          ok: true,
+          ruleBookId: ruleBook.id,
+          createdGames: gamesPayload.length,
+        });
+      }
+    } catch (e) {
+      await transaction.rollback();
+
+      errorResponseHandler(e, req, res);
     }
   },
 };

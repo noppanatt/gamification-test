@@ -1,15 +1,23 @@
+import { initModels } from "@database/sequelize";
+import dotenv from "dotenv";
 import express from "express";
+import sequelize from "./database";
 import { setupRoutes } from "./routes";
-const app = express();
-const port = process.env.APP_PORT || 3000;
 
-setupRoutes(app);
+const env = dotenv.config();
+const app = express();
+const port = env.parsed?.APP_PORT || 3000;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Start server
-export default app;
+
+setupRoutes(app);
+
+initModels(sequelize);
+
+//* Start server DEV ONLY
 // app.listen(port, () => {
 //   console.log(`🔥 Server is running on port ${port} 🔥`);
 // });
 
-// console.log("hello Gamification");
+export default app;

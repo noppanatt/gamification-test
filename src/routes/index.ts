@@ -11,7 +11,9 @@ export function setupRoutes(app: Express) {
     res.status(200).json({ status: "healthy" });
   });
 
-  router.post("/upload", upload.single("file"), incentiveController.uploadFile);
+  router.get("/customer-master", incentiveController.getCustomerMaster);
 
-  app.use("/incensive", router);
+  router.post("/rule", incentiveController.createGameRule);
+
+  app.use("/incentive", router);
 }
