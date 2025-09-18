@@ -14,9 +14,7 @@
     ],
     "functions": {
         "api/index.ts": {
-            "includeFiles": [
-                "tsconfig.json"
-            ]
+            "includeFiles": "tsconfig.json"
         }
     }
 }
