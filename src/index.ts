@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
-import { initModels } from "src/database/sequelize";
 import sequelize from "./database";
+import { initModels } from "./database/sequelize/index";
 import { setupRoutes } from "./routes";
 
 const env = dotenv.config();

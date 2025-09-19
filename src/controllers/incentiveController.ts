@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
-import sequelize from "src/database/";
-import { CustomerMasterModel } from "src/database/sequelize/customerMaster";
-import { GameModel } from "src/database/sequelize/game";
-import { RuleBookModel } from "src/database/sequelize/ruleBook";
-import customResponse from "src/utils/response";
+import { v4 as uuidv4 } from "uuid";
+import * as XLSX from "xlsx";
+import sequelize from "../database/index";
+import { CustomerMasterModel } from "../database/sequelize/customerMaster";
+import { GameModel } from "../database/sequelize/game";
+import { RuleBookModel } from "../database/sequelize/ruleBook";
+import { errorResponseHandler } from "../utils/errorResponseHandler";
+import customResponse from "../utils/response";
 import {
   CreateGameRuleBody,
   CreateGameRuleBodySchema,
   editGameRuleSchema,
   getGameRuleSchema,
-} from "src/validation/rulebook";
-import { v4 as uuidv4 } from "uuid";
-import * as XLSX from "xlsx";
-import { errorResponseHandler } from "../utils/errorResponseHandler";
+} from "../validation/rulebook";
 
 export const incentiveController = {
   uploadFile: async (req: Request, res: Response) => {
