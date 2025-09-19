@@ -11,7 +11,7 @@ sequelize
   .authenticate()
   .then(() => {
     console.log("🌍 Database connection has been established successfully.🌍");
-    // return sequelize.sync(); // Chaining sync() after authenticate()
+    return sequelize.sync(); // Chaining sync() after authenticate()
   })
   .then(() => {
     console.log("🔄 Database synchronization completed.🗂️");

@@ -1,5 +1,7 @@
+import { initModels } from "@database/sequelize";
 import dotenv from "dotenv";
 import express from "express";
+import sequelize from "./database";
 import { setupRoutes } from "./routes";
 
 const env = dotenv.config();
@@ -11,11 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 
 setupRoutes(app);
 console.log("Sawasdee");
-// initModels(sequelize);
 
 //* Start server DEV ONLY
-// app.listen(port, () => {
-//   console.log(`🔥 Server is running on port ${port} 🔥`);
-// });
+initModels(sequelize);
+app.listen(port, () => {
+  console.log(`🔥 Server is running on port ${port} 🔥`);
+});
 
 export default app;

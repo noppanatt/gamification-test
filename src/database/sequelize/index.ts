@@ -2,11 +2,13 @@ import { Sequelize } from "sequelize";
 import { appMasterModel, initAppMasterModel } from "./appMaster";
 import { initCustomerMasterModel } from "./customerMaster";
 import { GameModel, initGameModel } from "./game";
+import { initRewardModel } from "./reward";
 import { initRuleBookModel, RuleBookModel } from "./ruleBook";
 
 export const initModels = (sequelize: Sequelize) => {
   initAppMasterModel(sequelize);
   initCustomerMasterModel(sequelize);
+  initRewardModel(sequelize);
 
   //* RuleBook
   initRuleBookModel(sequelize);
