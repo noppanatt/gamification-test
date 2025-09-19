@@ -13,7 +13,18 @@ export function setupRoutes(app: Express) {
 
   router.get("/customer-master", incentiveController.getCustomerMaster);
 
+  //* Rule
+  router.get("/rule", incentiveController.getRuleBook);
+
+  router.put("/rule/active", incentiveController.toggleRuleStatus);
+
+  router.patch("/rule/restore", incentiveController.restoreRule);
+
+  router.delete("/rule", incentiveController.deleteRule);
+
   router.post("/rule", incentiveController.createGameRule);
+
+  //* reward
 
   app.use("/incentive", router);
 }

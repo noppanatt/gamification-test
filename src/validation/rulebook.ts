@@ -24,5 +24,16 @@ export const CreateGameRuleBodySchema = z.object({
   data: z.array(GameRuleSchema),
 });
 
+export const getGameRuleSchema = z.object({
+  appId: z.coerce.number().positive(),
+});
+
+export const editGameRuleSchema = z.object({
+  appId: z.coerce.number().positive(),
+  ruleId: z.uuidv4(),
+});
+
 export type GameRuleDTO = z.infer<typeof GameRuleSchema>;
 export type CreateGameRuleBody = z.infer<typeof CreateGameRuleBodySchema>;
+export type TGetGameRule = z.infer<typeof getGameRuleSchema>;
+export type TEditGameRule = z.infer<typeof editGameRuleSchema>;

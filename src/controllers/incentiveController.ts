@@ -7,6 +7,8 @@ import { Request, Response } from "express";
 import {
   CreateGameRuleBody,
   CreateGameRuleBodySchema,
+  editGameRuleSchema,
+  getGameRuleSchema,
 } from "src/validation/rulebook";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
@@ -121,6 +123,105 @@ export const incentiveController = {
       await transaction.rollback();
 
       errorResponseHandler(e, req, res);
+    }
+  },
+  getRuleBook: async (req: Request, res: Response) => {
+    try {
+      const params = getGameRuleSchema.parse(req.query);
+
+      const result = await RuleBookModel.findAll({
+        where: { appMasterId: params.appId },
+        include: [
+          {
+            model: GameModel,
+            as: "games",
+          },
+        ],
+      });
+
+      return customResponse(res, 200, { rules: result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  toggleRuleStatus: async (req: Request, res: Response) => {
+    try {
+      const params = editGameRuleSchema.parse(req.query);
+
+      const rule = await RuleBookModel.findOne({
+        where: { id: params.ruleId, appMasterId: params.appId },
+        attributes: ["id", "active", "appMasterId"],
+      });
+
+      if (!rule) {
+        return customResponse(res, 404, {
+          message: `RuleID: ${params.ruleId} not found.`,
+        });
+      }
+
+      await RuleBookModel.update(
+        { active: !rule.active },
+        { where: { id: rule.id, appMasterId: rule.appMasterId } }
+      );
+
+      return customResponse(res, 201, { newActive: !rule.active });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  deleteRule: async (req: Request, res: Response) => {
+    try {
+      const params = editGameRuleSchema.parse(req.query);
+      const { appId, ruleId } = params;
+
+      const rule = await RuleBookModel.findOne({
+        where: { id: ruleId, appMasterId: appId },
+        attributes: ["id", "active", "appMasterId"],
+      });
+
+      if (!rule) {
+        return customResponse(res, 404, {
+          message: `RuleID: ${ruleId} not found.`,
+        });
+      }
+
+      await RuleBookModel.destroy({
+        where: { id: ruleId, appMasterId: appId },
+      });
+
+      return customResponse(res, 201, {
+        message: `Delete ruleID: ${ruleId} completed.`,
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  restoreRule: async (req: Request, res: Response) => {
+    try {
+      const params = editGameRuleSchema.parse(req.query);
+      const { appId, ruleId } = params;
+
+      const rule = await RuleBookModel.findOne({
+        where: { id: ruleId, appMasterId: appId },
+        attributes: ["id", "active", "appMasterId"],
+        paranoid: false,
+      });
+
+      if (!rule) {
+        return customResponse(res, 404, {
+          message: `RuleID: ${ruleId} not found.`,
+        });
+      }
+
+      await RuleBookModel.restore({
+        where: { id: ruleId, appMasterId: appId },
+      });
+
+      return customResponse(res, 201, {
+        message: `Restore ruleID: ${ruleId} completed.`,
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
     }
   },
 };
