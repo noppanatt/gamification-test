@@ -4,9 +4,9 @@ import sequelize from "./database";
 import { initModels } from "./database/sequelize/index";
 import { setupRoutes } from "./routes";
 
-const env = dotenv.config();
+dotenv.config();
 const app = express();
-const port = env.parsed?.APP_PORT || 3000;
+const port = process.env.APP_PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
