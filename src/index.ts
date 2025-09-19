@@ -1,6 +1,6 @@
-import { initModels } from "@database/sequelize";
 import dotenv from "dotenv";
 import express from "express";
+import { initModels } from "src/database/sequelize";
 import sequelize from "./database";
 import { setupRoutes } from "./routes";
 
@@ -13,8 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 
 setupRoutes(app);
 
-//* Start server DEV ONLY
 initModels(sequelize);
+
+//* Uncomment to start server LOCAL ONLY
 // app.listen(port, () => {
 //   console.log(`🔥 Server is running on port ${port} 🔥`);
 // });
