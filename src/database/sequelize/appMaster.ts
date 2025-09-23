@@ -8,9 +8,9 @@ import {
   Sequelize,
 } from "sequelize";
 
-export class appMasterModel extends Model<
-  InferAttributes<appMasterModel>,
-  InferCreationAttributes<appMasterModel>
+export class AppMasterModel extends Model<
+  InferAttributes<AppMasterModel>,
+  InferCreationAttributes<AppMasterModel>
 > {
   declare id: CreationOptional<number>;
   declare name: CreationOptional<string>;
@@ -21,7 +21,7 @@ export class appMasterModel extends Model<
 }
 
 export function initAppMasterModel(sequelize: Sequelize) {
-  appMasterModel.init(
+  AppMasterModel.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -35,9 +35,9 @@ export function initAppMasterModel(sequelize: Sequelize) {
     },
     {
       hooks: {
-        beforeCreate: async (instance: appMasterModel) => {
+        beforeCreate: async (instance: AppMasterModel) => {
           if (!instance.id) {
-            const max = await appMasterModel.max("id").catch(() => 0);
+            const max = await AppMasterModel.max("id").catch(() => 0);
             instance.id = (Number(max) || 0) + 1;
           }
         },

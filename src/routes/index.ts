@@ -25,6 +25,7 @@ export function setupRoutes(app: Express) {
   router.post("/rule", incentiveController.createGameRule);
 
   //* reward
+  router.get("/reward/upload", incentiveController.getPreSignUploadUrl);
 
   app.use("/incentive", router);
 }

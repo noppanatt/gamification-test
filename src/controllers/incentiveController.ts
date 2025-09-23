@@ -224,4 +224,13 @@ export const incentiveController = {
       errorResponseHandler(error, req, res);
     }
   },
+  getPreSignUploadUrl: async (req: Request, res: Response) => {
+    try {
+      // const blob = await rewardService.getUploadPreSignUrl();
+
+      return customResponse(res, 200);
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
 };

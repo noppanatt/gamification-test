@@ -16,6 +16,8 @@ export class RewardModel extends Model<
   declare id: CreationOptional<number>;
   declare name: string;
   declare point: number;
+  declare description: string;
+  declare termsAndCondition: string;
 
   declare updatedAt: NonAttribute<Date>;
   declare createdAt: NonAttribute<Date>;
@@ -36,6 +38,12 @@ export function initRewardModel(sequelize: Sequelize) {
       },
       point: {
         type: DataTypes.INTEGER,
+      },
+      description: {
+        type: DataTypes.STRING,
+      },
+      termsAndCondition: {
+        type: DataTypes.STRING,
       },
     },
     {

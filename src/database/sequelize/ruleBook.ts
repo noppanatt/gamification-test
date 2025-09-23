@@ -9,7 +9,7 @@ import {
   Sequelize,
   UUIDV4,
 } from "sequelize";
-import { appMasterModel } from "./appMaster";
+import { AppMasterModel } from "./appMaster";
 
 export class RuleBookModel extends Model<
   InferAttributes<RuleBookModel>,
@@ -18,7 +18,7 @@ export class RuleBookModel extends Model<
   declare id: CreationOptional<string>;
   declare fileName: CreationOptional<string>;
   declare active: Boolean;
-  declare appMasterId: ForeignKey<appMasterModel["id"]>;
+  declare appMasterId: ForeignKey<AppMasterModel["id"]>;
 
   declare createdAt: NonAttribute<Date>;
   declare updatedAt: NonAttribute<Date>;

@@ -9,7 +9,7 @@ import {
   Sequelize,
   UUIDV4,
 } from "sequelize";
-import { appMasterModel } from "./appMaster";
+import { AppMasterModel } from "./appMaster";
 import { RuleBookModel } from "./ruleBook";
 
 export class GameModel extends Model<
@@ -33,7 +33,7 @@ export class GameModel extends Model<
   declare startDate: CreationOptional<Date>;
   declare endDate: CreationOptional<Date>;
   declare active: CreationOptional<Boolean>;
-  declare appMasterId: ForeignKey<appMasterModel["id"]>;
+  declare appMasterId: ForeignKey<AppMasterModel["id"]>;
   declare ruleBookId: ForeignKey<RuleBookModel["id"]>;
 
   declare updatedAt: NonAttribute<Date>;
