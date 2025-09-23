@@ -1,4 +1,6 @@
+import { RewardModel } from "@database/sequelize/reward";
 import { Request, Response } from "express";
+import { CreateRewardSchema } from "src/validation/reward";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import sequelize from "../database/index";
@@ -144,6 +146,7 @@ export const incentiveController = {
       errorResponseHandler(error, req, res);
     }
   },
+
   toggleRuleStatus: async (req: Request, res: Response) => {
     try {
       const params = editGameRuleSchema.parse(req.query);
@@ -229,6 +232,28 @@ export const incentiveController = {
       // const blob = await rewardService.getUploadPreSignUrl();
 
       return customResponse(res, 200);
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+
+  createReward: async (req: Request, res: Response) => {
+    try {
+      const parsed = CreateRewardSchema.parse(req.body);
+
+      await RewardModel.create(parsed);
+
+      return customResponse(res, 201);
+    } catch (e) {
+      errorResponseHandler(e, req, res);
+    }
+  },
+
+  getReward: async (req: Request, res: Response) => {
+    try {
+      const result = await RewardModel.findAll();
+
+      return customResponse(res, 200, { rewards: result });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
