@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { rewardService } from "src/services/rewardService";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import sequelize from "../database/index";
@@ -226,9 +227,9 @@ export const incentiveController = {
   },
   getPreSignUploadUrl: async (req: Request, res: Response) => {
     try {
-      // const blob = await rewardService.getUploadPreSignUrl();
+      const blob = await rewardService.getUploadPreSignUrl();
 
-      return customResponse(res, 200);
+      return customResponse(res, 200, { blob });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
