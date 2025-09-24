@@ -1,53 +1,62 @@
-import { DefaultAzureCredential } from "@azure/identity";
 import {
   BlobSASPermissions,
   BlobSASSignatureValues,
   BlobServiceClient,
   SASProtocol,
   ServiceGetUserDelegationKeyResponse,
+  StorageSharedKeyCredential,
   generateBlobSASQueryParameters,
 } from "@azure/storage-blob";
 
 const constants = {
   accountName: process.env.AZURE_STORAGE_ACCOUNT as string,
   containerName: process.env.AZURE_STORAGE_ACCOUNT_CONTAINER as string,
+  key: process.env.AZURE_STORAGE_KEY as string,
   version: "2020-04-08",
 };
 
 const getClient = async (): Promise<BlobServiceClient> => {
-  const tokenCredential = new DefaultAzureCredential();
+  // const tokenCredential = new DefaultAzureCredential();
+
+  const account = process.env.AZURE_STORAGE_ACCOUNT!.trim();
+  const key = process.env.AZURE_STORAGE_KEY!.trim();
+  const cred = new StorageSharedKeyCredential(account, key);
+
   const blobClient = new BlobServiceClient(
-    `https://${constants.accountName}.blob.core.windows.net`,
-    tokenCredential
+    `https://${account}.blob.core.windows.net`,
+    cred
   );
+
+  console.log({ blobClient });
 
   return blobClient;
 };
 
-const getDelegationKey = async () => {
-  try {
-    //* Best practice: create time limits
-    const TEN_MINUTES = 10 * 60 * 1000;
-    const NOW = new Date();
+// const getDelegationKey = async () => {
+//   try {
+//     //* Best practice: create time limits
+//     const TEN_MINUTES = 10 * 60 * 1000;
+//     const NOW = new Date();
 
-    //* Best practice: set start time a little before current time to
-    //* make sure any clock issues are avoided
-    const TEN_MINUTES_BEFORE_NOW = new Date(NOW.valueOf() - TEN_MINUTES);
-    const TEN_MINUTES_AFTER_NOW = new Date(NOW.valueOf() + TEN_MINUTES);
+//     //* Best practice: set start time a little before current time to
+//     //* make sure any clock issues are avoided
+//     const TEN_MINUTES_BEFORE_NOW = new Date(NOW.valueOf() - TEN_MINUTES);
+//     const TEN_MINUTES_AFTER_NOW = new Date(NOW.valueOf() + TEN_MINUTES);
 
-    //* Generate user delegation SAS for a container
-    const blobClient = await getClient();
+//     //* Generate user delegation SAS for a container
+//     const blobClient = await getClient();
 
-    const delegationKey = await blobClient.getUserDelegationKey(
-      TEN_MINUTES_BEFORE_NOW,
-      TEN_MINUTES_AFTER_NOW
-    );
+//     const delegationKey = await blobClient.getUserDelegationKey(
+//       TEN_MINUTES_BEFORE_NOW,
+//       TEN_MINUTES_AFTER_NOW
+//     );
+//     console.log({ delegationKey });
 
-    return delegationKey;
-  } catch (error) {
-    console.log({ error });
-  }
-};
+//     return delegationKey;
+//   } catch (error) {
+//     console.log({ error });
+//   }
+// };
 
 const getBlobUrl = (
   accountName: string,
@@ -90,6 +99,33 @@ const createBlobSas = (
   return sasToken[0] === "?" ? sasToken : `?${sasToken}`;
 };
 
+function createBlobSasWithSharedKey(opts: {
+  containerName: string;
+  blobName: string;
+  expiresOnSeconds: number;
+  contentType?: string;
+  correlationId?: string;
+}) {
+  const now = Date.now();
+  const values: BlobSASSignatureValues = {
+    containerName: opts.containerName,
+    blobName: opts.blobName,
+    permissions: BlobSASPermissions.parse("cwr"), // create + write + read
+    protocol: SASProtocol.Https,
+    startsOn: new Date(now - 5 * 60 * 1000), // clock skew buffer
+    expiresOn: new Date(now + opts.expiresOnSeconds * 1000),
+    contentType: opts.contentType, // optional
+    correlationId: opts.correlationId, // optional
+  };
+
+  const cred = new StorageSharedKeyCredential(
+    constants.accountName,
+    constants.key
+  );
+  const sas = generateBlobSASQueryParameters(values, cred).toString();
+  return sas.startsWith("?") ? sas : `?${sas}`;
+}
+
 export const getPresignedUrl = async (
   blobName: string,
   expiresOnSeconds: number,
@@ -100,12 +136,7 @@ export const getPresignedUrl = async (
 
   if (!blobName) return {};
 
-  const delegationKey = await getDelegationKey();
-
-  if (!delegationKey) {
-    return;
-  }
-  const sasToken = createBlobSas(delegationKey, constants.accountName, {
+  const sasToken = createBlobSasWithSharedKey({
     blobName,
     containerName: constants.containerName,
     contentType,
