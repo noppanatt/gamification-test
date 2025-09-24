@@ -262,7 +262,36 @@ export const incentiveController = {
 
   editReward: async (req: Request, res: Response) => {
     try {
-    } catch (error) {}
+      const params = editRewardSchema.parse(req.query);
+      const parsed = CreateRewardSchema.parse(req.body);
+
+      const reward = await RewardModel.findOne({
+        where: { id: params.rewardId },
+        attributes: ["id", "name", "point", "description", "termsAndCondition"],
+      });
+
+      if (!reward) {
+        return customResponse(res, 404, {
+          message: `RewardID: ${params.rewardId} not found.`,
+        });
+      }
+
+      await RewardModel.update(
+        {
+          name: parsed.name,
+          point: parsed.point,
+          description: parsed.description,
+          termsAndCondition: parsed.termsAndCondition,
+        },
+        { where: { id: reward.id } }
+      );
+
+      return customResponse(res, 201, {
+        message: `updated rewardId : ${reward.id} success`,
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
   },
 
   deleteReward: async (req: Request, res: Response) => {
