@@ -11,6 +11,16 @@ export function setupRoutes(app: Express) {
     res.status(200).json({ status: "healthy" });
   });
 
+  app.get("/check/env", (_req, res) => {
+    res.json({
+      hasAccount: !!process.env.AZURE_STORAGE_ACCOUNT,
+      hasContainer: !!process.env.AZURE_STORAGE_ACCOUNT_CONTAINER,
+      hasKey: !!process.env.AZURE_STORAGE_KEY,
+      hasSas: !!process.env.AZURE_STORAGE_SAS,
+      nodeVersion: process.version,
+    });
+  });
+
   router.get("/customer-master", incentiveController.getCustomerMaster);
 
   //* Rule

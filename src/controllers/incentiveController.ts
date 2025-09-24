@@ -7,6 +7,7 @@ import sequelize from "../database/index";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
+import { rewardService } from "../services/rewardService";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
 import {
@@ -229,9 +230,9 @@ export const incentiveController = {
   },
   getPreSignUploadUrl: async (req: Request, res: Response) => {
     try {
-      // const blob = await rewardService.getUploadPreSignUrl();
+      const blob = await rewardService.getUploadPreSignUrl();
 
-      return customResponse(res, 200);
+      return customResponse(res, 200, { blob });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }

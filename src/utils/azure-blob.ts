@@ -20,27 +20,33 @@ const getClient = async (): Promise<BlobServiceClient> => {
     `https://${constants.accountName}.blob.core.windows.net`,
     tokenCredential
   );
+
   return blobClient;
 };
 
 const getDelegationKey = async () => {
-  //* Best practice: create time limits
-  const TEN_MINUTES = 10 * 60 * 1000;
-  const NOW = new Date();
+  try {
+    //* Best practice: create time limits
+    const TEN_MINUTES = 10 * 60 * 1000;
+    const NOW = new Date();
 
-  //* Best practice: set start time a little before current time to
-  //* make sure any clock issues are avoided
-  const TEN_MINUTES_BEFORE_NOW = new Date(NOW.valueOf() - TEN_MINUTES);
-  const TEN_MINUTES_AFTER_NOW = new Date(NOW.valueOf() + TEN_MINUTES);
+    //* Best practice: set start time a little before current time to
+    //* make sure any clock issues are avoided
+    const TEN_MINUTES_BEFORE_NOW = new Date(NOW.valueOf() - TEN_MINUTES);
+    const TEN_MINUTES_AFTER_NOW = new Date(NOW.valueOf() + TEN_MINUTES);
 
-  //* Generate user delegation SAS for a container
-  const blobClient = await getClient();
-  const delegationKey = await blobClient.getUserDelegationKey(
-    TEN_MINUTES_BEFORE_NOW,
-    TEN_MINUTES_AFTER_NOW
-  );
+    //* Generate user delegation SAS for a container
+    const blobClient = await getClient();
 
-  return delegationKey;
+    const delegationKey = await blobClient.getUserDelegationKey(
+      TEN_MINUTES_BEFORE_NOW,
+      TEN_MINUTES_AFTER_NOW
+    );
+
+    return delegationKey;
+  } catch (error) {
+    console.log({ error });
+  }
 };
 
 const getBlobUrl = (
@@ -96,6 +102,9 @@ export const getPresignedUrl = async (
 
   const delegationKey = await getDelegationKey();
 
+  if (!delegationKey) {
+    return;
+  }
   const sasToken = createBlobSas(delegationKey, constants.accountName, {
     blobName,
     containerName: constants.containerName,
