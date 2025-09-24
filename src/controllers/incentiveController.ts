@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { rewardService } from "src/services/rewardService";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import sequelize from "../database/index";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
+import { rewardService } from "../services/rewardService";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
 import {
