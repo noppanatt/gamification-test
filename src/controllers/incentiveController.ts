@@ -1,15 +1,15 @@
-import { RewardModel } from "@database/sequelize/reward";
 import { Request, Response } from "express";
-import { CreateRewardSchema, editRewardSchema } from "src/validation/reward";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import sequelize from "../database/index";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
+import { RewardModel } from "../database/sequelize/reward";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
 import { rewardService } from "../services/rewardService";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
+import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
 import {
   CreateGameRuleBody,
   CreateGameRuleBodySchema,
