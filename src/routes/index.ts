@@ -38,6 +38,8 @@ export function setupRoutes(app: Express) {
   router.get("/reward/upload", incentiveController.getPreSignUploadUrl);
   router.post("/reward", incentiveController.createReward);
   router.get("/rewards", incentiveController.getReward);
+  router.put("/reward", incentiveController.editReward);
+  router.delete("/reward", incentiveController.deleteReward);
 
   app.use("/incentive", router);
 }

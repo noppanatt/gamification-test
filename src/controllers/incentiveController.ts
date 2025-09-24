@@ -1,6 +1,6 @@
 import { RewardModel } from "@database/sequelize/reward";
 import { Request, Response } from "express";
-import { CreateRewardSchema } from "src/validation/reward";
+import { CreateRewardSchema, editRewardSchema } from "src/validation/reward";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import sequelize from "../database/index";
@@ -185,7 +185,7 @@ export const incentiveController = {
 
       if (!rule) {
         return customResponse(res, 404, {
-          message: `RuleID: ${ruleId} not found.`,
+          message: `RewardID: ${ruleId} not found.`,
         });
       }
 
@@ -194,7 +194,7 @@ export const incentiveController = {
       });
 
       return customResponse(res, 201, {
-        message: `Delete ruleID: ${ruleId} completed.`,
+        message: `Delete rewardID: ${ruleId} completed.`,
       });
     } catch (error) {
       errorResponseHandler(error, req, res);
@@ -255,6 +255,39 @@ export const incentiveController = {
       const result = await RewardModel.findAll();
 
       return customResponse(res, 200, { rewards: result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+
+  editReward: async (req: Request, res: Response) => {
+    try {
+    } catch (error) {}
+  },
+
+  deleteReward: async (req: Request, res: Response) => {
+    try {
+      const params = editRewardSchema.parse(req.query);
+      const { rewardId } = params;
+
+      const reward = await RewardModel.findOne({
+        where: { id: rewardId },
+        attributes: ["id", "name", "point", "description", "termsAndCondition"],
+      });
+
+      if (!reward) {
+        return customResponse(res, 404, {
+          message: `RewardID: ${rewardId} not found.`,
+        });
+      }
+
+      await RewardModel.destroy({
+        where: { id: rewardId },
+      });
+
+      return customResponse(res, 201, {
+        message: `Delete ruleID: ${rewardId} completed.`,
+      });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }

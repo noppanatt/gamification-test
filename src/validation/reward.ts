@@ -7,3 +7,7 @@ export const CreateRewardSchema = z.object({
   description: z.string(),
   termsAndCondition: z.string(),
 });
+
+export const editRewardSchema = z.object({
+  rewardId: z.uuidv4(),
+});
