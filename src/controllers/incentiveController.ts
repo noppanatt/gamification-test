@@ -1,3 +1,4 @@
+import { RewardFileModel } from "@database/sequelize/rewardFile";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
@@ -239,13 +240,36 @@ export const incentiveController = {
   },
 
   createReward: async (req: Request, res: Response) => {
+    const transaction = await sequelize.transaction();
     try {
       const parsed = CreateRewardSchema.parse(req.body);
 
-      await RewardModel.create(parsed);
+      const reward = await RewardModel.create(
+        {
+          name: parsed.name,
+          point: parsed.point,
+          description: parsed.description,
+          termsAndCondition: parsed.termsAndCondition,
+        },
+        {
+          transaction,
+        }
+      );
 
+      await RewardFileModel.create(
+        {
+          fileOriginalName: parsed.fileOriginalName,
+          id: parsed.fileId,
+          rewardId: reward.id,
+        },
+        {
+          transaction,
+        }
+      );
+      await transaction.commit();
       return customResponse(res, 201);
     } catch (e) {
+      await transaction.rollback();
       errorResponseHandler(e, req, res);
     }
   },
