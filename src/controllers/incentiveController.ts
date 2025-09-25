@@ -114,6 +114,7 @@ export const incentiveController = {
         }));
 
         await GameModel.bulkCreate(gamesPayload as any[], { transaction });
+
         await transaction.commit();
 
         return customResponse(res, 201, {

@@ -14,33 +14,41 @@ import { UniqueConstraintError, ValidationError } from "sequelize";
  * @param {Response} res - Response
  */
 // export default function errorResponseHandler(app: Express) {
+
+function safeJsonParse<T = any>(input: unknown): T | null {
+  if (typeof input !== "string") return null;
+  try {
+    return JSON.parse(input);
+  } catch {
+    return null;
+  }
+}
+
 const errorResponseHandler = <T>(err: T, req: Request, res: Response) => {
-  console.debug("Error : ", err);
   if (err instanceof ValidationError || err instanceof UniqueConstraintError) {
-    let message = "";
-    const errors = (err as ValidationError).errors //|| (err as UniqueConstraintError)
-      .map((e) => {
-        return {
-          path: e.path,
-          message: e.message,
-        };
-      });
-    if (errors.length) {
-      message = errors[0].message;
-    }
-    res.status(409).json({
+    const errors = (err as ValidationError).errors.map((e) => ({
+      path: e.path,
+      message: e.message,
+    }));
+    const message = errors.length ? errors[0].message : "Validation error";
+
+    return res.status(409).json({
       success: false,
-      message: message,
-      errors: errors,
-    });
-  } else {
-    console.info("Error errorResponseHandler", err);
-    res.status(500).json({
-      success: false,
-      message: "There was some error",
-      error: (err as any)?.message,
+      message,
+      errors,
     });
   }
+
+  console.info("Error errorResponseHandler", err);
+
+  const rawMessage = (err as any)?.message ?? "Unknown error";
+  const parsed = safeJsonParse(rawMessage);
+
+  return res.status(500).json({
+    success: false,
+    message: "There was some error",
+    error: parsed ?? rawMessage, // fallback to raw string if not JSON
+  });
 };
-// }
+
 export { errorResponseHandler };

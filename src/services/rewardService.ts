@@ -15,8 +15,6 @@ export const rewardService = {
       EXPIRES_IN_SECOND
     );
 
-    console.log({ blobObject });
-
     return {
       ...blobObject,
       fileId,
