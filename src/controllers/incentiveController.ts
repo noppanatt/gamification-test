@@ -378,7 +378,7 @@ export const incentiveController = {
         ],
       });
 
-      return customResponse(res, 201, { reward: reward });
+      return customResponse(res, 200, { reward: reward });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
