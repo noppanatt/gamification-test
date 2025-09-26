@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a213c9e2-dfc6-4c4a-91a6-967e57da972f",
+		"_postman_id": "0c5cf724-1f9f-41bc-a8d5-62a2bb155695",
 		"name": "Incensive",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30996113",
-		"_collection_link": "https://bdms-mrs-be.postman.co/workspace/Gamification~95c283fc-8a1b-425b-8054-951e09898e10/collection/30996113-a213c9e2-dfc6-4c4a-91a6-967e57da972f?action=share&source=collection_link&creator=30996113"
+		"_exporter_id": "40995169"
 	},
 	"item": [
 		{
@@ -57,7 +56,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -152,7 +151,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -245,7 +244,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -340,7 +339,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -448,7 +447,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -544,7 +543,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -595,6 +594,107 @@
 							"body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Get Rewards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/rewards",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"rewards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Reward",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=f0674647-4cef-422b-affd-e8c51b9cbd0f",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward"
+							],
+							"query": [
+								{
+									"key": "rewardId",
+									"value": "f0674647-4cef-422b-affd-e8c51b9cbd0f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Reward",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Reward-0021\",\n    \"point\": 0,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/?rewardId=f0674647-4cef-422b-affd-e8c51b9cbd0f",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								""
+							],
+							"query": [
+								{
+									"key": "rewardId",
+									"value": "f0674647-4cef-422b-affd-e8c51b9cbd0f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Reward",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/?rewardId=5af79624-2826-4216-a15d-7450ec618a67",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								""
+							],
+							"query": [
+								{
+									"key": "rewardId",
+									"value": "5af79624-2826-4216-a15d-7450ec618a67"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
