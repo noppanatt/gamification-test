@@ -369,7 +369,13 @@ export const incentiveController = {
 
       const reward = await RewardModel.findOne({
         where: { id: rewardId },
-        attributes: ["id", "name", "point", "description", "termsAndCondition"],
+        include: [
+          {
+            model: RewardFileModel,
+            as: "rewardFiles",
+            attributes: ["id", "fileOriginalName"],
+          },
+        ],
       });
 
       return customResponse(res, 201, { reward: reward });
