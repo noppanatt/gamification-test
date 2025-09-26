@@ -1,0 +1,656 @@
+{
+	"info": {
+		"_postman_id": "a213c9e2-dfc6-4c4a-91a6-967e57da972f",
+		"name": "Incensive",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30996113",
+		"_collection_link": "https://bdms-mrs-be.postman.co/workspace/Gamification~95c283fc-8a1b-425b-8054-951e09898e10/collection/30996113-a213c9e2-dfc6-4c4a-91a6-967e57da972f?action=share&source=collection_link&creator=30996113"
+	},
+	"item": [
+		{
+			"name": "Rule",
+			"item": [
+				{
+					"name": "Get Rule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/rule?appId=1",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"rule"
+							],
+							"query": [
+								{
+									"key": "appId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Rule",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/rule?appId=1",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"rule"
+									],
+									"query": [
+										{
+											"key": "appId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "10014"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"271e-2lea7LS0xsgeeseZqu73BedB3ew\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 Sep 2025 07:51:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"rules\": [\n        {\n            \"id\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n            \"fileName\": \"Game File V.2\",\n            \"active\": false,\n            \"createdAt\": \"2025-09-18T19:39:54.937Z\",\n            \"updatedAt\": \"2025-09-18T19:39:54.937Z\",\n            \"deletedAt\": null,\n            \"appMasterId\": 1,\n            \"games\": [\n                {\n                    \"id\": \"09c813ff-68d8-45f8-bf80-66f2cb4b9ea5\",\n                    \"gameId\": 1,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": 2,\n                    \"version\": \"A\",\n                    \"trafficPercentage\": 45,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": \"1\",\n                    \"pushMessage\": \"Send push to remind user to comeback in task\",\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"04408903-b039-4a2a-9f59-25011c83af08\",\n                    \"gameId\": 2,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": 2,\n                    \"version\": \"B\",\n                    \"trafficPercentage\": 45,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 5,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": \"1\",\n                    \"pushMessage\": \"Farmsook miss you! Come back to \\\"double\\\" coins.\",\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"aa340245-d8f7-4def-ae87-c300a5eed28f\",\n                    \"gameId\": 3,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": 2,\n                    \"version\": \"C\",\n                    \"trafficPercentage\": 10,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 20,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": \"1\",\n                    \"pushMessage\": \"รับเลย X2 รอบนี้ รอบเดียว\",\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"63adef51-d83a-4fb3-b851-2e064d65ae83\",\n                    \"gameId\": 4,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": 3,\n                    \"version\": \"A\",\n                    \"trafficPercentage\": 50,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"3,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"fa6246c2-a692-4497-a1fa-ac82abdc161b\",\n                    \"gameId\": 5,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": 3,\n                    \"version\": \"B\",\n                    \"trafficPercentage\": 50,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"c578dc57-12b1-456a-adf6-979818426056\",\n                    \"gameId\": 6,\n                    \"gameMasterDataId\": \"GM05\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 5,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"4ea3c17e-682c-4df6-9ad4-d3e13a469e5e\",\n                    \"gameId\": 7,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": null,\n                    \"version\": \"A\",\n                    \"trafficPercentage\": 50,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"b0dfb945-e0f0-4b63-b67c-a1cca1c21600\",\n                    \"gameId\": 8,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": null,\n                    \"version\": \"B\",\n                    \"trafficPercentage\": 50,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"8,9,10,11,12,13,14\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": null,\n                    \"endDate\": null,\n                    \"active\": false,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"f27b49ef-5903-4181-8abd-b26f1c9173c1\",\n                    \"gameId\": 9,\n                    \"gameMasterDataId\": \"GM08\",\n                    \"customerMasterDataId\": null,\n                    \"version\": \"A\",\n                    \"trafficPercentage\": 50,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 30,\n                    \"point\": 300,\n                    \"rewardIds\": \"1,2,3,4,5,6\",\n                    \"dropOffDays\": \"0.5\",\n                    \"pushMessage\": \"วันนี้ยังไม่ได้ให้อาหารหมูนะจ๊ะ\",\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-09-04T17:00:00.000Z\",\n                    \"endDate\": \"2025-12-04T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"b9d07d1e-9923-43a7-a58b-acfb94425b14\",\n                    \"gameId\": 10,\n                    \"gameMasterDataId\": \"GM08\",\n                    \"customerMasterDataId\": null,\n                    \"version\": \"B\",\n                    \"trafficPercentage\": 50,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 30,\n                    \"point\": 300,\n                    \"rewardIds\": \"7\",\n                    \"dropOffDays\": \"0.5\",\n                    \"pushMessage\": \"วันนี้ยังไม่ได้ให้อาหารหมูนะจ๊ะ\",\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-09-04T17:00:00.000Z\",\n                    \"endDate\": \"2025-12-04T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"updatedAt\": \"2025-09-18T19:39:54.977Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"b42cbe41-a81d-4c68-becd-453cacaefc3e\",\n                    \"appMasterId\": 1\n                }\n            ]\n        },\n        {\n            \"id\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n            \"fileName\": \"Game file V.1\",\n            \"active\": false,\n            \"createdAt\": \"2025-09-18T19:07:13.745Z\",\n            \"updatedAt\": \"2025-09-19T07:40:34.875Z\",\n            \"deletedAt\": null,\n            \"appMasterId\": 1,\n            \"games\": [\n                {\n                    \"id\": \"039dd6cf-c8c8-44eb-a23e-04e2bcf3caa6\",\n                    \"gameId\": 1,\n                    \"gameMasterDataId\": \"GM01\",\n                    \"customerMasterDataId\": 5,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Log in\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"a9896185-a6ef-4f39-bd1b-b30fba9e7ded\",\n                    \"gameId\": 2,\n                    \"gameMasterDataId\": \"GM02\",\n                    \"customerMasterDataId\": 5,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Home\",\n                    \"durationDays\": 1,\n                    \"point\": 50,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"9582ecd1-e3f0-4a66-9246-5fc58135bb95\",\n                    \"gameId\": 3,\n                    \"gameMasterDataId\": \"GM03\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"c826e193-bfa3-4235-b9f5-dd42cb52276c\",\n                    \"gameId\": 4,\n                    \"gameMasterDataId\": \"GM04\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 1,\n                    \"point\": 15,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"447bc21f-4ae4-4ca4-96f8-59740fbd0135\",\n                    \"gameId\": 5,\n                    \"gameMasterDataId\": \"GM05\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 7,\n                    \"point\": 10,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"444e0788-804f-4b83-bad5-d14bfa7ec0de\",\n                    \"gameId\": 6,\n                    \"gameMasterDataId\": \"GM06\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 14,\n                    \"point\": 20,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"3843b076-6ffb-486e-a481-f8a2a66557d0\",\n                    \"gameId\": 7,\n                    \"gameMasterDataId\": \"GM07\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Daily log\",\n                    \"durationDays\": 21,\n                    \"point\": 30,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                },\n                {\n                    \"id\": \"5c744b15-e69f-409a-a290-422716772c82\",\n                    \"gameId\": 8,\n                    \"gameMasterDataId\": \"GM08\",\n                    \"customerMasterDataId\": null,\n                    \"version\": null,\n                    \"trafficPercentage\": null,\n                    \"page\": \"Manage house\",\n                    \"durationDays\": null,\n                    \"point\": 50,\n                    \"rewardIds\": \"1,2,3,4,5,6,7\",\n                    \"dropOffDays\": null,\n                    \"pushMessage\": null,\n                    \"timeToPush\": null,\n                    \"startDate\": \"2025-08-24T17:00:00.000Z\",\n                    \"endDate\": \"2025-09-14T17:00:00.000Z\",\n                    \"active\": true,\n                    \"createdAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"updatedAt\": \"2025-09-18T19:07:13.786Z\",\n                    \"deletedAt\": null,\n                    \"ruleBookId\": \"d83eeb78-7864-4405-b162-6f25849dbe8d\",\n                    \"appMasterId\": 1\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Toggle rule",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/rule/active?appId=1&ruleId=d83eeb78-7864-4405-b162-6f25849dbe8d",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"rule",
+								"active"
+							],
+							"query": [
+								{
+									"key": "appId",
+									"value": "1"
+								},
+								{
+									"key": "ruleId",
+									"value": "d83eeb78-7864-4405-b162-6f25849dbe8d",
+									"description": "uuid"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Toggle rule",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/rule/active?appId=1&ruleId=d83eeb78-7864-4405-b162-6f25849dbe8d",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"rule",
+										"active"
+									],
+									"query": [
+										{
+											"key": "appId",
+											"value": "1"
+										},
+										{
+											"key": "ruleId",
+											"value": "d83eeb78-7864-4405-b162-6f25849dbe8d",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-gr5k5hMQ6CcLD5R+IeOm5rIKG+I\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 Sep 2025 07:51:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"newActive\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete rule",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/rule?appId=1&ruleId=d83eeb78-7864-4405-b162-6f25849dbe8d",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"rule"
+							],
+							"query": [
+								{
+									"key": "appId",
+									"value": "1"
+								},
+								{
+									"key": "ruleId",
+									"value": "d83eeb78-7864-4405-b162-6f25849dbe8d",
+									"description": "uuid"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete rule",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/rule?appId=1&ruleId=d83eeb78-7864-4405-b162-6f25849dbe8d",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"rule"
+									],
+									"query": [
+										{
+											"key": "appId",
+											"value": "1"
+										},
+										{
+											"key": "ruleId",
+											"value": "d83eeb78-7864-4405-b162-6f25849dbe8d",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "91"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5b-1ofxfqhqc5BUONRT30Zxl/1IcUM\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 Sep 2025 07:52:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Delete ruleID: d83eeb78-7864-4405-b162-6f25849dbe8d completed.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Restore rule",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/rule/restore?appId=1&ruleId=d83eeb78-7864-4405-b162-6f25849dbe8d",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"rule",
+								"restore"
+							],
+							"query": [
+								{
+									"key": "appId",
+									"value": "1"
+								},
+								{
+									"key": "ruleId",
+									"value": "d83eeb78-7864-4405-b162-6f25849dbe8d",
+									"description": "uuid"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Restore rule",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/rule/restore?appId=1&ruleId=d83eeb78-7864-4405-b162-6f25849dbe8d",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"rule",
+										"restore"
+									],
+									"query": [
+										{
+											"key": "appId",
+											"value": "1"
+										},
+										{
+											"key": "ruleId",
+											"value": "d83eeb78-7864-4405-b162-6f25849dbe8d",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "92"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5c-/XwwuFU/z9CLgZgmZWtC54fx4WM\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 Sep 2025 07:52:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Restore ruleID: d83eeb78-7864-4405-b162-6f25849dbe8d completed.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create new game",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fileName\": \"Game File V.2\",\n    \"data\": [\n        {\n            \"gameId\": 1,\n            \"gameMasterDataId\": \"GM01\",\n            \"customerMasterDataId\": 1,\n            \"version\": \"A\",\n            \"trafficPercentage\": 0,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 10,\n            \"rewardId\": \"1,2,3,4,5,6,7\",\n            \"dropOffDays\": 1,\n            \"pushMessage\": \"Send push to remind user to comeback in task\",\n            \"timeToPush\": \"\",\n            \"startDate\": \"2025-09-25T10:00:00.000Z\",\n            \"endDate\": \"2025-10-20\",\n            \"active\": false\n        },\n        {\n            \"gameId\": 2,\n            \"gameMasterDataId\": \"GM03\",\n            \"customerMasterDataId\": 2,\n            \"version\": \"B\",\n            \"trafficPercentage\": 45,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 5,\n            \"rewardId\": \"1,2,3,4,5,6,7\",\n            \"dropOffDays\": 1,\n            \"pushMessage\": \"Farmsook miss you! Come back to \\\"double\\\" coins.\",\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 3,\n            \"gameMasterDataId\": \"GM03\",\n            \"customerMasterDataId\": 2,\n            \"version\": \"C\",\n            \"trafficPercentage\": 10,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 20,\n            \"rewardId\": \"1,2,3,4,5,6,7\",\n            \"dropOffDays\": 1,\n            \"pushMessage\": \"รับเลย X2 รอบนี้ รอบเดียว\",\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 4,\n            \"gameMasterDataId\": \"GM03\",\n            \"customerMasterDataId\": 3,\n            \"version\": \"A\",\n            \"trafficPercentage\": 50,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 10,\n            \"rewardId\": \"3,6,7\",\n            \"dropOffDays\": 0,\n            \"pushMessage\": null,\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 5,\n            \"gameMasterDataId\": \"GM03\",\n            \"customerMasterDataId\": 3,\n            \"version\": \"B\",\n            \"trafficPercentage\": 50,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 10,\n            \"rewardId\": \"1,2,7\",\n            \"dropOffDays\": 0,\n            \"pushMessage\": null,\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 6,\n            \"gameMasterDataId\": \"GM05\",\n            \"customerMasterDataId\": null,\n            \"version\": null,\n            \"trafficPercentage\": 0,\n            \"page\": \"Daily log\",\n            \"durationDays\": 5,\n            \"point\": 10,\n            \"rewardId\": \"1,2,3,4,5,6,7\",\n            \"dropOffDays\": 0,\n            \"pushMessage\": null,\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 7,\n            \"gameMasterDataId\": \"GM03\",\n            \"customerMasterDataId\": null,\n            \"version\": \"A\",\n            \"trafficPercentage\": 50,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 10,\n            \"rewardId\": \"1,2,3,4,5,6,7\",\n            \"dropOffDays\": 0,\n            \"pushMessage\": null,\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 8,\n            \"gameMasterDataId\": \"GM03\",\n            \"customerMasterDataId\": null,\n            \"version\": \"B\",\n            \"trafficPercentage\": 50,\n            \"page\": \"Daily log\",\n            \"durationDays\": 1,\n            \"point\": 10,\n            \"rewardId\": \"8,9,10,11,12,13,14\",\n            \"dropOffDays\": null,\n            \"pushMessage\": null,\n            \"timeToPush\": \"\",\n            \"startDate\": null,\n            \"endDate\": null,\n            \"active\": false\n        },\n        {\n            \"gameId\": 9,\n            \"gameMasterDataId\": \"GM08\",\n            \"customerMasterDataId\": null,\n            \"version\": \"A\",\n            \"trafficPercentage\": 50,\n            \"page\": \"Daily log\",\n            \"durationDays\": 30,\n            \"point\": 300,\n            \"rewardId\": \"1,2,3,4,5,6\",\n            \"dropOffDays\": 0.5,\n            \"pushMessage\": \"วันนี้ยังไม่ได้ให้อาหารหมูนะจ๊ะ\",\n            \"timeToPush\": \"\",\n            \"startDate\": \"9/5/2025\",\n            \"endDate\": \"12/5/2025\",\n            \"active\": true\n        },\n        {\n            \"gameId\": 10,\n            \"gameMasterDataId\": \"GM08\",\n            \"customerMasterDataId\": null,\n            \"version\": \"B\",\n            \"trafficPercentage\": 50,\n            \"page\": \"Daily log\",\n            \"durationDays\": 30,\n            \"point\": 300,\n            \"rewardId\": \"7\",\n            \"dropOffDays\": 0.5,\n            \"pushMessage\": \"วันนี้ยังไม่ได้ให้อาหารหมูนะจ๊ะ\",\n            \"timeToPush\": \"\",\n            \"startDate\": \"9/5/2025\",\n            \"endDate\": \"12/5/2025\",\n            \"active\": true\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/rule",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"rule"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reward",
+			"item": [
+				{
+					"name": "Upload reward blob",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/upload",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"upload"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Upload reward blob",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/upload",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"upload"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "658"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"292-N/gNyXQtYCzQz1NuLjZUgwKG4lk\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 23 Sep 2025 12:27:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"blob\": {\n        \"blobUrl\": \"https://gamificationteststorage.blob.core.windows.net/gamification-container/reward/5e54fde2-12ba-407b-941e-18bddceb780e?sv=2020-04-08&spr=https&st=2025-09-23T12%3A27%3A40Z&se=2025-09-23T12%3A28%3A00Z&skoid=1ea7db38-8887-4197-9abf-66fe64374393&sktid=eb1f94dc-8d25-4c67-985c-04be74c8f698&skt=2025-09-23T12%3A17%3A39Z&ske=2025-09-23T12%3A37%3A39Z&sks=b&skv=2025-07-05&sr=b&sp=rcw&sig=BCRMI4KQUgUQ02kGoRZg1xvbW0hV%2FulBDS%2BkZSPR0t4%3D\",\n        \"blobVersion\": \"2025-09-23\",\n        \"fileId\": \"5e54fde2-12ba-407b-941e-18bddceb780e\",\n        \"url\": \"reward/5e54fde2-12ba-407b-941e-18bddceb780e\",\n        \"headers\": {\n            \"x-ms-blob-type\": \"BlockBlob\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Reward",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"reward-01\",\n    \"point\": 0,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Reward",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"point\": 0,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Sep 2025 04:34:27 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"24-srWGiCyi8aaYl0vyNJDhh0dMfFk\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::nml6d-1758861260326-88d9404ae796"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Check health",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BACKEND_URL}}/incensive/check",
+					"host": [
+						"{{BACKEND_URL}}"
+					],
+					"path": [
+						"incensive",
+						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check env",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BACKEND_URL}}/check/env",
+					"host": [
+						"{{BACKEND_URL}}"
+					],
+					"path": [
+						"check",
+						"env"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
