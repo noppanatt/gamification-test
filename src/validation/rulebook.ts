@@ -1,23 +1,32 @@
 // validation/rulebook.ts
 import { z } from "zod";
+import {
+  validOptionalPositiveNumber,
+  validOptionalPositiveNumberWithRange,
+  validOptionalString,
+} from "../utils/common-validation";
+import { fieldError } from "../utils/zod-error-map";
 
-export const GameRuleSchema = z.object({
-  gameId: z.number(),
-  gameMasterDataId: z.string(),
-  customerMasterDataId: z.number().nullable(),
-  version: z.string().nullable(),
-  trafficPercentage: z.number().nullable(),
-  page: z.string(),
-  durationDays: z.number().nullable(),
-  point: z.number().nullable(),
-  rewardId: z.string(), // CSV
-  dropOffDays: z.number().nullable(),
-  pushMessage: z.string().nullable(),
-  timeToPush: z.string().nullable(),
-  startDate: z.string().nullable(),
-  endDate: z.string().nullable(),
-  active: z.boolean().nullable(),
-});
+export const GameRuleSchema = z.object(
+  {
+    gameId: z.number({ error: "Game ID is required" }),
+    gameMasterDataId: validOptionalString(),
+    customerMasterDataId: validOptionalPositiveNumber(),
+    version: validOptionalString(),
+    trafficPercentage: validOptionalPositiveNumberWithRange(0, 100),
+    page: validOptionalString(),
+    durationDays: z.number({ error: "Duration is required" }).min(1),
+    point: z.number({ error: "Point is required" }).min(1),
+    rewardId: validOptionalString(),
+    dropOffDays: validOptionalPositiveNumber(),
+    pushMessage: validOptionalString(),
+    timeToPush: validOptionalString(),
+    startDate: z.coerce.date(),
+    endDate: z.coerce.date(),
+    active: z.boolean(),
+  },
+  { error: fieldError }
+);
 
 export const CreateGameRuleBodySchema = z.object({
   fileName: z.string(),

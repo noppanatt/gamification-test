@@ -115,6 +115,7 @@ export const incentiveController = {
         }));
 
         await GameModel.bulkCreate(gamesPayload as any[], { transaction });
+
         await transaction.commit();
 
         return customResponse(res, 201, {
@@ -150,6 +151,7 @@ export const incentiveController = {
   },
 
   toggleRuleStatus: async (req: Request, res: Response) => {
+    const transaction = await sequelize.transaction();
     try {
       const params = editGameRuleSchema.parse(req.query);
 
@@ -163,14 +165,22 @@ export const incentiveController = {
           message: `RuleID: ${params.ruleId} not found.`,
         });
       }
-
+      //* Toggle off all rule
       await RuleBookModel.update(
-        { active: !rule.active },
-        { where: { id: rule.id, appMasterId: rule.appMasterId } }
+        { active: false },
+        { where: { appMasterId: rule.appMasterId, active: true }, transaction }
       );
 
+      //* Toggle on rule
+      await RuleBookModel.update(
+        { active: !rule.active },
+        { where: { id: rule.id, appMasterId: rule.appMasterId }, transaction }
+      );
+
+      await transaction.commit();
       return customResponse(res, 201, { newActive: !rule.active });
     } catch (error) {
+      await transaction.rollback();
       errorResponseHandler(error, req, res);
     }
   },

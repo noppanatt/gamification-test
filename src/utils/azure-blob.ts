@@ -27,8 +27,6 @@ const getClient = async (): Promise<BlobServiceClient> => {
     cred
   );
 
-  console.log({ blobClient });
-
   return blobClient;
 };
 
