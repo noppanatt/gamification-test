@@ -167,7 +167,7 @@ export const incentiveController = {
       //* Toggle off all rule
       await RuleBookModel.update(
         { active: false },
-        { where: { appMasterId: rule.appMasterId }, transaction }
+        { where: { appMasterId: rule.appMasterId, active: true }, transaction }
       );
 
       //* Toggle on rule
