@@ -56,6 +56,8 @@ CREATE TABLE "rewards" (
   "name" varchar,
   "point" int,
   "description" varchar,
+  "active" boolean,
+  "isDraft" boolean,
   "createdAt" Date,
   "updatedAt" Date,
   "deletedAt" Date

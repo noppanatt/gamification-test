@@ -498,7 +498,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"reward-01\",\n    \"point\": 0,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+							"raw": "{\n    \"name\": \"หม้อไฟฟ้า\",\n    \"point\": 20,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -708,7 +708,7 @@
 					},
 					"response": [
 						{
-							"name": "Get Rewards",
+							"name": "Get list rewards",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -725,63 +725,43 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "",
 							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "*"
-								},
-								{
-									"key": "Age",
-									"value": "0"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "public, max-age=0, must-revalidate"
-								},
-								{
-									"key": "Content-Encoding",
-									"value": "br"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
+									"key": "Content-Length",
+									"value": "376"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"178-EC9CmhRqYZrLo0H+S7aBnfCfczc\""
+								},
+								{
 									"key": "Date",
-									"value": "Fri, 26 Sep 2025 04:38:28 GMT"
+									"value": "Mon, 29 Sep 2025 10:50:05 GMT"
 								},
 								{
-									"key": "Etag",
-									"value": "W/\"6fb-X+NKIHiEBnKLBOohe6o/zfUWqXI\""
+									"key": "Connection",
+									"value": "keep-alive"
 								},
 								{
-									"key": "Server",
-									"value": "Vercel"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=63072000; includeSubDomains; preload"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "X-Vercel-Cache",
-									"value": "MISS"
-								},
-								{
-									"key": "X-Vercel-Id",
-									"value": "sin1::iad1::5ggm7-1758861505947-55d18210f01e"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
+									"key": "Keep-Alive",
+									"value": "timeout=5"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"rewards\": [\n        {\n            \"id\": \"c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1\",\n            \"name\": \"Reward-001\",\n            \"point\": 20,\n            \"description\": \"Description Reward-001\",\n            \"termsAndCondition\": \"Terms and Conditions Reward-001\",\n            \"createdAt\": \"2025-09-23T10:56:16.073Z\",\n            \"updatedAt\": \"2025-09-23T10:56:16.073Z\",\n            \"deletedAt\": null\n        },\n        {\n            \"id\": \"f0674647-4cef-422b-affd-e8c51b9cbd0f\",\n            \"name\": \"Reward-010\",\n            \"point\": 100,\n            \"description\": \"description\",\n            \"termsAndCondition\": \"termsAndCondition\",\n            \"createdAt\": \"2025-09-24T07:37:19.960Z\",\n            \"updatedAt\": \"2025-09-24T08:13:02.530Z\",\n            \"deletedAt\": null\n        },\n        {\n            \"id\": \"5af79624-2826-4216-a15d-7450ec618a67\",\n            \"name\": null,\n            \"point\": null,\n            \"description\": null,\n            \"termsAndCondition\": null,\n            \"createdAt\": \"2025-09-24T10:06:18.323Z\",\n            \"updatedAt\": \"2025-09-24T10:06:18.323Z\",\n            \"deletedAt\": null\n        },\n        {\n            \"id\": \"c86f0fd4-2f1d-413a-a4f4-19605c70d1bc\",\n            \"name\": \"Reward-023\",\n            \"point\": 0,\n            \"description\": \"Description-Reward-023\",\n            \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n            \"createdAt\": \"2025-09-24T10:11:30.006Z\",\n            \"updatedAt\": \"2025-09-24T10:11:30.006Z\",\n            \"deletedAt\": null\n        },\n        {\n            \"id\": \"6925982b-a5d4-4f12-8d2c-89da18e4f248\",\n            \"name\": \"\",\n            \"point\": 0,\n            \"description\": \"Description-Reward-023\",\n            \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n            \"createdAt\": \"2025-09-24T10:20:36.865Z\",\n            \"updatedAt\": \"2025-09-24T10:20:36.865Z\",\n            \"deletedAt\": null\n        },\n        {\n            \"id\": \"189037d1-5d0d-4977-9196-e9fef74747f0\",\n            \"name\": \"\",\n            \"point\": 0,\n            \"description\": \"Description-Reward-023\",\n            \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n            \"createdAt\": \"2025-09-26T04:34:22.558Z\",\n            \"updatedAt\": \"2025-09-26T04:34:22.558Z\",\n            \"deletedAt\": null\n        },\n        {\n            \"id\": \"55d4745f-934f-4488-8d17-f0737270c245\",\n            \"name\": \"reward-01\",\n            \"point\": 0,\n            \"description\": \"Description-Reward-023\",\n            \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n            \"createdAt\": \"2025-09-26T04:37:34.855Z\",\n            \"updatedAt\": \"2025-09-26T04:37:34.855Z\",\n            \"deletedAt\": null\n        }\n    ]\n}"
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"rewards\": [\n        {\n            \"id\": \"d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc\",\n            \"rewardId\": \"R-001\",\n            \"name\": \"หม้อไฟฟ้า\",\n            \"point\": 20,\n            \"description\": \"Description-Reward-023\",\n            \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n            \"active\": false,\n            \"isDraft\": true,\n            \"createdAt\": \"2025-09-29T10:49:47.696Z\",\n            \"updatedAt\": \"2025-09-29T10:49:47.696Z\",\n            \"deletedAt\": null\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -791,7 +771,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1",
+							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
@@ -802,19 +782,19 @@
 							"query": [
 								{
 									"key": "rewardId",
-									"value": "c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1"
+									"value": "d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc"
 								}
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Get Detail Reward",
+							"name": "Get detail reward",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1",
+									"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
@@ -825,66 +805,50 @@
 									"query": [
 										{
 											"key": "rewardId",
-											"value": "c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1"
+											"value": "d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc"
 										}
 									]
 								}
 							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": null,
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
 							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "*"
-								},
-								{
-									"key": "Age",
-									"value": "0"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "public, max-age=0, must-revalidate"
-								},
-								{
-									"key": "Content-Length",
-									"value": "215"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
+									"key": "Content-Length",
+									"value": "466"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d2-gXH3u9+6DBadooCGUJxhMxFBMwY\""
+								},
+								{
 									"key": "Date",
-									"value": "Fri, 26 Sep 2025 04:40:38 GMT"
+									"value": "Mon, 29 Sep 2025 10:51:12 GMT"
 								},
 								{
-									"key": "Etag",
-									"value": "W/\"d7-nYLVnFNjx9tPzHjnl7u8HccGBnU\""
+									"key": "Connection",
+									"value": "keep-alive"
 								},
 								{
-									"key": "Server",
-									"value": "Vercel"
-								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=63072000; includeSubDomains; preload"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "X-Vercel-Cache",
-									"value": "MISS"
-								},
-								{
-									"key": "X-Vercel-Id",
-									"value": "sin1::iad1::cbdp2-1758861636161-eaa018fef244"
+									"key": "Keep-Alive",
+									"value": "timeout=5"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"reward\": {\n        \"id\": \"c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1\",\n        \"name\": \"Reward-001\",\n        \"point\": 20,\n        \"description\": \"Description Reward-001\",\n        \"termsAndCondition\": \"Terms and Conditions Reward-001\"\n    }\n}"
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"reward\": {\n        \"id\": \"d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc\",\n        \"rewardId\": \"R-001\",\n        \"name\": \"หม้อไฟฟ้า\",\n        \"point\": 20,\n        \"description\": \"Description-Reward-023\",\n        \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n        \"active\": false,\n        \"isDraft\": true,\n        \"createdAt\": \"2025-09-29T10:49:47.696Z\",\n        \"updatedAt\": \"2025-09-29T10:49:47.696Z\",\n        \"deletedAt\": null,\n        \"rewardFiles\": [\n            {\n                \"id\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n                \"fileOriginalName\": \"image.png\"\n            }\n        ]\n    }\n}"
 						}
 					]
 				},

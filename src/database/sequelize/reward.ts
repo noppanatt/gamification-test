@@ -18,6 +18,8 @@ export class RewardModel extends Model<
   declare name: string;
   declare point: number;
   declare description: string;
+  declare active: CreationOptional<boolean>;
+  declare isDraft: CreationOptional<boolean>;
   declare termsAndCondition: string;
 
   declare updatedAt: NonAttribute<Date>;
@@ -48,6 +50,14 @@ export function initRewardModel(sequelize: Sequelize) {
       },
       termsAndCondition: {
         type: DataTypes.STRING,
+      },
+      active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      isDraft: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
     },
     {
