@@ -53,6 +53,7 @@ CREATE TABLE "games" (
 CREATE TABLE "rewards" (
   "id" uuid PRIMARY KEY,
   "rewardId" varchar,
+  "name" varchar,
   "point" int,
   "description" varchar,
   "createdAt" Date,
