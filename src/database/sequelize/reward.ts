@@ -14,7 +14,7 @@ export class RewardModel extends Model<
   InferCreationAttributes<RewardModel>
 > {
   declare id: CreationOptional<number>;
-  declare name: string;
+  declare rewardId: string;
   declare point: number;
   declare description: string;
   declare termsAndCondition: string;
@@ -33,7 +33,7 @@ export function initRewardModel(sequelize: Sequelize) {
         primaryKey: true,
         allowNull: false,
       },
-      name: {
+      rewardId: {
         type: DataTypes.STRING,
       },
       point: {
