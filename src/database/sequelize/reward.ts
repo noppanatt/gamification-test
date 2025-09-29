@@ -13,8 +13,9 @@ export class RewardModel extends Model<
   InferAttributes<RewardModel>,
   InferCreationAttributes<RewardModel>
 > {
-  declare id: CreationOptional<number>;
-  declare rewardId: string;
+  declare id: CreationOptional<string>;
+  declare rewardId: CreationOptional<string>;
+  declare name: string;
   declare point: number;
   declare description: string;
   declare termsAndCondition: string;
@@ -36,6 +37,9 @@ export function initRewardModel(sequelize: Sequelize) {
       rewardId: {
         type: DataTypes.STRING,
       },
+      name: {
+        type: DataTypes.STRING,
+      },
       point: {
         type: DataTypes.INTEGER,
       },
@@ -49,9 +53,12 @@ export function initRewardModel(sequelize: Sequelize) {
     {
       hooks: {
         beforeCreate: async (instance: RewardModel) => {
-          if (!instance.id) {
-            const max = await RewardModel.max("id").catch(() => 0);
-            instance.id = (Number(max) || 0) + 1;
+          if (!instance.rewardId) {
+            const max = await RewardModel.max("rewardId").catch(() => 0);
+            const current = Number(String(max).replace("R-", "")) || 0;
+            const next = current + 1;
+
+            instance.rewardId = `R-${String(next).padStart(3, "0")}`;
           }
         },
       },

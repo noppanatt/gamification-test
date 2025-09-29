@@ -256,7 +256,7 @@ export const incentiveController = {
 
       const reward = await RewardModel.create(
         {
-          rewardId: parsed.name,
+          name: parsed.name,
           point: parsed.point,
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
