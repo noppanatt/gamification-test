@@ -597,7 +597,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08ca",
+									"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
@@ -609,7 +609,7 @@
 									"query": [
 										{
 											"key": "fileId",
-											"value": "f24d48be-e36a-4d14-abe8-6d66c60f08ca"
+											"value": "f24d48be-e36a-4d14-abe8-6d66c60f08cc"
 										}
 									]
 								}
