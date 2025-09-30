@@ -489,6 +489,190 @@
 					]
 				},
 				{
+					"name": "download reward blob",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08ca",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"download"
+							],
+							"query": [
+								{
+									"key": "fileId",
+									"value": "f24d48be-e36a-4d14-abe8-6d66c60f08ca"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Download reward blob",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"download"
+									],
+									"query": [
+										{
+											"key": "fileId",
+											"value": "f24d48be-e36a-4d14-abe8-6d66c60f08cc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "358"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Sep 2025 07:10:28 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"166-LF4ZdZQQ8SPl/z+BvIYEISlfOzI\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::jp46b-1759216224140-25c7b81b6d8d"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"blobObject\": {\n        \"blobUrl\": \"https://gamificationteststorage.blob.core.windows.net/gamification-container/reward/f24d48be-e36a-4d14-abe8-6d66c60f08cc?sv=2025-07-05&spr=https&st=2025-09-30T07%3A05%3A28Z&se=2025-09-30T07%3A10%3A48Z&sr=b&sp=rcw&sig=TDJck%2FQ4DGeU7CkuewoA031Eq%2B48S8vcBZseJjpoxVU%3D\",\n        \"blobVersion\": \"2025-09-30\"\n    }\n}"
+						},
+						{
+							"name": "NOT FOUND",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08ca",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"download"
+									],
+									"query": [
+										{
+											"key": "fileId",
+											"value": "f24d48be-e36a-4d14-abe8-6d66c60f08ca"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Sep 2025 07:11:05 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"54-dyWdKgf+j/CoUE5aPMWUdwVVV1I\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::5djpb-1759216260616-7da72e8b4af6"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"File ID f24d48be-e36a-4d14-abe8-6d66c60f08ca not found\"\n}"
+						}
+					]
+				},
+				{
 					"name": "Create reward",
 					"request": {
 						"auth": {
@@ -725,7 +909,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -812,7 +996,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
