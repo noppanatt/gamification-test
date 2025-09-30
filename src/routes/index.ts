@@ -35,12 +35,13 @@ export function setupRoutes(app: Express) {
   router.post("/rule", incentiveController.createGameRule);
 
   //* reward
-  router.get("/reward/upload", incentiveController.getPreSignUploadUrl);
   router.get("/reward", incentiveController.getDetailReward);
   router.post("/reward", incentiveController.createReward);
   router.get("/rewards", incentiveController.getReward);
   router.put("/reward", incentiveController.editReward);
   router.delete("/reward", incentiveController.deleteReward);
+  router.get("/reward/upload", incentiveController.getPreSignUploadUrl);
+  router.get("/reward/download", incentiveController.getPreSignDownloadUrl);
 
   app.use("/incentive", router);
 }

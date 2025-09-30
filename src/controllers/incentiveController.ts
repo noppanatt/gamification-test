@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
+import z from "zod";
+import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
@@ -8,6 +10,7 @@ import { RewardModel } from "../database/sequelize/reward";
 import { RewardFileModel } from "../database/sequelize/rewardFile";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
 import { rewardService } from "../services/rewardService";
+import { getPresignedUrl } from "../utils/azure-blob";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
@@ -244,6 +247,34 @@ export const incentiveController = {
       const blob = await rewardService.getUploadPreSignUrl();
 
       return customResponse(res, 200, { blob });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  getPreSignDownloadUrl: async (req: Request, res: Response) => {
+    try {
+      req.body = z.object({ fileId: z.uuid() }).parse(req.query);
+      const fileId = req.body?.fileId;
+
+      const file = await RewardFileModel.findOne({
+        where: {
+          id: fileId,
+        },
+      });
+
+      if (!file) {
+        return customResponse(res, 404, {
+          message: `File ID ${fileId} not found`,
+        });
+      }
+
+      const generatedBlobName = rewardService.generateRewardBlobPath(fileId);
+      const blobObject = await getPresignedUrl(
+        generatedBlobName,
+        EXPIRES_IN_SECOND
+      );
+
+      return customResponse(res, 200, { blobObject });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
