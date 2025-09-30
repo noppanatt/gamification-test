@@ -291,6 +291,8 @@ export const incentiveController = {
           point: parsed.point,
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
+          isDraft: parsed.isDraft,
+          active: false,
         },
         {
           transaction,
@@ -411,6 +413,35 @@ export const incentiveController = {
 
       return customResponse(res, 200, { reward: reward });
     } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+
+  toggleRewardStatus: async (req: Request, res: Response) => {
+    const transaction = await sequelize.transaction();
+    try {
+      const params = editRewardSchema.parse(req.query);
+
+      const reward = await RewardModel.findOne({
+        where: { id: params.rewardId },
+        attributes: ["id", "active"],
+      });
+
+      if (!reward) {
+        return customResponse(res, 404, {
+          message: `RewardID: ${params.rewardId} not found.`,
+        });
+      }
+
+      await RewardModel.update(
+        { active: !reward.active, isDraft: false },
+        { where: { id: reward.id }, transaction }
+      );
+
+      await transaction.commit();
+      return customResponse(res, 201, { newActive: !reward.active });
+    } catch (error) {
+      await transaction.rollback();
       errorResponseHandler(error, req, res);
     }
   },

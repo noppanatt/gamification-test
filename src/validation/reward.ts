@@ -14,6 +14,7 @@ export const CreateRewardSchema = z.object({
     .trim()
     .min(1, { message: "Description is Required" }),
   fileId: z.uuidv4(),
+  isDraft: z.boolean(),
 });
 
 export const editRewardSchema = z.object({
