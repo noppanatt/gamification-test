@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a213c9e2-dfc6-4c4a-91a6-967e57da972f",
+		"_postman_id": "6a7205ac-f3cf-4460-ac94-815406322074",
 		"name": "Incensive",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30996113",
-		"_collection_link": "https://bdms-mrs-be.postman.co/workspace/Gamification~95c283fc-8a1b-425b-8054-951e09898e10/collection/30996113-a213c9e2-dfc6-4c4a-91a6-967e57da972f?action=share&source=collection_link&creator=30996113"
+		"_exporter_id": "40995169"
 	},
 	"item": [
 		{
@@ -57,7 +56,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -152,7 +151,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -245,7 +244,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -340,7 +339,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -448,7 +447,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -537,7 +536,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -616,7 +615,7 @@
 							},
 							"status": "Not Found",
 							"code": 404,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -682,7 +681,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"หม้อไฟฟ้า\",\n    \"point\": 20,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+							"raw": "{\n    \"name\": \"หม้อไฟฟ้า(2)\",\n    \"point\": 20,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"1a736e3c-83b8-45ab-8cad-b4fcde4e70a6\",\n    \"fileOriginalName\": \"image.png\",\n    \"isDraft\" : false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -728,7 +727,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -909,7 +908,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -955,7 +954,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc",
+							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=6a6a4e33-7ac1-4b64-8101-8783473bec5d",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
@@ -966,7 +965,7 @@
 							"query": [
 								{
 									"key": "rewardId",
-									"value": "d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc"
+									"value": "6a6a4e33-7ac1-4b64-8101-8783473bec5d"
 								}
 							]
 						}
@@ -996,7 +995,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -1105,7 +1104,127 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": null,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "92"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Sep 2025 04:43:56 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"5c-g71s0pV2+DXJsE43qFXok6LuCEo\""
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=63072000; includeSubDomains; preload"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "sin1::iad1::8fg8t-1758861834513-67b8372d0db1"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"updated rewardId : c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1 success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Toggle reward",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"reward-02-edited\",\n    \"point\": 300,\n    \"description\": \"Description-Reward-023-edited\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023-edited\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/active?rewardId=d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"active"
+							],
+							"query": [
+								{
+									"key": "rewardId",
+									"value": "d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit reward",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"reward-02-edited\",\n    \"point\": 300,\n    \"description\": \"Description-Reward-023-edited\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023-edited\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/?rewardId=c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										""
+									],
+									"query": [
+										{
+											"key": "rewardId",
+											"value": "c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
