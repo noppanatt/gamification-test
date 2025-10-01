@@ -9,7 +9,6 @@ CREATE TABLE "app" (
 CREATE TABLE "users" (
   "id" uuid PRIMARY KEY,
   "coins" int,
-  "referenceId" uuid,
   "createdAt" Date,
   "updatedAt" Date,
   "deletedAt" Date,
@@ -72,6 +71,16 @@ CREATE TABLE "rewardFiles" (
   "rewardId" uuid
 );
 
+CREATE TABLE "redeem_logs" (
+  "id" uuid PRIMARY KEY,
+  "amount" int,
+  "userId" uuid,
+  "rewardId" uuid,
+  "createdAt" Date,
+  "updatedAt" Date,
+  "deletedAt" Date
+);
+
 ALTER TABLE "users" ADD FOREIGN KEY ("appMasterId") REFERENCES "app" ("id");
 
 ALTER TABLE "rule_books" ADD FOREIGN KEY ("appMasterId") REFERENCES "app" ("id");
@@ -81,3 +90,7 @@ ALTER TABLE "games" ADD FOREIGN KEY ("ruleBookId") REFERENCES "rule_books" ("id"
 ALTER TABLE "games" ADD FOREIGN KEY ("appMasterId") REFERENCES "app" ("id");
 
 ALTER TABLE "rewardFiles" ADD FOREIGN KEY ("rewardId") REFERENCES "rewards" ("id");
+
+ALTER TABLE "redeem_logs" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
+
+ALTER TABLE "redeem_logs" ADD FOREIGN KEY ("rewardId") REFERENCES "rewards" ("id");

@@ -1,4 +1,6 @@
+import { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
+import { EUpdateCoinMethod } from "src/enums/update-coin.enum";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import z from "zod";
@@ -9,6 +11,8 @@ import { GameModel } from "../database/sequelize/game";
 import { RewardModel } from "../database/sequelize/reward";
 import { RewardFileModel } from "../database/sequelize/rewardFile";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
+import { UserModel } from "../database/sequelize/user";
+import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
 import { getPresignedUrl } from "../utils/azure-blob";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
@@ -20,6 +24,7 @@ import {
   editGameRuleSchema,
   getGameRuleSchema,
 } from "../validation/rulebook";
+import { getUserCoinSchema, updateRewardSchema } from "../validation/user";
 
 export const incentiveController = {
   uploadFile: async (req: Request, res: Response) => {
@@ -395,7 +400,7 @@ export const incentiveController = {
       const { rewardId } = params;
 
       if (!rewardId) {
-        return customResponse(res, 404, {
+        return customResponse(res, HttpStatusCode.NotFound, {
           message: `RewardID: ${rewardId} not found.`,
         });
       }
@@ -411,7 +416,7 @@ export const incentiveController = {
         ],
       });
 
-      return customResponse(res, 200, { reward: reward });
+      return customResponse(res, HttpStatusCode.Ok, { reward: reward });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
@@ -428,7 +433,7 @@ export const incentiveController = {
       });
 
       if (!reward) {
-        return customResponse(res, 404, {
+        return customResponse(res, HttpStatusCode.NotFound, {
           message: `RewardID: ${params.rewardId} not found.`,
         });
       }
@@ -439,9 +444,139 @@ export const incentiveController = {
       );
 
       await transaction.commit();
-      return customResponse(res, 201, { newActive: !reward.active });
+      return customResponse(res, HttpStatusCode.Ok, {
+        newActive: !reward.active,
+      });
     } catch (error) {
       await transaction.rollback();
+      errorResponseHandler(error, req, res);
+    }
+  },
+  getUserCoinByUserId: async (req: Request, res: Response) => {
+    try {
+      const { referenceId, appMasterId } = getUserCoinSchema.parse(req.query);
+
+      const user = await incentiveService.getUserByReferenceId(
+        referenceId,
+        appMasterId
+      );
+
+      if (!user) {
+        return customResponse(res, HttpStatusCode.NotFound, {
+          message: `userId: ${referenceId} was not found.`,
+        });
+      }
+
+      const result = {
+        userId: user.id,
+        coin: user.coin,
+        app: user.appMaster.name,
+      };
+
+      return customResponse(res, HttpStatusCode.Ok, { result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  updateUserCoin: async (req: Request, res: Response) => {
+    try {
+      const parsed = updateRewardSchema.parse(req.body);
+      const referenceId = req.params?.referenceId;
+
+      const { code, message } = await sequelize.transaction(
+        async (transaction) => {
+          const user = await UserModel.findOne({
+            where: {
+              referenceId,
+              appMasterId: parsed.appMasterId,
+            },
+          });
+
+          //* Increase coin
+          if (parsed.method === EUpdateCoinMethod.INCREASE) {
+            if (!user) {
+              const user = await UserModel.create(
+                {
+                  referenceId,
+                  appMasterId: parsed.appMasterId,
+                },
+                { transaction }
+              );
+
+              await UserModel.increment("coin", {
+                by: parsed.amount,
+                where: {
+                  referenceId: user.referenceId,
+                  appMasterId: user.appMasterId,
+                },
+                transaction,
+              });
+
+              return {
+                code: HttpStatusCode.Ok,
+                message: "Successfully added coins.",
+              };
+            }
+
+            await UserModel.increment("coin", {
+              by: parsed.amount,
+              where: {
+                referenceId,
+                appMasterId: parsed.appMasterId,
+              },
+              transaction,
+            });
+
+            return {
+              code: HttpStatusCode.Ok,
+              message: "Successfully added coins.",
+            };
+          }
+
+          //* Decrease coin
+          if (parsed.method === EUpdateCoinMethod.DECREASE) {
+            if (!user) {
+              return {
+                code: HttpStatusCode.InternalServerError,
+                message: "Coin deduction failed: user not found.",
+              };
+            }
+
+            if (user.coin < parsed.amount) {
+              return {
+                code: HttpStatusCode.InternalServerError,
+                message: "Not enough coins to deduct.",
+              };
+            }
+
+            await UserModel.decrement("coin", {
+              by: parsed.amount,
+              where: {
+                referenceId,
+                appMasterId: parsed.appMasterId,
+              },
+              transaction,
+            });
+          }
+
+          return {
+            code: HttpStatusCode.Ok,
+            message: "Successfully added coins.",
+          };
+        }
+      );
+
+      return customResponse(res, code, {
+        message,
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  redeemReward: async (req: Request, res: Response) => {
+    try {
+      return customResponse(res, 200, {});
+    } catch (error) {
       errorResponseHandler(error, req, res);
     }
   },

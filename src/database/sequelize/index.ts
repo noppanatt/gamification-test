@@ -5,11 +5,20 @@ import { GameModel, initGameModel } from "./game";
 import { initRewardModel, RewardModel } from "./reward";
 import { initRewardFileModel, RewardFileModel } from "./rewardFile";
 import { initRuleBookModel, RuleBookModel } from "./ruleBook";
+import { initUserModel, UserModel } from "./user";
 
 export const initModels = (sequelize: Sequelize) => {
   initAppMasterModel(sequelize);
   initCustomerMasterModel(sequelize);
   initRewardModel(sequelize);
+
+  //* User
+  initUserModel(sequelize);
+  AppMasterModel.hasMany(UserModel, { as: "users", foreignKey: "appMasterId" });
+  UserModel.belongsTo(AppMasterModel, {
+    as: "appMaster",
+    foreignKey: "appMasterId",
+  });
 
   initRewardFileModel(sequelize);
   RewardModel.hasMany(RewardFileModel, {

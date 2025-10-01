@@ -51,5 +51,13 @@ export function setupRoutes(app: Express) {
 
   router.delete("/reward", incentiveController.deleteReward);
 
+  //* Coin
+  router.get("/coin", incentiveController.getUserCoinByUserId);
+
+  router.put("/coin/:referenceId", incentiveController.updateUserCoin);
+
+  //* redeem
+  router.post("/redeem", incentiveController.redeemReward);
+
   app.use("/incentive", router);
 }
