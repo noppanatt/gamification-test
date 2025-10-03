@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "6a7205ac-f3cf-4460-ac94-815406322074",
+		"_postman_id": "a213c9e2-dfc6-4c4a-91a6-967e57da972f",
 		"name": "Incensive",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "40995169"
+		"_exporter_id": "30996113",
+		"_collection_link": "https://bdms-mrs-be.postman.co/workspace/Gamification~95c283fc-8a1b-425b-8054-951e09898e10/collection/30996113-a213c9e2-dfc6-4c4a-91a6-967e57da972f?action=share&source=collection_link&creator=30996113"
 	},
 	"item": [
 		{
@@ -56,7 +57,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -151,7 +152,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -244,7 +245,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -339,7 +340,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -416,13 +417,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward/upload",
+							"raw": "{{BACKEND_URL}}/incentive/reward/file/upload",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
 							"path": [
 								"incentive",
 								"reward",
+								"file",
 								"upload"
 							]
 						}
@@ -434,20 +436,21 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/upload",
+									"raw": "{{BACKEND_URL}}/incentive/reward/file/upload",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
 										"reward",
+										"file",
 										"upload"
 									]
 								}
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -493,19 +496,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08ca",
+							"raw": "{{BACKEND_URL}}/incentive/reward/file/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
 							"path": [
 								"incentive",
 								"reward",
+								"file",
 								"download"
 							],
 							"query": [
 								{
 									"key": "fileId",
-									"value": "f24d48be-e36a-4d14-abe8-6d66c60f08ca"
+									"value": "f24d48be-e36a-4d14-abe8-6d66c60f08cc"
 								}
 							]
 						}
@@ -517,13 +521,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
+									"raw": "{{BACKEND_URL}}/incentive/reward/file/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
 										"reward",
+										"file",
 										"download"
 									],
 									"query": [
@@ -536,7 +541,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -591,18 +596,19 @@
 							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"blobObject\": {\n        \"blobUrl\": \"https://gamificationteststorage.blob.core.windows.net/gamification-container/reward/f24d48be-e36a-4d14-abe8-6d66c60f08cc?sv=2025-07-05&spr=https&st=2025-09-30T07%3A05%3A28Z&se=2025-09-30T07%3A10%3A48Z&sr=b&sp=rcw&sig=TDJck%2FQ4DGeU7CkuewoA031Eq%2B48S8vcBZseJjpoxVU%3D\",\n        \"blobVersion\": \"2025-09-30\"\n    }\n}"
 						},
 						{
-							"name": "NOT FOUND",
+							"name": "404 Not found",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
+									"raw": "{{BACKEND_URL}}/incentive/reward/file/download?fileId=f24d48be-e36a-4d14-abe8-6d66c60f08cc",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
 										"reward",
+										"file",
 										"download"
 									],
 									"query": [
@@ -615,59 +621,210 @@
 							},
 							"status": "Not Found",
 							"code": 404,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "*"
-								},
-								{
-									"key": "Age",
-									"value": "0"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "public, max-age=0, must-revalidate"
-								},
-								{
-									"key": "Content-Length",
-									"value": "84"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
+									"key": "Content-Length",
+									"value": "88"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"58-FJ4dctIvjlg1qpksd5J0TzoVpv8\""
+								},
+								{
 									"key": "Date",
-									"value": "Tue, 30 Sep 2025 07:11:05 GMT"
+									"value": "Fri, 03 Oct 2025 07:33:31 GMT"
 								},
 								{
-									"key": "Etag",
-									"value": "W/\"54-dyWdKgf+j/CoUE5aPMWUdwVVV1I\""
+									"key": "Connection",
+									"value": "keep-alive"
 								},
 								{
-									"key": "Server",
-									"value": "Vercel"
-								},
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"File ID f24d48be-e36a-4d14-abe8-6d66c60f08cc was not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete reward file",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ทดสอบ รูปไม่มี\",\n    \"point\": 20,\n    \"isDraft\": false,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cf\",\n    \"fileOriginalName\": \"image.png\"\n}"
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/file?fileId=f8b7c2cc-c09b-4689-89ff-a49fe5616dc2",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"file"
+							],
+							"query": [
 								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=63072000; includeSubDomains; preload"
+									"key": "fileId",
+									"value": "f8b7c2cc-c09b-4689-89ff-a49fe5616dc2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"ทดสอบ รูปไม่มี\",\n    \"point\": 20,\n    \"isDraft\": false,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cf\",\n    \"fileOriginalName\": \"image.png\"\n}"
 								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/file?fileId=f8b7c2cc-c09b-4689-89ff-a49fe5616dc9",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"file"
+									],
+									"query": [
+										{
+											"key": "fileId",
+											"value": "f8b7c2cc-c09b-4689-89ff-a49fe5616dc9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
 								},
 								{
-									"key": "X-Vercel-Cache",
-									"value": "MISS"
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
-									"key": "X-Vercel-Id",
-									"value": "sin1::iad1::5djpb-1759216260616-7da72e8b4af6"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-srWGiCyi8aaYl0vyNJDhh0dMfFk\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 07:30:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"message\": \"File ID f24d48be-e36a-4d14-abe8-6d66c60f08ca not found\"\n}"
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
+						},
+						{
+							"name": "404 File not found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"ทดสอบ รูปไม่มี\",\n    \"point\": 20,\n    \"isDraft\": false,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cf\",\n    \"fileOriginalName\": \"image.png\"\n}"
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/file?fileId=f8b7c2cc-c09b-4689-89ff-a49fe5616dc2",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"file"
+									],
+									"query": [
+										{
+											"key": "fileId",
+											"value": "f8b7c2cc-c09b-4689-89ff-a49fe5616dc2"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "88"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"58-ANpeeJfCwPxOsXxlTGVR6dgTcWc\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 07:31:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"File ID f8b7c2cc-c09b-4689-89ff-a49fe5616dc2 was not found\"\n}"
 						}
 					]
 				},
@@ -681,7 +838,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"หม้อไฟฟ้า(2)\",\n    \"point\": 20,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"1a736e3c-83b8-45ab-8cad-b4fcde4e70a6\",\n    \"fileOriginalName\": \"image.png\",\n    \"isDraft\" : false\n}",
+							"raw": "{\n    \"name\": \"ทดสอบ รูปไม่มี\",\n    \"point\": 20,\n    \"isDraft\": false,\n    \"description\": \"Description-Reward-023\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cf\",\n    \"fileOriginalName\": \"image.png\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -727,7 +884,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -908,7 +1065,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -954,7 +1111,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=6a6a4e33-7ac1-4b64-8101-8783473bec5d",
+							"raw": "{{BACKEND_URL}}/incentive/reward?rewardId=d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
@@ -965,7 +1122,7 @@
 							"query": [
 								{
 									"key": "rewardId",
-									"value": "6a6a4e33-7ac1-4b64-8101-8783473bec5d"
+									"value": "d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc"
 								}
 							]
 						}
@@ -995,7 +1152,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "X-Powered-By",
@@ -1104,7 +1261,7 @@
 							},
 							"status": "Created",
 							"code": 201,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -1155,15 +1312,115 @@
 							"body": "{\n    \"success\": true,\n    \"message\": \"updated rewardId : c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1 success\"\n}"
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Coin",
+			"item": [
+				{
+					"name": "Get coin by userId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/coin?referenceId=cceeab58-c070-42bb-b733-b930ec817cac&appMasterId=1",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"coin"
+							],
+							"query": [
+								{
+									"key": "referenceId",
+									"value": "cceeab58-c070-42bb-b733-b930ec817cac"
+								},
+								{
+									"key": "appMasterId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get coin by userId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/coin?referenceId=cceeab58-c070-42bb-b733-b930ec817cac&appMasterId=1",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"coin"
+									],
+									"query": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac"
+										},
+										{
+											"key": "appMasterId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "122"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7a-xFrcd5dir+Hj45rxRLNINeTKxKA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Oct 2025 04:34:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"result\": {\n        \"userId\": \"24c2b759-cb74-4c4d-bddd-4525882e0239\",\n        \"coin\": 25,\n        \"app\": \"Farmsook\"\n    }\n}"
+						}
+					]
 				},
 				{
-					"name": "Toggle reward",
+					"name": "Update coin",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"reward-02-edited\",\n    \"point\": 300,\n    \"description\": \"Description-Reward-023-edited\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023-edited\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+							"raw": "{\n    \"method\": \"INCREASE\", // INCREASE || DECREASE\n    \"amount\": 5,\n    \"appMasterId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1171,32 +1428,33 @@
 							}
 						},
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward/active?rewardId=d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc",
+							"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
 							"path": [
 								"incentive",
-								"reward",
-								"active"
+								"coin",
+								":referenceId"
 							],
-							"query": [
+							"variable": [
 								{
-									"key": "rewardId",
-									"value": "d0bf1dec-9c64-47b8-9e03-5926f3e4f2dc"
+									"key": "referenceId",
+									"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+									"description": "Farmer uuid"
 								}
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Edit reward",
+							"name": "Decrease success",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"reward-02-edited\",\n    \"point\": 300,\n    \"description\": \"Description-Reward-023-edited\",\n    \"termsAndCondition\": \"termsAndCondition-Reward-023-edited\",\n    \"fileId\": \"f24d48be-e36a-4d14-abe8-6d66c60f08cc\",\n    \"fileOriginalName\": \"image.png\"\n}",
+									"raw": "{\n    \"method\": \"DECREASE\",\n    \"amount\": 5,\n    \"appMasterId\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1204,77 +1462,219 @@
 									}
 								},
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/?rewardId=c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1",
+									"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
-										"reward",
-										""
+										"coin",
+										":referenceId"
 									],
-									"query": [
+									"variable": [
 										{
-											"key": "rewardId",
-											"value": "c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1",
-											"description": "uuid"
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "Farmer uuid"
 										}
 									]
 								}
 							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "Text",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
 							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "*"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "public, max-age=0, must-revalidate"
-								},
-								{
-									"key": "Content-Length",
-									"value": "92"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-srWGiCyi8aaYl0vyNJDhh0dMfFk\""
+								},
+								{
 									"key": "Date",
-									"value": "Fri, 26 Sep 2025 04:43:56 GMT"
+									"value": "Tue, 30 Sep 2025 12:57:54 GMT"
 								},
 								{
-									"key": "Etag",
-									"value": "W/\"5c-g71s0pV2+DXJsE43qFXok6LuCEo\""
+									"key": "Connection",
+									"value": "keep-alive"
 								},
 								{
-									"key": "Server",
-									"value": "Vercel"
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
+						},
+						{
+							"name": "Not enough coins",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"method\": \"DECREASE\",\n    \"amount\": 5,\n    \"appMasterId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "Strict-Transport-Security",
-									"value": "max-age=63072000; includeSubDomains; preload"
-								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"coin",
+										":referenceId"
+									],
+									"variable": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "Farmer uuid"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": null,
+							"header": [
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
 								},
 								{
-									"key": "X-Vercel-Cache",
-									"value": "MISS"
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
-									"key": "X-Vercel-Id",
-									"value": "sin1::iad1::8fg8t-1758861834513-67b8372d0db1"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"39-wWkSuZimUzfODo9ayA+Af2ISAE0\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Sep 2025 12:58:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"message\": \"updated rewardId : c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1 success\"\n}"
+							"body": "{\n    \"success\": false,\n    \"message\": \"Not enough coins to deduct.\"\n}"
+						},
+						{
+							"name": "Increase success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"method\": \"INCREASE\",\n    \"amount\": 5,\n    \"appMasterId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"coin",
+										":referenceId"
+									],
+									"variable": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "Farmer uuid"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-srWGiCyi8aaYl0vyNJDhh0dMfFk\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Sep 2025 12:58:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
 						}
 					]
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},

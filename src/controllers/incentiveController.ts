@@ -170,7 +170,7 @@ export const incentiveController = {
 
       if (!rule) {
         return customResponse(res, 404, {
-          message: `RuleID: ${params.ruleId} not found.`,
+          message: `RuleID: ${params.ruleId} was not found.`,
         });
       }
       //* Toggle off all rule
@@ -204,7 +204,7 @@ export const incentiveController = {
 
       if (!rule) {
         return customResponse(res, 404, {
-          message: `RewardID: ${ruleId} not found.`,
+          message: `RewardID: ${ruleId} was not found.`,
         });
       }
 
@@ -232,7 +232,7 @@ export const incentiveController = {
 
       if (!rule) {
         return customResponse(res, 404, {
-          message: `RuleID: ${ruleId} not found.`,
+          message: `RuleID: ${ruleId} was not found.`,
         });
       }
 
@@ -269,7 +269,7 @@ export const incentiveController = {
 
       if (!file) {
         return customResponse(res, 404, {
-          message: `File ID ${fileId} not found`,
+          message: `File ID ${fileId} was not found`,
         });
       }
 
@@ -344,7 +344,7 @@ export const incentiveController = {
 
       if (!reward) {
         return customResponse(res, 404, {
-          message: `RewardID: ${params.rewardId} not found.`,
+          message: `RewardID: ${params.rewardId} was not found.`,
         });
       }
 
@@ -378,7 +378,7 @@ export const incentiveController = {
 
       if (!reward) {
         return customResponse(res, 404, {
-          message: `RewardID: ${rewardId} not found.`,
+          message: `RewardID: ${rewardId} was not found.`,
         });
       }
 
@@ -401,7 +401,7 @@ export const incentiveController = {
 
       if (!rewardId) {
         return customResponse(res, HttpStatusCode.NotFound, {
-          message: `RewardID: ${rewardId} not found.`,
+          message: `RewardID: ${rewardId} was not found.`,
         });
       }
 
@@ -434,7 +434,7 @@ export const incentiveController = {
 
       if (!reward) {
         return customResponse(res, HttpStatusCode.NotFound, {
-          message: `RewardID: ${params.rewardId} not found.`,
+          message: `RewardID: ${params.rewardId} was not found.`,
         });
       }
 
@@ -449,6 +449,35 @@ export const incentiveController = {
       });
     } catch (error) {
       await transaction.rollback();
+      errorResponseHandler(error, req, res);
+    }
+  },
+
+  deleteRewardFile: async (req: Request, res: Response) => {
+    try {
+      req.body = z.object({ fileId: z.uuid() }).parse(req.query);
+      const fileId = req.body?.fileId;
+
+      const file = await RewardFileModel.findOne({
+        where: {
+          id: fileId,
+        },
+      });
+
+      if (!file) {
+        return customResponse(res, HttpStatusCode.NotFound, {
+          message: `File ID ${fileId} was not found`,
+        });
+      }
+
+      await RewardFileModel.destroy({
+        where: {
+          id: fileId,
+        },
+      });
+
+      return customResponse(res, HttpStatusCode.Ok);
+    } catch (error) {
       errorResponseHandler(error, req, res);
     }
   },
