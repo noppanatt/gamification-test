@@ -8,7 +8,7 @@ CREATE TABLE "app" (
 
 CREATE TABLE "users" (
   "id" uuid PRIMARY KEY,
-  "coins" int,
+  "points" int,
   "createdAt" Date,
   "updatedAt" Date,
   "deletedAt" Date,
@@ -53,7 +53,7 @@ CREATE TABLE "rewards" (
   "id" uuid PRIMARY KEY,
   "rewardId" varchar,
   "name" varchar,
-  "point" int,
+  "points" int,
   "description" varchar,
   "active" boolean,
   "isDraft" boolean,
@@ -71,14 +71,21 @@ CREATE TABLE "rewardFiles" (
   "rewardId" uuid
 );
 
-CREATE TABLE "redeem_logs" (
+CREATE TABLE "redeems" (
   "id" uuid PRIMARY KEY,
-  "amount" int,
-  "userId" uuid,
-  "rewardId" uuid,
+  "unit" int,
+  "redemptionPoints" int,
+  "name" string,
+  "phoneNumber" string,
+  "email" string,
+  "address" string,
   "createdAt" Date,
   "updatedAt" Date,
-  "deletedAt" Date
+  "deletedAt" Date,
+  "shippingAddressId" uuid,
+  "userId" uuid,
+  "rewardId" uuid,
+  "appMasterId" int
 );
 
 ALTER TABLE "users" ADD FOREIGN KEY ("appMasterId") REFERENCES "app" ("id");
@@ -91,6 +98,8 @@ ALTER TABLE "games" ADD FOREIGN KEY ("appMasterId") REFERENCES "app" ("id");
 
 ALTER TABLE "rewardFiles" ADD FOREIGN KEY ("rewardId") REFERENCES "rewards" ("id");
 
-ALTER TABLE "redeem_logs" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
+ALTER TABLE "redeems" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
-ALTER TABLE "redeem_logs" ADD FOREIGN KEY ("rewardId") REFERENCES "rewards" ("id");
+ALTER TABLE "redeems" ADD FOREIGN KEY ("rewardId") REFERENCES "rewards" ("id");
+
+ALTER TABLE "redeems" ADD FOREIGN KEY ("appMasterId") REFERENCES "app" ("id");

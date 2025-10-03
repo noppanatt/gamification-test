@@ -1,4 +1,3 @@
-// validation/rulebook.ts
 import { z } from "zod";
 
 export const CreateRewardSchema = z.object({

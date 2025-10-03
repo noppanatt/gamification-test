@@ -16,7 +16,7 @@ export class RewardModel extends Model<
   declare id: CreationOptional<string>;
   declare rewardId: CreationOptional<string>;
   declare name: string;
-  declare point: number;
+  declare points: number;
   declare description: string;
   declare active: CreationOptional<boolean>;
   declare isDraft: CreationOptional<boolean>;
@@ -42,7 +42,7 @@ export function initRewardModel(sequelize: Sequelize) {
       name: {
         type: DataTypes.STRING,
       },
-      point: {
+      points: {
         type: DataTypes.INTEGER,
       },
       description: {

@@ -16,7 +16,7 @@ export class UserModel extends Model<
   InferCreationAttributes<UserModel>
 > {
   declare id: CreationOptional<string>;
-  declare coin: CreationOptional<number>;
+  declare points: CreationOptional<number>;
   declare referenceId: string;
   declare appMasterId: ForeignKey<AppMasterModel["id"]>;
 
@@ -35,7 +35,7 @@ export function initUserModel(sequelize: Sequelize) {
         primaryKey: true,
         allowNull: false,
       },
-      coin: {
+      points: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },

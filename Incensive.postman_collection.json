@@ -1316,21 +1316,21 @@
 			]
 		},
 		{
-			"name": "Coin",
+			"name": "Points",
 			"item": [
 				{
-					"name": "Get coin by userId",
+					"name": "Get point by userId",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/coin?referenceId=cceeab58-c070-42bb-b733-b930ec817cac&appMasterId=1",
+							"raw": "{{BACKEND_URL}}/incentive/point?referenceId=cceeab58-c070-42bb-b733-b930ec817cac&appMasterId=1",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
 							"path": [
 								"incentive",
-								"coin"
+								"point"
 							],
 							"query": [
 								{
@@ -1346,18 +1346,18 @@
 					},
 					"response": [
 						{
-							"name": "Get coin by userId",
+							"name": "Get point by userId",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/coin?referenceId=cceeab58-c070-42bb-b733-b930ec817cac&appMasterId=1",
+									"raw": "{{BACKEND_URL}}/incentive/point?referenceId=cceeab58-c070-42bb-b733-b930ec817cac&appMasterId=1",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
-										"coin"
+										"point"
 									],
 									"query": [
 										{
@@ -1409,12 +1409,12 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"result\": {\n        \"userId\": \"24c2b759-cb74-4c4d-bddd-4525882e0239\",\n        \"coin\": 25,\n        \"app\": \"Farmsook\"\n    }\n}"
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"result\": {\n        \"userId\": \"24c2b759-cb74-4c4d-bddd-4525882e0239\",\n        \"points\": 25,\n        \"app\": \"Farmsook\"\n    }\n}"
 						}
 					]
 				},
 				{
-					"name": "Update coin",
+					"name": "Update point",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1428,13 +1428,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
+							"raw": "{{BACKEND_URL}}/incentive/point/:referenceId",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
 							"path": [
 								"incentive",
-								"coin",
+								"point",
 								":referenceId"
 							],
 							"variable": [
@@ -1462,13 +1462,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
+									"raw": "{{BACKEND_URL}}/incentive/point/:referenceId",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
-										"coin",
+										"point",
 										":referenceId"
 									],
 									"variable": [
@@ -1521,7 +1521,7 @@
 							"body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
 						},
 						{
-							"name": "Not enough coins",
+							"name": "Not enough points",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -1535,13 +1535,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
+									"raw": "{{BACKEND_URL}}/incentive/point/:referenceId",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
-										"coin",
+										"point",
 										":referenceId"
 									],
 									"variable": [
@@ -1591,7 +1591,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"message\": \"Not enough coins to deduct.\"\n}"
+							"body": "{\n    \"success\": false,\n    \"message\": \"Not enough point to deduct.\"\n}"
 						},
 						{
 							"name": "Increase success",
@@ -1608,13 +1608,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/coin/:referenceId",
+									"raw": "{{BACKEND_URL}}/incentive/point/:referenceId",
 									"host": [
 										"{{BACKEND_URL}}"
 									],
 									"path": [
 										"incentive",
-										"coin",
+										"point",
 										":referenceId"
 									],
 									"variable": [
@@ -1669,12 +1669,210 @@
 					]
 				},
 				{
-					"name": "New Request",
+					"name": "Redeem reward",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"redeem",
+								":referenceId"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceId",
+									"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+									"description": "uuid"
+								}
+							]
+						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"redeem",
+										":referenceId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "58"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3a-NEdfZDEdYdQQ4ElwccDeZPk7Z7c\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 11:11:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Reward redeemed successfully.\"\n}"
+						},
+						{
+							"name": "Not enough points",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"redeem",
+										":referenceId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-TJHi0eHmMPA7lMlIlmCw1hPKg8U\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 11:12:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Not enough points.\"\n}"
+						}
+					]
 				}
 			]
 		},

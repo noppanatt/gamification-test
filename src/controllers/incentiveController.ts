@@ -1,6 +1,5 @@
 import { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
-import { EUpdateCoinMethod } from "src/enums/update-coin.enum";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import z from "zod";
@@ -8,15 +7,18 @@ import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
+import { RedeemModel } from "../database/sequelize/redeem";
 import { RewardModel } from "../database/sequelize/reward";
 import { RewardFileModel } from "../database/sequelize/rewardFile";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
 import { UserModel } from "../database/sequelize/user";
+import { EUpdatePointMethod } from "../enums/update-point.enum";
 import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
 import { getPresignedUrl } from "../utils/azure-blob";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
+import { RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
 import {
   CreateGameRuleBody,
@@ -24,7 +26,7 @@ import {
   editGameRuleSchema,
   getGameRuleSchema,
 } from "../validation/rulebook";
-import { getUserCoinSchema, updateRewardSchema } from "../validation/user";
+import { getUserPointSchema, updateRewardSchema } from "../validation/user";
 
 export const incentiveController = {
   uploadFile: async (req: Request, res: Response) => {
@@ -293,7 +295,7 @@ export const incentiveController = {
       const reward = await RewardModel.create(
         {
           name: parsed.name,
-          point: parsed.point,
+          points: parsed.point,
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
           isDraft: parsed.isDraft,
@@ -351,7 +353,7 @@ export const incentiveController = {
       await RewardModel.update(
         {
           rewardId: parsed.name,
-          point: parsed.point,
+          points: parsed.point,
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
         },
@@ -481,9 +483,9 @@ export const incentiveController = {
       errorResponseHandler(error, req, res);
     }
   },
-  getUserCoinByUserId: async (req: Request, res: Response) => {
+  getUserPointByUserId: async (req: Request, res: Response) => {
     try {
-      const { referenceId, appMasterId } = getUserCoinSchema.parse(req.query);
+      const { referenceId, appMasterId } = getUserPointSchema.parse(req.query);
 
       const user = await incentiveService.getUserByReferenceId(
         referenceId,
@@ -498,7 +500,7 @@ export const incentiveController = {
 
       const result = {
         userId: user.id,
-        coin: user.coin,
+        points: user.points,
         app: user.appMaster.name,
       };
 
@@ -507,7 +509,7 @@ export const incentiveController = {
       errorResponseHandler(error, req, res);
     }
   },
-  updateUserCoin: async (req: Request, res: Response) => {
+  updateUserPoint: async (req: Request, res: Response) => {
     try {
       const parsed = updateRewardSchema.parse(req.body);
       const referenceId = req.params?.referenceId;
@@ -521,8 +523,8 @@ export const incentiveController = {
             },
           });
 
-          //* Increase coin
-          if (parsed.method === EUpdateCoinMethod.INCREASE) {
+          //* Increase points
+          if (parsed.method === EUpdatePointMethod.INCREASE) {
             if (!user) {
               const user = await UserModel.create(
                 {
@@ -532,7 +534,7 @@ export const incentiveController = {
                 { transaction }
               );
 
-              await UserModel.increment("coin", {
+              await UserModel.increment("points", {
                 by: parsed.amount,
                 where: {
                   referenceId: user.referenceId,
@@ -543,11 +545,11 @@ export const incentiveController = {
 
               return {
                 code: HttpStatusCode.Ok,
-                message: "Successfully added coins.",
+                message: "Successfully added points.",
               };
             }
 
-            await UserModel.increment("coin", {
+            await UserModel.increment("points", {
               by: parsed.amount,
               where: {
                 referenceId,
@@ -558,27 +560,27 @@ export const incentiveController = {
 
             return {
               code: HttpStatusCode.Ok,
-              message: "Successfully added coins.",
+              message: "Successfully added points.",
             };
           }
 
-          //* Decrease coin
-          if (parsed.method === EUpdateCoinMethod.DECREASE) {
+          //* Decrease points
+          if (parsed.method === EUpdatePointMethod.DECREASE) {
             if (!user) {
               return {
                 code: HttpStatusCode.InternalServerError,
-                message: "Coin deduction failed: user not found.",
+                message: "Point deduction failed: user not found.",
               };
             }
 
-            if (user.coin < parsed.amount) {
+            if (user.points < parsed.amount) {
               return {
                 code: HttpStatusCode.InternalServerError,
-                message: "Not enough coins to deduct.",
+                message: "Not enough points to deduct.",
               };
             }
 
-            await UserModel.decrement("coin", {
+            await UserModel.decrement("points", {
               by: parsed.amount,
               where: {
                 referenceId,
@@ -590,7 +592,7 @@ export const incentiveController = {
 
           return {
             code: HttpStatusCode.Ok,
-            message: "Successfully added coins.",
+            message: "Successfully added points.",
           };
         }
       );
@@ -604,7 +606,80 @@ export const incentiveController = {
   },
   redeemReward: async (req: Request, res: Response) => {
     try {
-      return customResponse(res, 200, {});
+      //* parse
+      const body = RedeemSchema.parse(req.body);
+      const referenceId = req.params?.referenceId;
+
+      //* check referenceId(farmerID) with UserId
+      const user = await UserModel.findOne({
+        where: {
+          referenceId,
+          appMasterId: body.appMasterId,
+        },
+      });
+
+      if (!user) {
+        if (!user) {
+          return customResponse(res, HttpStatusCode.NotFound, {
+            message: `userId: ${referenceId} was not found.`,
+          });
+        }
+      }
+
+      //* check rewardId exist
+      const reward = await RewardModel.findOne({
+        where: {
+          id: body.rewardId,
+          active: true,
+        },
+      });
+
+      if (!reward) {
+        return customResponse(res, HttpStatusCode.NotFound, {
+          message: `rewardId: ${body.rewardId} was not found.`,
+        });
+      }
+
+      //* check point balance
+      if (user.points < reward.points) {
+        return customResponse(res, HttpStatusCode.BadRequest, {
+          message: "Not enough points.",
+        });
+      }
+
+      //* redemption
+      await sequelize.transaction(async (transaction) => {
+        //* create redeem
+        await RedeemModel.create(
+          {
+            name: body.name,
+            phoneNumber: body.phoneNumber,
+            email: body?.email,
+            address: body.address,
+            unit: body.unit,
+            redemptionPoints: reward.points,
+            rewardId: reward.id,
+            appMasterId: body.appMasterId,
+            shippingAddressId: body?.shippingAddressId,
+            userId: user.id,
+          },
+          { transaction }
+        );
+
+        //* deduct balance points
+        await UserModel.decrement("points", {
+          by: reward.points,
+          where: {
+            id: user.id,
+            appMasterId: body.appMasterId,
+          },
+          transaction,
+        });
+      });
+
+      return customResponse(res, HttpStatusCode.Created, {
+        message: "Reward redeemed successfully.",
+      });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }

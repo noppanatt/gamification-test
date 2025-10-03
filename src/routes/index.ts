@@ -39,30 +39,30 @@ export function setupRoutes(app: Express) {
 
   router.get("/reward", incentiveController.getDetailReward);
 
-  router.get("/reward/file/upload", incentiveController.getPreSignUploadUrl);
+  router.post("/reward", incentiveController.createReward);
+
+  router.put("/reward", incentiveController.editReward);
+
+  router.delete("/reward", incentiveController.deleteReward);
 
   router.get(
     "/reward/file/download",
     incentiveController.getPreSignDownloadUrl
   );
 
+  router.get("/reward/file/upload", incentiveController.getPreSignUploadUrl);
+
   router.delete("/reward/file", incentiveController.deleteRewardFile);
-
-  router.post("/reward", incentiveController.createReward);
-
-  router.put("/reward", incentiveController.editReward);
 
   router.put("/reward/active", incentiveController.toggleRewardStatus);
 
-  router.delete("/reward", incentiveController.deleteReward);
+  //* Redeem
+  router.post("/reward/redeem/:referenceId", incentiveController.redeemReward);
 
-  //* Coin
-  router.get("/coin", incentiveController.getUserCoinByUserId);
+  //* Point
+  router.get("/point", incentiveController.getUserPointByUserId);
 
-  router.put("/coin/:referenceId", incentiveController.updateUserCoin);
-
-  //* redeem
-  router.post("/redeem", incentiveController.redeemReward);
+  router.put("/point/:referenceId", incentiveController.updateUserPoint);
 
   app.use("/incentive", router);
 }
