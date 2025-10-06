@@ -358,7 +358,7 @@ export const incentiveController = {
 
       await RewardModel.update(
         {
-          rewardId: parsed.name,
+          name: parsed.name,
           points: parsed.point,
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
