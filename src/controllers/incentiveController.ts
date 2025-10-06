@@ -341,7 +341,13 @@ export const incentiveController = {
 
       const reward = await RewardModel.findOne({
         where: { id: params.rewardId },
-        attributes: ["id", "name", "point", "description", "termsAndCondition"],
+        attributes: [
+          "id",
+          "name",
+          "points",
+          "description",
+          "termsAndCondition",
+        ],
       });
 
       if (!reward) {
@@ -375,7 +381,13 @@ export const incentiveController = {
 
       const reward = await RewardModel.findOne({
         where: { id: rewardId },
-        attributes: ["id", "name", "point", "description", "termsAndCondition"],
+        attributes: [
+          "id",
+          "name",
+          "points",
+          "description",
+          "termsAndCondition",
+        ],
       });
 
       if (!reward) {
