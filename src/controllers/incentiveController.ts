@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
@@ -168,6 +168,12 @@ export const incentiveController = {
       const rule = await RuleBookModel.findOne({
         where: { id: params.ruleId, appMasterId: params.appId },
         attributes: ["id", "active", "appMasterId"],
+        include: [
+          {
+            model: GameModel,
+            as: "games",
+          },
+        ],
       });
 
       if (!rule) {
@@ -187,7 +193,43 @@ export const incentiveController = {
         { where: { id: rule.id, appMasterId: rule.appMasterId }, transaction }
       );
 
+      //* use update back to FARMSOOK
+      const active = !rule.active;
+      if (active) {
+        try {
+          const games = rule.games.map((game) => ({
+            id: game.id,
+            gameId: game?.gameId,
+            gameMasterDataId: game?.gameMasterDataId,
+            customerMasterDataId: game?.customerMasterDataId,
+            version: game?.version,
+            trafficPercentage: game?.trafficPercentage ?? 0,
+            page: game?.page,
+            durationDays: game?.durationDays ?? 0,
+            point: game?.point ?? 0,
+            rewardIds: game?.rewardIds,
+            dropOffDays: game?.dropOffDays,
+            pushMessage: game?.pushMessage ?? "",
+            startDate: game?.startDate,
+            endDate: game?.endDate,
+          }));
+
+          console.log("Update to FARMSOOK");
+          await axios.post(
+            "https://dev.farmsookbyfarmtech.com/api/games/update-rules",
+            games,
+            {
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        } catch (error: any) {
+          console.log({ error });
+          throw error;
+        }
+      }
+
       await transaction.commit();
+
       return customResponse(res, 201, { newActive: !rule.active });
     } catch (error) {
       await transaction.rollback();

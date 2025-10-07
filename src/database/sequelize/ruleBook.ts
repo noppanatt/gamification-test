@@ -10,6 +10,7 @@ import {
   UUIDV4,
 } from "sequelize";
 import { AppMasterModel } from "./appMaster";
+import { GameModel } from "./game";
 
 export class RuleBookModel extends Model<
   InferAttributes<RuleBookModel>,
@@ -23,6 +24,7 @@ export class RuleBookModel extends Model<
   declare createdAt: NonAttribute<Date>;
   declare updatedAt: NonAttribute<Date>;
   declare deletedAt: NonAttribute<Date>;
+  declare games: NonAttribute<GameModel[]>;
 }
 
 export function initRuleBookModel(sequelize: Sequelize) {
