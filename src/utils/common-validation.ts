@@ -34,7 +34,8 @@ const validPhoneNumber = () =>
     })
     .regex(/^[0-9]{10}$/, { message: "Invalid mobile number" });
 
-const validOptionalEmail = () => z.email().optional();
+const validOptionalEmail = () =>
+  z.preprocess((val) => (val ? val : undefined), z.email().optional());
 
 export {
   validOptionalEmail,
