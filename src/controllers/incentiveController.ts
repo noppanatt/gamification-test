@@ -326,7 +326,15 @@ export const incentiveController = {
 
   getReward: async (req: Request, res: Response) => {
     try {
-      const result = await RewardModel.findAll();
+      const result = await RewardModel.findAll({
+        include: [
+          {
+            model: RewardFileModel,
+            as: "rewardFiles",
+            attributes: ["id", "fileOriginalName"],
+          },
+        ],
+      });
 
       return customResponse(res, 200, { rewards: result });
     } catch (error) {
