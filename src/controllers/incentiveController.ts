@@ -458,6 +458,7 @@ export const incentiveController = {
           {
             id: parsed.fileId,
             fileOriginalName: parsed.fileOriginalName,
+            rewardId: params.rewardId,
           },
           { transaction }
         );
