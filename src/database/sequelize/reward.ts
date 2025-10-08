@@ -8,6 +8,7 @@ import {
   Sequelize,
   UUIDV4,
 } from "sequelize";
+import { RewardFileModel } from "./rewardFile";
 
 export class RewardModel extends Model<
   InferAttributes<RewardModel>,
@@ -25,6 +26,7 @@ export class RewardModel extends Model<
   declare updatedAt: NonAttribute<Date>;
   declare createdAt: NonAttribute<Date>;
   declare deletedAt: NonAttribute<Date>;
+  declare rewardFiles: NonAttribute<RewardFileModel[]>;
 }
 
 export function initRewardModel(sequelize: Sequelize) {
