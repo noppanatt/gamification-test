@@ -434,11 +434,12 @@ export const incentiveController = {
         (file) => file.id === parsed.fileId
       );
 
-      if (!reward.rewardFiles.length && !fileIdExist) {
+      if (reward.rewardFiles.length === 0 && !fileIdExist) {
         await RewardFileModel.create(
           {
             id: parsed.fileId,
             fileOriginalName: parsed.fileOriginalName,
+            rewardId: params.rewardId,
           },
           { transaction }
         );
