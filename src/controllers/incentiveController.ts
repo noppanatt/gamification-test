@@ -134,6 +134,8 @@ export const incentiveController = {
           createdGames: gamesPayload.length,
         });
       }
+
+      await transaction.commit();
     } catch (e) {
       await transaction.rollback();
 
@@ -177,6 +179,7 @@ export const incentiveController = {
       });
 
       if (!rule) {
+        await transaction.rollback();
         return customResponse(res, 404, {
           message: `RuleID: ${params.ruleId} was not found.`,
         });
@@ -497,6 +500,7 @@ export const incentiveController = {
       });
 
       if (!reward) {
+        await transaction.rollback();
         return customResponse(res, HttpStatusCode.NotFound, {
           message: `RewardID: ${params.rewardId} was not found.`,
         });

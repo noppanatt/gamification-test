@@ -13,6 +13,7 @@ export default {
     dialect: "postgres",
     seederStorage: "sequelize",
     dialectOptions: {
+      applicationName: "gamification",
       ssl: {
         rejectUnauthorized: false,
       },
