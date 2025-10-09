@@ -7,6 +7,9 @@ const validOptionalString = () => z.preprocess((val) => val || "", z.string());
 const validPositiveNumber = () =>
   z.preprocess((val) => (val ? val : undefined), z.coerce.number().positive());
 
+const validPositiveNumberWithZero = () =>
+  z.preprocess((val) => (val ? val : undefined), z.coerce.number().min(0));
+
 const validOptionalPositiveNumber = () =>
   z.preprocess(
     (val) => (val ? val : undefined),
@@ -45,5 +48,6 @@ export {
   validPhoneNumber,
   validPositiveNumber,
   validPositiveNumberWithRange,
+  validPositiveNumberWithZero,
   validUUID,
 };

@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { EUpdatePointMethod } from "../enums/update-point.enum";
+import { validPositiveNumberWithZero } from "../utils/common-validation";
 
 export const updateRewardSchema = z.object({
   method: z.enum(EUpdatePointMethod),
-  amount: z.coerce.number().positive(),
+  amount: validPositiveNumberWithZero(),
   appMasterId: z.coerce.number().positive(),
 });
 
