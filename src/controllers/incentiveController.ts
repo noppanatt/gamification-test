@@ -200,38 +200,35 @@ export const incentiveController = {
       );
 
       //* use update back to FARMSOOK
-      const active = !rule.active;
-      if (active) {
-        try {
-          const games = rule.games.map((game) => ({
-            id: game.id,
-            gameId: game?.gameId,
-            gameMasterDataId: game?.gameMasterDataId,
-            customerMasterDataId: game?.customerMasterDataId,
-            version: game?.version,
-            trafficPercentage: game?.trafficPercentage ?? 0,
-            page: game?.page,
-            durationDays: game?.durationDays ?? 0,
-            point: game?.point ?? 0,
-            rewardIds: game?.rewardIds,
-            dropOffDays: game?.dropOffDays,
-            pushMessage: game?.pushMessage ?? "",
-            startDate: game?.startDate,
-            endDate: game?.endDate,
-          }));
+      try {
+        const games = rule.games.map((game) => ({
+          id: game.id,
+          gameId: game?.gameId,
+          gameMasterDataId: game?.gameMasterDataId,
+          customerMasterDataId: game?.customerMasterDataId,
+          version: game?.version,
+          trafficPercentage: game?.trafficPercentage ?? 0,
+          page: game?.page,
+          durationDays: game?.durationDays ?? 0,
+          point: game?.point ?? 0,
+          rewardIds: game?.rewardIds,
+          dropOffDays: game?.dropOffDays,
+          pushMessage: game?.pushMessage ?? "",
+          startDate: game?.startDate,
+          endDate: game?.endDate,
+        }));
 
-          console.log("Update to FARMSOOK");
-          await axios.post(
-            "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
-            games,
-            {
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-        } catch (error: any) {
-          console.log({ error });
-          throw error;
-        }
+        console.log("Update to FARMSOOK with new status:", !!rule.active);
+        await axios.post(
+          "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
+          { newActive: !rule.active, games },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      } catch (error: any) {
+        console.log({ error });
+        throw error;
       }
 
       await transaction.commit();
