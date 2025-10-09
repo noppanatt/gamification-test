@@ -4,6 +4,7 @@ import {
   validOptionalPositiveNumber,
   validOptionalPositiveNumberWithRange,
   validOptionalString,
+  validPositiveNumber,
 } from "../utils/common-validation";
 import { fieldError } from "../utils/zod-error-map";
 
@@ -11,7 +12,7 @@ export const GameRuleSchema = z.object(
   {
     gameId: z.number({ error: "Game ID is required" }),
     gameMasterDataId: validOptionalString(),
-    customerMasterDataId: validOptionalPositiveNumber(),
+    customerMasterDataId: validPositiveNumber(),
     version: validOptionalString(),
     trafficPercentage: validOptionalPositiveNumberWithRange(0, 100),
     page: validOptionalString(),
