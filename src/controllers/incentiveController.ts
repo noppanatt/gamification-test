@@ -222,7 +222,7 @@ export const incentiveController = {
 
           console.log("Update to FARMSOOK");
           await axios.post(
-            "https://dev.farmsookbyfarmtech.com/api/games/update-rules",
+            "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
             games,
             {
               headers: { "Content-Type": "application/json" },
