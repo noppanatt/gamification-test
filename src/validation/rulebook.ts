@@ -1,5 +1,6 @@
-// validation/rulebook.ts
 import { z } from "zod";
+import { EDirectionFilter } from "../enums/order-by.enum";
+import { ERuleOrderBy } from "../enums/rule.enum";
 import {
   validOptionalPositiveNumber,
   validOptionalPositiveNumberWithRange,
@@ -35,6 +36,16 @@ export const CreateGameRuleBodySchema = z.object({
 });
 
 export const getGameRuleSchema = z.object({
+  orderBy: z
+    .string()
+    .optional()
+    .transform((val) => (val?.trim() ? val.trim().toLowerCase() : undefined))
+    .pipe(z.enum(ERuleOrderBy).optional().default(ERuleOrderBy.UpdatedAt)),
+  direction: z
+    .string()
+    .optional()
+    .transform((val) => (val?.trim() ? val.trim().toLowerCase() : undefined))
+    .pipe(z.enum(EDirectionFilter).optional().default(EDirectionFilter.Desc)),
   appId: z.coerce.number().positive(),
 });
 

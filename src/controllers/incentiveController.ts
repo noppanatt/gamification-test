@@ -1,5 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
+import { OrderItem } from "sequelize";
+import { ERuleOrderBy } from "src/enums/rule.enum";
 import { v4 as uuidv4 } from "uuid";
 import * as XLSX from "xlsx";
 import z from "zod";
@@ -147,16 +149,26 @@ export const incentiveController = {
   },
   getRuleBook: async (req: Request, res: Response) => {
     try {
-      const params = getGameRuleSchema.parse(req.query);
+      const { appId, direction, orderBy } = getGameRuleSchema.parse(req.query);
+      const order: OrderItem[] = [];
+
+      //* filter
+      switch (orderBy) {
+        case ERuleOrderBy.FileName:
+          order.push(["fileName", direction]);
+        case ERuleOrderBy.UpdatedAt:
+          order.push(["updatedAt", direction]);
+      }
 
       const result = await RuleBookModel.findAll({
-        where: { appMasterId: params.appId },
+        where: { appMasterId: appId },
         include: [
           {
             model: GameModel,
             as: "games",
           },
         ],
+        order,
       });
 
       return customResponse(res, 200, { rules: result });
