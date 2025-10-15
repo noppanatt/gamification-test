@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import { OrderItem } from "sequelize";
 import { ERuleOrderBy } from "src/enums/rule.enum";
 import { v4 as uuidv4 } from "uuid";
-import * as XLSX from "xlsx";
 import z from "zod";
 import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
@@ -31,46 +30,46 @@ import {
 import { getUserPointSchema, updateRewardSchema } from "../validation/user";
 
 export const incentiveController = {
-  uploadFile: async (req: Request, res: Response) => {
-    try {
-      console.log("CT:", req.headers["content-type"]);
-      console.log("is multipart?", req.is("multipart/form-data"));
-      console.log("body keys:", Object.keys(req.body || {}));
-      console.log("file:", !!req.file, req.file?.mimetype, req.file?.size);
+  // uploadFile: async (req: Request, res: Response) => {
+  //   try {
+  //     console.log("CT:", req.headers["content-type"]);
+  //     console.log("is multipart?", req.is("multipart/form-data"));
+  //     console.log("body keys:", Object.keys(req.body || {}));
+  //     console.log("file:", !!req.file, req.file?.mimetype, req.file?.size);
 
-      if (!req.file) {
-        return res.status(400).json({ error: "File is required" });
-      }
+  //     if (!req.file) {
+  //       return res.status(400).json({ error: "File is required" });
+  //     }
 
-      const workbook = XLSX.read(req.file.buffer, { type: "buffer" });
+  //     const workbook = XLSX.read(req.file.buffer, { type: "buffer" });
 
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
+  //     const sheetName = workbook.SheetNames[0];
+  //     const worksheet = workbook.Sheets[sheetName];
 
-      const data = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet);
-      let xlsxData;
-      if (data.length) {
-        xlsxData = data.map((row) => {
-          return Object.fromEntries(
-            Object.entries(row).map(([key, value]) => [
-              key.replace(/\s+/g, ""),
-              value,
-            ])
-          );
-        });
-      }
+  //     const data = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet);
+  //     let xlsxData;
+  //     if (data.length) {
+  //       xlsxData = data.map((row) => {
+  //         return Object.fromEntries(
+  //           Object.entries(row).map(([key, value]) => [
+  //             key.replace(/\s+/g, ""),
+  //             value,
+  //           ])
+  //         );
+  //       });
+  //     }
 
-      return customResponse(res, 200, {
-        message: "Upload OK",
-        filename: req.file.originalname,
-        size: req.file.size,
-        mimeType: req.file.mimetype,
-        data: xlsxData?.slice(0, 10),
-      });
-    } catch (error) {
-      errorResponseHandler(error, req, res);
-    }
-  },
+  //     return customResponse(res, 200, {
+  //       message: "Upload OK",
+  //       filename: req.file.originalname,
+  //       size: req.file.size,
+  //       mimeType: req.file.mimetype,
+  //       data: xlsxData?.slice(0, 10),
+  //     });
+  //   } catch (error) {
+  //     errorResponseHandler(error, req, res);
+  //   }
+  // },
   getCustomerMaster: async (req: Request, res: Response) => {
     try {
       const result = await CustomerMasterModel.findAll();
