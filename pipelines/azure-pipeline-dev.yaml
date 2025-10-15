@@ -1,0 +1,200 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  - dev # change to your branch
+
+variables:
+  containerRegistryConection: 'app-nonprd-registry'
+  imageName: 'incentive-ventures'
+  environment: 'dev'
+  pool: 'GCP-NONPRD-POOL'
+  GCP_PROJECT_ID: 'app-nonprod-project'
+  GCP_REPO: 'app-nonprod-ar'
+  updateK8sScriptFile: 'updateK8smanifest.sh'
+  containerImageRepository: 'asia-southeast1-docker.pkg.dev/$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)' #dev
+  k8sManifestRepoUrl: 'git@ssh.dev.azure.com:v3/betagro-dev/nodejs-boilerplate/nodejs-boilerplate-manifest' # add your k8s  manifest repository here (SSH approach only)
+
+# CI
+stages:
+  - stage: CodeQuality
+    displayName: 'Code Quality & Knip'
+    dependsOn: [] # Run in parallel with other stages
+    jobs:
+      - job: KnipCheck
+        displayName: 'Run Knip Analysis'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - checkout: self
+            displayName: 'Checkout source code'
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: '22.x'
+
+          - script: |
+              npm install
+            displayName: 'Install dependencies with npm'
+          - script: |
+              # Create a directory for results
+              mkdir -p knip-results
+              KNIP_OUTPUT_FILE="knip-results/knip-report.txt"
+              KNIP_SUMMARY_FILE="knip-results/summary.md"
+              KNIP_STATUS_FILE="knip-results/status.txt"
+
+              echo "Running Knip analysis..."
+              # Run Knip and output to text file, ensuring the script always exits with 0
+              # Use Knip default to text output 
+              npm run knip > "$KNIP_OUTPUT_FILE" 2>&1 || true
+              # 2>&1 redirects stderr to stdout, ensuring all Knip output goes to the file.
+
+              # --- Generate consolidated summary for Knip ---
+              echo "## Knip Analysis Results" > "$KNIP_SUMMARY_FILE"
+              echo "" >> "$KNIP_SUMMARY_FILE"
+              echo "A detailed report is available in 'knip-report.txt' artifact." >> "$KNIP_SUMMARY_FILE"
+              echo "" >> "$KNIP_SUMMARY_FILE"
+              echo "---" >> "$KNIP_SUMMARY_FILE"
+              echo "" >> "$KNIP_SUMMARY_FILE"
+
+              KNIP_ISSUES_FOUND=0
+              KNIP_SUMMARY_MESSAGE=""
+
+              if [ -f "$KNIP_OUTPUT_FILE" ]; then
+                # Count the number of lines that indicate an issue.
+                # Knip's text output typically lists each issue on a new line.
+                # We'll count lines that are not empty and not summary lines.
+                # This approach is less precise than JSON parsing but avoids 'jq'.
+                # Adjust grep pattern based on actual Knip output for issues.
+                # Example: Knip output often starts with 'files:', 'dependencies:', etc.
+                # Or simply count non-empty lines that aren't the final "No issues found" message.
+
+                # A simple heuristic: count non-empty lines, excluding specific summary/header lines
+                ISSUE_LINES=$(grep -vE '^(No issues found|Done in|files:|dependencies:|exports:|entryPoints:|devDependencies:|types:||)$' "$KNIP_OUTPUT_FILE" | wc -l)
+
+                if [ "$ISSUE_LINES" -gt 0 ]; then
+                  KNIP_ISSUES_FOUND="$ISSUE_LINES"
+                  KNIP_SUMMARY_MESSAGE="Found $ISSUE_LINES potential issues (unused files, dependencies, etc.)."
+                else
+                  KNIP_ISSUES_FOUND=0
+                  KNIP_SUMMARY_MESSAGE="No issues found."
+                fi
+
+              else
+                KNIP_SUMMARY_MESSAGE="Warning: Knip output file not found at $KNIP_OUTPUT_FILE"
+                echo "Warning: Knip output file not found at $KNIP_OUTPUT_FILE"
+              fi
+
+              echo "Summary: $KNIP_SUMMARY_MESSAGE" >> "$KNIP_SUMMARY_FILE"
+
+              # --- Overall Summary and Status (for artifact) ---
+              echo "===================="
+              echo "KNIP CHECK SUMMARY"
+              echo "===================="
+              echo "$KNIP_SUMMARY_MESSAGE" # Also print to console
+              if [ "$KNIP_ISSUES_FOUND" -eq 0 ]; then
+                echo "PASS" > "$KNIP_STATUS_FILE"
+              else
+                echo "ISSUES_FOUND" > "$KNIP_STATUS_FILE"
+              fi
+
+            displayName: 'Run Knip Checks'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Knip Results'
+            inputs:
+              pathToPublish: 'knip-results'
+              artifactName: 'knip-results'
+              publishLocation: 'Container'
+            condition: always()
+
+          - script: |
+              # Display summary in pipeline logs
+              echo "=== KNIP SUMMARY ==="
+              if [ -f "knip-results/summary.md" ]; then
+                cat knip-results/summary.md
+              fi
+              if [ -f "knip-results/status.txt" ]; then
+                STATUS=$(cat knip-results/status.txt)
+                echo "Overall Knip Status: $STATUS"
+              fi
+            displayName: 'Display Knip Summary '
+            condition: always()
+
+  # Stage: Build (Interacting with GCP starts here)
+  - stage: Build
+    displayName: Build stage
+    condition: succeeded()
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - script: |
+              echo $sourceVersion
+              commitHash=${sourceVersion:0:8}
+              echo $commitHash
+              echo "##vso[task.setvariable variable=commitHash]$commitHash"
+            env: { sourceVersion: $(Build.SourceVersion) }
+            displayName: Git Hash 8-digit
+
+          - task: Docker@2
+            displayName: build
+            inputs:
+              containerRegistry: '$(containerRegistryConection)'
+              repository: '$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+              tags: |
+                dev-latest
+                dev-$(Build.SourceVersion)
+              arguments: '--build-arg="GIT_COMMIT_SHA=$(commitHash)"'
+
+          - task: Docker@2
+            displayName: push
+            inputs:
+              containerRegistry: '$(containerRegistryConection)'
+              repository: '$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
+              command: 'push'
+              tags: dev-latest
+
+          - task: Docker@2
+            displayName: push
+            inputs:
+              containerRegistry: '$(containerRegistryConection)'
+              repository: '$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
+              command: 'push'
+              tags: dev-$(Build.SourceVersion)
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact: drop'
+
+  - stage: Update
+    displayName: Update K8s Manifests
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: UpdateManifests
+        displayName: Update K8s Manifests
+        pool:
+          name: $(pool)
+        steps:
+          - checkout: self
+            displayName: 'Checkout source code'
+
+          - task: Bash@3
+            displayName: 'Update K8s Manifest'
+            inputs:
+              targetType: 'filePath'
+              filePath: '$(System.DefaultWorkingDirectory)/$(updateK8sScriptFile)'
+              arguments: '$(environment) dev-$(Build.SourceVersion) $(containerImageRepository) $(k8sManifestRepoUrl)'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              # failOnStderr: true
+            env:
+              ENVIRONMENT: $(environment)
+              IMAGE_TAG: dev-$(Build.SourceVersion)
+              CONTAINER_REGISTRY: $(containerImageRepository)
+              K8S_MANIFEST_REPO: $(k8sManifestRepoUrl)
