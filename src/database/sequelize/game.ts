@@ -26,10 +26,12 @@ export class GameModel extends Model<
   declare page: CreationOptional<string>;
   declare durationDays: CreationOptional<number>;
   declare point: CreationOptional<number>;
+  declare multiply: CreationOptional<number>;
   declare rewardIds: CreationOptional<string>;
   declare dropOffDays: CreationOptional<string>;
   declare pushMessage: CreationOptional<string>;
   declare timeToPush: CreationOptional<Date>;
+  declare pushAmount: CreationOptional<number>;
   declare startDate: CreationOptional<Date>;
   declare endDate: CreationOptional<Date>;
   declare active: CreationOptional<Boolean>;
@@ -82,6 +84,10 @@ export function initGameModel(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      multiply: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
       rewardIds: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -96,6 +102,10 @@ export function initGameModel(sequelize: Sequelize) {
       },
       timeToPush: {
         type: DataTypes.DATE,
+        allowNull: true,
+      },
+      pushAmount: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       startDate: {
