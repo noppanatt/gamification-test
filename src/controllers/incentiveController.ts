@@ -224,9 +224,11 @@ export const incentiveController = {
           page: game?.page,
           durationDays: game?.durationDays ?? 0,
           point: game?.point ?? 0,
+          multiple: game?.multiply,
           rewardIds: game?.rewardIds,
           dropOffDays: game?.dropOffDays,
           pushMessage: game?.pushMessage ?? "",
+          pushAmount: game?.pushAmount,
           startDate: game?.startDate,
           endDate: game?.endDate,
         }));
