@@ -7,37 +7,37 @@ trigger:
   - dev # change to your branch
 
 variables:
-  containerRegistryConection: 'app-nonprd-registry'
-  imageName: 'incentive-ventures'
-  environment: 'dev'
-  pool: 'GCP-NONPRD-POOL'
-  GCP_PROJECT_ID: 'app-nonprod-project'
-  GCP_REPO: 'app-nonprod-ar'
-  updateK8sScriptFile: 'updateK8smanifest.sh'
-  containerImageRepository: 'asia-southeast1-docker.pkg.dev/$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)' #dev
-  k8sManifestRepoUrl: 'git@ssh.dev.azure.com:v3/betagro-dev/nodejs-boilerplate/nodejs-boilerplate-manifest' # add your k8s  manifest repository here (SSH approach only)
+  containerRegistryConection: "app-nonprd-registry"
+  imageName: "incentive-ventures"
+  environment: "dev"
+  pool: "GCP-NONPRD-POOL"
+  GCP_PROJECT_ID: "app-nonprod-project"
+  GCP_REPO: "app-nonprod-ar"
+  updateK8sScriptFile: "updateK8smanifest.sh"
+  containerImageRepository: "asia-southeast1-docker.pkg.dev/$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)" #dev
+  k8sManifestRepoUrl: "git@ssh.dev.azure.com:v3/betagro-dev/Ventures-Incentive/Ventures-Incentive-Manifest" # add your k8s  manifest repository here (SSH approach only)
 
 # CI
 stages:
   - stage: CodeQuality
-    displayName: 'Code Quality & Knip'
+    displayName: "Code Quality & Knip"
     dependsOn: [] # Run in parallel with other stages
     jobs:
       - job: KnipCheck
-        displayName: 'Run Knip Analysis'
+        displayName: "Run Knip Analysis"
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: "ubuntu-latest"
         steps:
           - checkout: self
-            displayName: 'Checkout source code'
+            displayName: "Checkout source code"
           - task: NodeTool@0
-            displayName: 'Install Node.js'
+            displayName: "Install Node.js"
             inputs:
-              versionSpec: '22.x'
+              versionSpec: "22.x"
 
           - script: |
               npm install
-            displayName: 'Install dependencies with npm'
+            displayName: "Install dependencies with npm"
           - script: |
               # Create a directory for results
               mkdir -p knip-results
@@ -100,14 +100,14 @@ stages:
                 echo "ISSUES_FOUND" > "$KNIP_STATUS_FILE"
               fi
 
-            displayName: 'Run Knip Checks'
+            displayName: "Run Knip Checks"
 
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Knip Results'
+            displayName: "Publish Knip Results"
             inputs:
-              pathToPublish: 'knip-results'
-              artifactName: 'knip-results'
-              publishLocation: 'Container'
+              pathToPublish: "knip-results"
+              artifactName: "knip-results"
+              publishLocation: "Container"
             condition: always()
 
           - script: |
@@ -120,7 +120,7 @@ stages:
                 STATUS=$(cat knip-results/status.txt)
                 echo "Overall Knip Status: $STATUS"
               fi
-            displayName: 'Display Knip Summary '
+            displayName: "Display Knip Summary "
             condition: always()
 
   # Stage: Build (Interacting with GCP starts here)
@@ -131,7 +131,7 @@ stages:
       - job: Build
         displayName: Build
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: "ubuntu-latest"
         steps:
           - script: |
               echo $sourceVersion
@@ -144,10 +144,10 @@ stages:
           - task: Docker@2
             displayName: build
             inputs:
-              containerRegistry: '$(containerRegistryConection)'
-              repository: '$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
-              command: 'build'
-              Dockerfile: '**/Dockerfile'
+              containerRegistry: "$(containerRegistryConection)"
+              repository: "$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)"
+              command: "build"
+              Dockerfile: "**/Dockerfile"
               tags: |
                 dev-latest
                 dev-$(Build.SourceVersion)
@@ -156,21 +156,21 @@ stages:
           - task: Docker@2
             displayName: push
             inputs:
-              containerRegistry: '$(containerRegistryConection)'
-              repository: '$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
-              command: 'push'
+              containerRegistry: "$(containerRegistryConection)"
+              repository: "$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)"
+              command: "push"
               tags: dev-latest
 
           - task: Docker@2
             displayName: push
             inputs:
-              containerRegistry: '$(containerRegistryConection)'
-              repository: '$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
-              command: 'push'
+              containerRegistry: "$(containerRegistryConection)"
+              repository: "$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)"
+              command: "push"
               tags: dev-$(Build.SourceVersion)
 
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Artifact: drop'
+            displayName: "Publish Artifact: drop"
 
   - stage: Update
     displayName: Update K8s Manifests
@@ -183,15 +183,15 @@ stages:
           name: $(pool)
         steps:
           - checkout: self
-            displayName: 'Checkout source code'
+            displayName: "Checkout source code"
 
           - task: Bash@3
-            displayName: 'Update K8s Manifest'
+            displayName: "Update K8s Manifest"
             inputs:
-              targetType: 'filePath'
-              filePath: '$(System.DefaultWorkingDirectory)/$(updateK8sScriptFile)'
-              arguments: '$(environment) dev-$(Build.SourceVersion) $(containerImageRepository) $(k8sManifestRepoUrl)'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              targetType: "filePath"
+              filePath: "$(System.DefaultWorkingDirectory)/$(updateK8sScriptFile)"
+              arguments: "$(environment) dev-$(Build.SourceVersion) $(containerImageRepository) $(k8sManifestRepoUrl)"
+              workingDirectory: "$(System.DefaultWorkingDirectory)"
               # failOnStderr: true
             env:
               ENVIRONMENT: $(environment)

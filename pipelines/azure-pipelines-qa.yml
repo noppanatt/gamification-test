@@ -7,25 +7,25 @@ trigger:
   - qa # change to your branch
 
 variables:
-  containerRegistryConection: 'app-nonprd-registry'
-  imageName: 'incentive-ventures'
-  pool: 'GCP-NONPRD-POOL'
-  environment: 'qa'
-  GCP_PROJECT_ID: 'app-nonprod-project'
-  GCP_REPO: 'app-nonprod-ar'
-  updateK8sScriptFile: 'updateK8smanifest.sh'
-  k8sManifestRepoUrl: 'git@ssh.dev.azure.com:v3/betagro-dev/nodejs-boilerplate/nodejs-boilerplate-manifest' # add your k8s  manifest repository here (SSH approach only)
-  containerImageRepository: 'asia-southeast1-docker.pkg.dev/$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)'
+  containerRegistryConection: "app-nonprd-registry"
+  imageName: "incentive-ventures"
+  pool: "GCP-NONPRD-POOL"
+  environment: "qa"
+  GCP_PROJECT_ID: "app-nonprod-project"
+  GCP_REPO: "app-nonprod-ar"
+  updateK8sScriptFile: "updateK8smanifest.sh"
+  k8sManifestRepoUrl: "git@ssh.dev.azure.com:v3/betagro-dev/Ventures-Incentive/Ventures-Incentive-Manifest" # add your k8s  manifest repository here (SSH approach only)
+  containerImageRepository: "asia-southeast1-docker.pkg.dev/$(GCP_PROJECT_ID)/$(GCP_REPO)/$(imageName)"
   #Jmeter variable | Only compatible with one test plan
-  jmeterVersion: '5.6.2'
-  jmeterPluginsManagerVersion: '1.10'
-  testPlan: 'ADFM-LoadTest.jmx' #Change this accordingly to load test name, Declare more test plans if needed
-  resultsDir: '$(Build.ArtifactStagingDirectory)/jmeter-results'
-  reportDir: '$(Build.ArtifactStagingDirectory)/jmeter-report'
+  jmeterVersion: "5.6.2"
+  jmeterPluginsManagerVersion: "1.10"
+  testPlan: "ADFM-LoadTest.jmx" #Change this accordingly to load test name, Declare more test plans if needed
+  resultsDir: "$(Build.ArtifactStagingDirectory)/jmeter-results"
+  reportDir: "$(Build.ArtifactStagingDirectory)/jmeter-report"
   # Build configuration
-  nodeVersion: '18.x'
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
-  bearerToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJwcmV2VXNlcklkIjpudWxsLCJwYXJlbnRJZCI6bnVsbCwicHJldlJvbGVJZCI6IkwxIiwicm9sZUlkIjoiTDEiLCJlbWFpbCI6ImwxQGV4YW1wbGUuY29tIiwicGhvbmUiOiIwODg4ODg4ODg4IiwiZmFybUlkIjpudWxsLCJmYXJtVHlwZUlkIjpudWxsLCJmYXJtVHlwZSI6bnVsbCwic3ViRmFybVR5cGVJZCI6bnVsbCwic3ViRmFybVR5cGUiOm51bGwsImZhbWlseUNvZGUiOm51bGwsInVzZXJUeXBlIjoiUEVSU09OQUwiLCJjcmVhdGVkQnlJZCI6MTYsInVwZGF0ZWRCeUlkIjoxNiwiZGVsZXRlZEJ5SWQiOjE2LCJpYXQiOjE3NTAyMjgxNDksImV4cCI6MTc1MDIzODk0OX0.iO1c72UWhfLaVSBFUJXXAmvLwGAkkDKvmH8fK2uytYs'
+  nodeVersion: "18.x"
+  workingDirectory: "$(System.DefaultWorkingDirectory)"
+  bearerToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJwcmV2VXNlcklkIjpudWxsLCJwYXJlbnRJZCI6bnVsbCwicHJldlJvbGVJZCI6IkwxIiwicm9sZUlkIjoiTDEiLCJlbWFpbCI6ImwxQGV4YW1wbGUuY29tIiwicGhvbmUiOiIwODg4ODg4ODg4IiwiZmFybUlkIjpudWxsLCJmYXJtVHlwZUlkIjpudWxsLCJmYXJtVHlwZSI6bnVsbCwic3ViRmFybVR5cGVJZCI6bnVsbCwic3ViRmFybVR5cGUiOm51bGwsImZhbWlseUNvZGUiOm51bGwsInVzZXJUeXBlIjoiUEVSU09OQUwiLCJjcmVhdGVkQnlJZCI6MTYsInVwZGF0ZWRCeUlkIjoxNiwiZGVsZXRlZEJ5SWQiOjE2LCJpYXQiOjE3NTAyMjgxNDksImV4cCI6MTc1MDIzODk0OX0.iO1c72UWhfLaVSBFUJXXAmvLwGAkkDKvmH8fK2uytYs"
   #The structure for token injection are as followed
   #a user defined variable 'token' contains the Bearer token without the word Bearer.
   #'token' is then called in the HTTPS header config.
@@ -387,7 +387,7 @@ stages:
       - job: Build
         displayName: Build
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: "ubuntu-latest"
 
         steps:
           - script: |
@@ -402,7 +402,7 @@ stages:
             displayName: Login to Dev ACR
             inputs:
               command: login
-              containerRegistry: '$(containerRegistryConection)'
+              containerRegistry: "$(containerRegistryConection)"
 
           - task: Bash@3
             displayName: Import Docker image from DEV ACR to QA ACR
@@ -420,7 +420,7 @@ stages:
                 docker push $(containerImageRepository):qa-$(Build.SourceVersion)
 
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Artifact: drop'
+            displayName: "Publish Artifact: drop"
 
   #CD
   - stage: Update
@@ -434,19 +434,18 @@ stages:
           name: $(pool)
         steps:
           - checkout: self
-            displayName: 'Checkout source code'
+            displayName: "Checkout source code"
 
           - task: Bash@3
-            displayName: 'Update K8s Manifest'
+            displayName: "Update K8s Manifest"
             inputs:
-              targetType: 'filePath'
-              filePath: '$(System.DefaultWorkingDirectory)/$(updateK8sScriptFile)'
-              arguments: '$(environment) $(environment)-$(Build.SourceVersion) $(containerImageRepository) $(k8sManifestRepoUrl)'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              targetType: "filePath"
+              filePath: "$(System.DefaultWorkingDirectory)/$(updateK8sScriptFile)"
+              arguments: "$(environment) $(environment)-$(Build.SourceVersion) $(containerImageRepository) $(k8sManifestRepoUrl)"
+              workingDirectory: "$(System.DefaultWorkingDirectory)"
               # failOnStderr: true
             env:
               ENVIRONMENT: $(environment)
               IMAGE_TAG: $(environment)-$(Build.SourceVersion)
               CONTAINER_REGISTRY: $(containerImageRepository)
               K8S_MANIFEST_REPO: $(k8sManifestRepoUrl)
-
