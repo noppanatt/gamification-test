@@ -45,7 +45,7 @@ cd /tmp/temp_repo || {
   exit 1
 }
 
-cd kube || {
+cd kube/backend || {
   echo "Error: 'kube' directory not found"
   exit 1
 }
