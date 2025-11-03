@@ -9,4 +9,12 @@ export const incentiveService = {
         { model: AppMasterModel, as: "appMaster", attributes: ["id", "name"] },
       ],
     }),
+
+  getAllUserPoint: async (appMasterId: number) =>
+    await UserModel.findAll({
+      where: { appMasterId },
+      include: [
+        { model: AppMasterModel, as: "appMaster", attributes: ["id", "name"] },
+      ],
+    }),
 };

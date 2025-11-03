@@ -62,6 +62,8 @@ export function setupRoutes(app: Express) {
   //* Point
   router.get("/point", incentiveController.getUserPointByUserId);
 
+  router.get("/point/all", incentiveController.getAllUserPoint);
+
   router.put("/point/:referenceId", incentiveController.updateUserPoint);
 
   app.use("/incentive", router);

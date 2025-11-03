@@ -27,7 +27,11 @@ import {
   editGameRuleSchema,
   getGameRuleSchema,
 } from "../validation/rulebook";
-import { getUserPointSchema, updateRewardSchema } from "../validation/user";
+import {
+  getAllUserPointSchema,
+  getUserPointSchema,
+  updateRewardSchema,
+} from "../validation/user";
 
 export const incentiveController = {
   // uploadFile: async (req: Request, res: Response) => {
@@ -629,6 +633,16 @@ export const incentiveController = {
         points: user.points,
         app: user.appMaster.name,
       };
+
+      return customResponse(res, HttpStatusCode.Ok, { result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  getAllUserPoint: async (req: Request, res: Response) => {
+    try {
+      const { appMasterId } = getAllUserPointSchema.parse(req.query);
+      const result = await incentiveService.getAllUserPoint(appMasterId);
 
       return customResponse(res, HttpStatusCode.Ok, { result });
     } catch (error) {
