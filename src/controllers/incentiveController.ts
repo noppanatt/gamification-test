@@ -8,7 +8,6 @@ import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
-import { RedeemModel } from "../database/sequelize/redeem";
 import { RewardModel } from "../database/sequelize/reward";
 import { RewardFileModel } from "../database/sequelize/rewardFile";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
@@ -788,34 +787,7 @@ export const incentiveController = {
       }
 
       //* redemption
-      await sequelize.transaction(async (transaction) => {
-        //* create redeem
-        await RedeemModel.create(
-          {
-            name: body.name,
-            phoneNumber: body.phoneNumber,
-            email: body?.email,
-            address: body.address,
-            unit: body.unit,
-            redemptionPoints: reward.points,
-            rewardId: reward.id,
-            appMasterId: body.appMasterId,
-            shippingAddressId: body?.shippingAddressId,
-            userId: user.id,
-          },
-          { transaction }
-        );
-
-        //* deduct balance points
-        await UserModel.decrement("points", {
-          by: reward.points,
-          where: {
-            id: user.id,
-            appMasterId: body.appMasterId,
-          },
-          transaction,
-        });
-      });
+      await incentiveService.redeemReward(body, reward, user);
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Reward redeemed successfully.",
