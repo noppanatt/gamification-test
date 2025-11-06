@@ -126,7 +126,7 @@ export const incentiveController = {
         rewardIds: r.rewardId,
         dropOffDays: r.dropOffDays != null ? String(r.dropOffDays) : null,
         pushMessage: r.pushMessage ?? null,
-        timeToPush: r.timeToPush ? new Date(r.timeToPush) : null,
+        timeToPush: r.timeToPush ?? null,
         pushAmount: r.pushAmount ?? null,
         startDate: r?.startDate ? new Date(r.startDate) : null,
         endDate: r?.endDate ? new Date(r.endDate) : null,
