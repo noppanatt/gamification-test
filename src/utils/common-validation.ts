@@ -8,7 +8,11 @@ const validPositiveNumber = () =>
   z.preprocess((val) => (val ? val : undefined), z.coerce.number().positive());
 
 const validPositiveNumberWithZero = () =>
-  z.preprocess((val) => (val ? val : undefined), z.coerce.number().min(0));
+  z.preprocess(
+    (val) =>
+      val === "" || val === null || val === undefined ? undefined : val,
+    z.coerce.number().min(0)
+  );
 
 const validOptionalPositiveNumber = () =>
   z.preprocess(
