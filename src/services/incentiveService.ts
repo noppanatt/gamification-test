@@ -139,9 +139,9 @@ export const incentiveService = {
       subject: "Reward Redemption Notification",
       to: [
         "noppanat.b@codemonday.com",
-        "ThipwipaN@betagro.com",
+        // "ThipwipaN@betagro.com",
         "nassaroon.b@codemonday.com",
-        "thodsapon.s@codemonday.com",
+        "thodsaphon.s@codemonday.com",
       ],
       sender: {
         name: "Retail Web Stockmovement",
@@ -149,7 +149,7 @@ export const incentiveService = {
       },
       cc: [
         "nassaroon.b@codemonday.com",
-        "thodsapon.s@codemonday.com",
+        "thodsaphon.s@codemonday.com",
         "noppanat.b@codemonday.com",
       ],
     };
