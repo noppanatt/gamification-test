@@ -77,7 +77,11 @@ export const incentiveService = {
     const emailData: TEmailData = {
       html: htmlFormat,
       subject: "Reward Redemption Notification",
-      to: ["ThipwipaN@betagro.com"],
+      to: [
+        "ThipwipaN@betagro.com",
+        "nassaroon.b@codemonday.com",
+        "thodsapon.s@codemonday.com",
+      ],
       sender: {
         name: "Retail Web Stockmovement",
         email: "smtp_stockmovement@betagro.com",
