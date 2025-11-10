@@ -46,17 +46,6 @@ export const sendEmail = async (emailData: TEmailData): Promise<TEmailRes> => {
       },
     });
 
-    //TODO REMOVE MOCK
-    // const emailData = {
-    //   to: ["noppanat.b@codemonday.com"],
-    //   subject: "Reward Redemption Notification",
-    //   html: htmlFormat,
-    //   sender: {
-    //     name: "Retail Web Stockmovement",
-    //     email: "smtp_stockmovement@betagro.com",
-    //   },
-    // };
-
     // 2. กำหนด sender (แสดงชื่อที่ต้องการ แต่ใช้ email ที่ authenticate)
     const displayName = emailData.sender?.name || DEFAULT_SENDER_NAME;
     const authenticatedEmail = SMTP_EMAIL!; // email ที่ authenticate แล้ว

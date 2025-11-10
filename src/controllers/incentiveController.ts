@@ -787,10 +787,15 @@ export const incentiveController = {
       }
 
       //* redemption
-      await incentiveService.redeemReward(body, reward, user);
+      const { formUrl } = await incentiveService.redeemReward(
+        body,
+        reward,
+        user
+      );
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Reward redeemed successfully.",
+        formUrl,
       });
     } catch (error) {
       errorResponseHandler(error, req, res);
