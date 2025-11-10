@@ -59,7 +59,7 @@ export const sendEmail = async (emailData: TEmailData): Promise<TEmailRes> => {
 
     // 2. กำหนด sender (แสดงชื่อที่ต้องการ แต่ใช้ email ที่ authenticate)
     const displayName = emailData.sender?.name || DEFAULT_SENDER_NAME;
-    const authenticatedEmail = SMTP_USER!; // email ที่ authenticate แล้ว
+    const authenticatedEmail = SMTP_EMAIL!; // email ที่ authenticate แล้ว
     const replyToEmail = emailData.sender?.email || authenticatedEmail;
 
     const mailOptions: MailOptions = {
