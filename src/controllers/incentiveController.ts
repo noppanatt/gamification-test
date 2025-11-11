@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
+import { AppMasterModel } from "../database/sequelize/appMaster";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
 import { RewardModel } from "../database/sequelize/reward";
@@ -238,7 +239,7 @@ export const incentiveController = {
 
         console.log("Update to FARMSOOK with new status:", !!rule.active);
         await axios.post(
-          "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
+          "https://uat.farmsookbyfarmtech.com/api/games/update-rules",
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
@@ -621,17 +622,38 @@ export const incentiveController = {
         appMasterId
       );
 
+      const result = {
+        userId: "",
+        points: 0,
+        app: "",
+      };
+
       if (!user) {
-        return customResponse(res, HttpStatusCode.NotFound, {
-          message: `userId: ${referenceId} was not found.`,
+        const userNew = await UserModel.create({
+          referenceId,
+          appMasterId: appMasterId,
         });
+
+        await userNew.reload({
+          include: [
+            {
+              model: AppMasterModel,
+              as: "appMaster",
+              attributes: ["id", "name"],
+            },
+          ],
+        });
+
+        result.userId = userNew.id;
+        result.points = userNew.points;
+        result.app = userNew.appMaster.name;
+
+        return customResponse(res, HttpStatusCode.Ok, { result });
       }
 
-      const result = {
-        userId: user.id,
-        points: user.points,
-        app: user.appMaster.name,
-      };
+      result.userId = user.id;
+      result.points = user.points;
+      result.app = user.appMaster.name;
 
       return customResponse(res, HttpStatusCode.Ok, { result });
     } catch (error) {
