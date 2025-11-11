@@ -108,6 +108,9 @@ export const incentiveService = {
           const formattedStartTime = dateTimeToString(today);
           urlParams.append(FORM_FIELDS.startTime, formattedStartTime);
           break;
+        case EFormField.rewardId:
+          urlParams.append(FORM_FIELDS.rewardId, reward.name);
+          break;
         default:
           const fieldId =
             FORM_FIELDS[data.fieldName as keyof typeof FORM_FIELDS];
