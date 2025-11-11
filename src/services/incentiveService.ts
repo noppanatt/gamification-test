@@ -139,7 +139,7 @@ export const incentiveService = {
       subject: "Reward Redemption Notification",
       to: [
         "noppanat.b@codemonday.com",
-        // "ThipwipaN@betagro.com",
+        "ThipwipaN@betagro.com",
         "nassaroon.b@codemonday.com",
         "thodsaphon.s@codemonday.com",
       ],
