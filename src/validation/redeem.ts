@@ -18,4 +18,7 @@ export const RedeemSchema = z.object({
   appMasterId: validPositiveNumber(),
 });
 
+export const GetRedeemSchema = z.object({ appMasterId: validPositiveNumber() });
+
 export type TRedeemSchema = z.infer<typeof RedeemSchema>;
+export type TGetRedeem = z.infer<typeof GetRedeemSchema>;

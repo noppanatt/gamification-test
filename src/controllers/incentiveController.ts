@@ -9,6 +9,7 @@ import sequelize from "../database/index";
 import { AppMasterModel } from "../database/sequelize/appMaster";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
+import { RedeemModel } from "../database/sequelize/redeem";
 import { RewardModel } from "../database/sequelize/reward";
 import { RewardFileModel } from "../database/sequelize/rewardFile";
 import { RuleBookModel } from "../database/sequelize/ruleBook";
@@ -19,7 +20,7 @@ import { rewardService } from "../services/rewardService";
 import { getPresignedUrl } from "../utils/azure-blob";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
-import { RedeemSchema } from "../validation/redeem";
+import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
 import {
   CreateGameRuleBody,
@@ -765,6 +766,41 @@ export const incentiveController = {
       errorResponseHandler(error, req, res);
     }
   },
+  getRedeemList: async (req: Request, res: Response) => {
+    try {
+      const { appMasterId } = GetRedeemSchema.parse(req.body);
+
+      const result = await RedeemModel.findAll({
+        where: {
+          appMasterId,
+        },
+        attributes: [
+          "id",
+          "unit",
+          "redemptionPoints",
+          "name",
+          "phoneNumber",
+          "email",
+          "address",
+          "shippingAddressId",
+          "createdAt",
+          "rewardId",
+        ],
+        include: [
+          {
+            model: RewardModel,
+            as: "reward",
+            attributes: ["id", "rewardId", "name", "points"],
+            paranoid: false,
+          },
+        ],
+      });
+
+      return customResponse(res, HttpStatusCode.Ok, { redeems: result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
   redeemReward: async (req: Request, res: Response) => {
     try {
       //* parse
@@ -780,11 +816,9 @@ export const incentiveController = {
       });
 
       if (!user) {
-        if (!user) {
-          return customResponse(res, HttpStatusCode.NotFound, {
-            message: `userId: ${referenceId} was not found.`,
-          });
-        }
+        return customResponse(res, HttpStatusCode.NotFound, {
+          message: `userId: ${referenceId} was not found.`,
+        });
       }
 
       //* check rewardId exist
