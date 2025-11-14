@@ -3,7 +3,7 @@ import ejs from "ejs";
 import { Request, Response } from "express";
 import * as fs from "fs";
 import path from "path";
-import { Op, OrderItem } from "sequelize";
+import { Op, OrderItem, WhereOptions } from "sequelize";
 import { ERuleOrderBy } from "src/enums/rule.enum";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
@@ -19,6 +19,7 @@ import { UserModel } from "../database/sequelize/user";
 import { EUpdatePointMethod } from "../enums/update-point.enum";
 import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
+import { calculateOffset } from "../utils/common";
 import {
   dateTimeToString,
   dateToStringDDMMYYHHMM,
@@ -777,12 +778,39 @@ export const incentiveController = {
   },
   getRedeemList: async (req: Request, res: Response) => {
     try {
-      const { appMasterId } = GetRedeemSchema.parse(req.query);
+      const {
+        appMasterId,
+        direction,
+        limit,
+        orderBy,
+        page,
+        searchText,
+        startDate,
+        endDate,
+      } = GetRedeemSchema.parse(req.query);
+
+      const order: OrderItem[] = [["createdAt", direction]];
+      const where = {
+        [Op.and]: [{ appMasterId }] as WhereOptions<RedeemModel>[],
+      };
+
+      if (searchText) {
+        where[Op.and].push([
+          {
+            registrationId: { [Op.iLike]: `%${searchText}%` },
+          },
+        ]);
+      }
+
+      if (startDate) {
+        where[Op.and].push({ createdAt: { [Op.gte]: startDate } });
+      }
+
+      if (endDate) {
+        where[Op.and].push({ createdAt: { [Op.lte]: endDate } });
+      }
 
       const result = await RedeemModel.findAll({
-        where: {
-          appMasterId,
-        },
         attributes: [
           "id",
           "unit",
@@ -803,6 +831,10 @@ export const incentiveController = {
             paranoid: false,
           },
         ],
+        where,
+        offset: calculateOffset(page, limit),
+        limit,
+        order,
       });
 
       return customResponse(res, HttpStatusCode.Ok, { redeems: result });
