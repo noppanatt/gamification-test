@@ -777,7 +777,7 @@ export const incentiveController = {
   },
   getRedeemList: async (req: Request, res: Response) => {
     try {
-      const { appMasterId } = GetRedeemSchema.parse(req.body);
+      const { appMasterId } = GetRedeemSchema.parse(req.query);
 
       const result = await RedeemModel.findAll({
         where: {
