@@ -17,8 +17,8 @@ import { EUpdatePointMethod } from "../enums/update-point.enum";
 import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
 
-import gcpService from "@utils/google-cloud";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
+import gcpService from "../utils/google-cloud";
 import customResponse from "../utils/response";
 import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";

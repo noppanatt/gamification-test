@@ -1,5 +1,5 @@
-import gcpService from "@utils/google-cloud";
 import { generateUUID } from "../utils/common";
+import gcpService from "../utils/google-cloud";
 
 export const rewardService = {
   generateRewardBlobPath: (fileId: string) => {
