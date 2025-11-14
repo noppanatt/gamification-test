@@ -25,7 +25,6 @@ const gcpService = {
       version: "v4",
       action,
       expires: Date.now() + expires,
-      contentType: action === "write" ? "application/octet-stream" : undefined,
     });
 
     return url;
