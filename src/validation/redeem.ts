@@ -9,6 +9,7 @@ import {
 
 export const RedeemSchema = z.object({
   name: z.string(),
+  registrationId: validOptionalString(),
   phoneNumber: validPhoneNumber(),
   email: validOptionalEmail(),
   address: z.string(),

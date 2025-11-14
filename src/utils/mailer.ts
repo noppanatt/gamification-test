@@ -16,6 +16,11 @@ export type TEmailData = {
     name: string;
     email: string;
   };
+  attachments?: {
+    filename: string;
+    content: Buffer;
+    contentType: string;
+  }[];
   cc?: string[];
 };
 
@@ -57,6 +62,7 @@ export const sendEmail = async (emailData: TEmailData): Promise<TEmailRes> => {
       replyTo: replyToEmail,
       to: Array.isArray(emailData.to) ? emailData.to.join(", ") : emailData.to,
       html: emailData.html,
+      attachments: emailData.attachments,
     };
 
     const result = await transporter.sendMail(mailOptions);

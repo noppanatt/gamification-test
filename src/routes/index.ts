@@ -67,5 +67,7 @@ export function setupRoutes(app: Express) {
 
   router.put("/point/:referenceId", incentiveController.updateUserPoint);
 
+  router.get("/cron", incentiveController.generateDailyRedeemAndSendEmail);
+
   app.use("/incentive", router);
 }

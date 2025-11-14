@@ -1,6 +1,9 @@
 import axios, { HttpStatusCode } from "axios";
+import ejs from "ejs";
 import { Request, Response } from "express";
-import { OrderItem } from "sequelize";
+import * as fs from "fs";
+import path from "path";
+import { Op, OrderItem } from "sequelize";
 import { ERuleOrderBy } from "src/enums/rule.enum";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
@@ -16,9 +19,15 @@ import { UserModel } from "../database/sequelize/user";
 import { EUpdatePointMethod } from "../enums/update-point.enum";
 import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
-
+import {
+  dateTimeToString,
+  dateToStringDDMMYYHHMM,
+  dateToStringDDMMYYYY,
+  dateWithoutTime,
+} from "../utils/date";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import gcpService from "../utils/google-cloud";
+import { sendEmail, TEmailData } from "../utils/mailer";
 import customResponse from "../utils/response";
 import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
@@ -86,7 +95,7 @@ export const incentiveController = {
   },
   createGameRule: async (
     req: Request<any, any, CreateGameRuleBody>,
-    res: Response,
+    res: Response
   ) => {
     const transaction = await sequelize.transaction();
     try {
@@ -110,7 +119,7 @@ export const incentiveController = {
         ruleBookPayload as unknown as RuleBookModel,
         {
           transaction,
-        },
+        }
       );
 
       const gamesPayload = parsed.data.map((r) => ({
@@ -208,13 +217,13 @@ export const incentiveController = {
       //* Toggle off all rule
       await RuleBookModel.update(
         { active: false },
-        { where: { appMasterId: rule.appMasterId, active: true }, transaction },
+        { where: { appMasterId: rule.appMasterId, active: true }, transaction }
       );
 
       //* Toggle on rule
       await RuleBookModel.update(
         { active: !rule.active },
-        { where: { id: rule.id, appMasterId: rule.appMasterId }, transaction },
+        { where: { id: rule.id, appMasterId: rule.appMasterId }, transaction }
       );
 
       //* use update back to FARMSOOK
@@ -244,7 +253,7 @@ export const incentiveController = {
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
-          },
+          }
         );
       } catch (error: any) {
         console.log({ error });
@@ -343,7 +352,7 @@ export const incentiveController = {
       const generatedBlobName = rewardService.generateRewardBlobPath(fileId);
       const blobUrl = await gcpService.getPreSignedURL(
         "read",
-        generatedBlobName,
+        generatedBlobName
       );
 
       return customResponse(res, 200, { blobObject: { blobUrl } });
@@ -368,7 +377,7 @@ export const incentiveController = {
         },
         {
           transaction,
-        },
+        }
       );
 
       await RewardFileModel.create(
@@ -379,7 +388,7 @@ export const incentiveController = {
         },
         {
           transaction,
-        },
+        }
       );
       await transaction.commit();
       return customResponse(res, 201);
@@ -444,11 +453,11 @@ export const incentiveController = {
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
         },
-        { where: { id: reward.id }, transaction },
+        { where: { id: reward.id }, transaction }
       );
 
       const fileIdExist = reward.rewardFiles.find(
-        (file) => file.id === parsed.fileId,
+        (file) => file.id === parsed.fileId
       );
 
       if (reward.rewardFiles.length === 0 && !fileIdExist) {
@@ -458,7 +467,7 @@ export const incentiveController = {
             fileOriginalName: parsed.fileOriginalName,
             rewardId: params.rewardId,
           },
-          { transaction },
+          { transaction }
         );
       }
 
@@ -478,7 +487,7 @@ export const incentiveController = {
             fileOriginalName: parsed.fileOriginalName,
             rewardId: params.rewardId,
           },
-          { transaction },
+          { transaction }
         );
       }
 
@@ -573,7 +582,7 @@ export const incentiveController = {
 
       await RewardModel.update(
         { active: !reward.active, isDraft: false },
-        { where: { id: reward.id }, transaction },
+        { where: { id: reward.id }, transaction }
       );
 
       await transaction.commit();
@@ -620,7 +629,7 @@ export const incentiveController = {
 
       const user = await incentiveService.getUserByReferenceId(
         referenceId,
-        appMasterId,
+        appMasterId
       );
 
       const result = {
@@ -693,7 +702,7 @@ export const incentiveController = {
                   referenceId,
                   appMasterId: parsed.appMasterId,
                 },
-                { transaction },
+                { transaction }
               );
 
               await UserModel.increment("points", {
@@ -756,7 +765,7 @@ export const incentiveController = {
             code: HttpStatusCode.Ok,
             message: "Successfully added points.",
           };
-        },
+        }
       );
 
       return customResponse(res, code, {
@@ -843,15 +852,100 @@ export const incentiveController = {
       }
 
       //* redemption
-      const { formUrl } = await incentiveService.redeemReward(
-        body,
-        reward,
-        user,
-      );
+      await incentiveService.redeemReward(body, reward, user);
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Reward redeemed successfully.",
-        formUrl,
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  generateDailyRedeemAndSendEmail: async (req: Request, res: Response) => {
+    try {
+      const today = new Date();
+      const todayWithoutTime = dateWithoutTime(today);
+      const yesterday = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() - 1
+      );
+
+      const yesterDayRedeemList = await RedeemModel.findAll({
+        where: {
+          createdAt: { [Op.gte]: yesterday, [Op.lte]: todayWithoutTime },
+        },
+        include: [
+          {
+            model: RewardModel,
+            as: "reward",
+            attributes: ["id", "name"],
+          },
+        ],
+      });
+      const rows: any[] = [];
+      yesterDayRedeemList.map((row) => {
+        const sheetRow = {
+          ["Customer Id"]: row?.registrationId ?? "",
+          ["Date"]: dateToStringDDMMYYYY(row.createdAt),
+          ["Start Time"]: dateTimeToString(row.createdAt),
+          ["Completed Time"]: dateToStringDDMMYYHHMM(row?.completedDate),
+          ["Full Name"]: row?.name ?? "",
+          ["Phone Number"]: row?.phoneNumber ?? "",
+          ["Email"]: row?.email ?? "",
+          ["Address Information"]: row?.address ?? "",
+          ["Redeem Reward"]: row?.reward?.name ?? "",
+          ["Unit"]: row.unit ?? "",
+        };
+
+        rows.push(sheetRow);
+      });
+
+      const { buffer, fileName } =
+        await incentiveService.generateDailyRedeemSheetBuffer(rows, yesterday);
+
+      const templatePath = path.join(
+        __dirname,
+        "..",
+        "emails",
+        "reward-redemption.ejs"
+      );
+
+      const html = fs.readFileSync(templatePath, "utf-8");
+      const htmlFormat = ejs.render(html, {});
+
+      const emailData: TEmailData = {
+        html: htmlFormat,
+        subject: "Reward Redemption Notification",
+        to: [
+          "noppanat.b@codemonday.com",
+          // "ThipwipaN@betagro.com",
+          "nassaroon.b@codemonday.com",
+          "thodsaphon.s@codemonday.com",
+        ],
+        sender: {
+          name: "Retail Web Stockmovement",
+          email: "smtp_stockmovement@betagro.com",
+        },
+        cc: [
+          "nassaroon.b@codemonday.com",
+          "thodsaphon.s@codemonday.com",
+          "noppanat.b@codemonday.com",
+        ],
+        attachments: [
+          {
+            filename: fileName,
+            content: buffer,
+            contentType:
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          },
+        ],
+      };
+
+      await sendEmail(emailData);
+
+      return customResponse(res, HttpStatusCode.Created, {
+        message: "Send email successfully.",
       });
     } catch (error) {
       errorResponseHandler(error, req, res);
