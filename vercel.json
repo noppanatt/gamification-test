@@ -15,7 +15,7 @@
     "crons": [
         {
             "path": "/incentive/cron",
-            "schedule": "*/5 * * * *"
+            "schedule": "* 01 * * *"
         }
     ]
 }
