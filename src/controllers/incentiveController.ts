@@ -4,7 +4,6 @@ import { OrderItem } from "sequelize";
 import { ERuleOrderBy } from "src/enums/rule.enum";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
-import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
 import { AppMasterModel } from "../database/sequelize/appMaster";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
@@ -17,7 +16,8 @@ import { UserModel } from "../database/sequelize/user";
 import { EUpdatePointMethod } from "../enums/update-point.enum";
 import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
-import { getPresignedUrl } from "../utils/azure-blob";
+
+import gcpService from "@utils/google-cloud";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import customResponse from "../utils/response";
 import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
@@ -86,7 +86,7 @@ export const incentiveController = {
   },
   createGameRule: async (
     req: Request<any, any, CreateGameRuleBody>,
-    res: Response
+    res: Response,
   ) => {
     const transaction = await sequelize.transaction();
     try {
@@ -110,7 +110,7 @@ export const incentiveController = {
         ruleBookPayload as unknown as RuleBookModel,
         {
           transaction,
-        }
+        },
       );
 
       const gamesPayload = parsed.data.map((r) => ({
@@ -208,13 +208,13 @@ export const incentiveController = {
       //* Toggle off all rule
       await RuleBookModel.update(
         { active: false },
-        { where: { appMasterId: rule.appMasterId, active: true }, transaction }
+        { where: { appMasterId: rule.appMasterId, active: true }, transaction },
       );
 
       //* Toggle on rule
       await RuleBookModel.update(
         { active: !rule.active },
-        { where: { id: rule.id, appMasterId: rule.appMasterId }, transaction }
+        { where: { id: rule.id, appMasterId: rule.appMasterId }, transaction },
       );
 
       //* use update back to FARMSOOK
@@ -244,7 +244,7 @@ export const incentiveController = {
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
-          }
+          },
         );
       } catch (error: any) {
         console.log({ error });
@@ -341,12 +341,12 @@ export const incentiveController = {
       }
 
       const generatedBlobName = rewardService.generateRewardBlobPath(fileId);
-      const blobObject = await getPresignedUrl(
+      const blobUrl = await gcpService.getPreSignedURL(
+        "read",
         generatedBlobName,
-        EXPIRES_IN_SECOND
       );
 
-      return customResponse(res, 200, { blobObject });
+      return customResponse(res, 200, { blobObject: { blobUrl } });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
@@ -368,7 +368,7 @@ export const incentiveController = {
         },
         {
           transaction,
-        }
+        },
       );
 
       await RewardFileModel.create(
@@ -379,7 +379,7 @@ export const incentiveController = {
         },
         {
           transaction,
-        }
+        },
       );
       await transaction.commit();
       return customResponse(res, 201);
@@ -444,11 +444,11 @@ export const incentiveController = {
           description: parsed.description,
           termsAndCondition: parsed.termsAndCondition,
         },
-        { where: { id: reward.id }, transaction }
+        { where: { id: reward.id }, transaction },
       );
 
       const fileIdExist = reward.rewardFiles.find(
-        (file) => file.id === parsed.fileId
+        (file) => file.id === parsed.fileId,
       );
 
       if (reward.rewardFiles.length === 0 && !fileIdExist) {
@@ -458,7 +458,7 @@ export const incentiveController = {
             fileOriginalName: parsed.fileOriginalName,
             rewardId: params.rewardId,
           },
-          { transaction }
+          { transaction },
         );
       }
 
@@ -478,7 +478,7 @@ export const incentiveController = {
             fileOriginalName: parsed.fileOriginalName,
             rewardId: params.rewardId,
           },
-          { transaction }
+          { transaction },
         );
       }
 
@@ -573,7 +573,7 @@ export const incentiveController = {
 
       await RewardModel.update(
         { active: !reward.active, isDraft: false },
-        { where: { id: reward.id }, transaction }
+        { where: { id: reward.id }, transaction },
       );
 
       await transaction.commit();
@@ -620,7 +620,7 @@ export const incentiveController = {
 
       const user = await incentiveService.getUserByReferenceId(
         referenceId,
-        appMasterId
+        appMasterId,
       );
 
       const result = {
@@ -693,7 +693,7 @@ export const incentiveController = {
                   referenceId,
                   appMasterId: parsed.appMasterId,
                 },
-                { transaction }
+                { transaction },
               );
 
               await UserModel.increment("points", {
@@ -756,7 +756,7 @@ export const incentiveController = {
             code: HttpStatusCode.Ok,
             message: "Successfully added points.",
           };
-        }
+        },
       );
 
       return customResponse(res, code, {
@@ -846,7 +846,7 @@ export const incentiveController = {
       const { formUrl } = await incentiveService.redeemReward(
         body,
         reward,
-        user
+        user,
       );
 
       return customResponse(res, HttpStatusCode.Created, {

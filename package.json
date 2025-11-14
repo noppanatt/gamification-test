@@ -16,6 +16,7 @@
     "@azure/keyvault-keys": "^4.7.2",
     "@azure/msal-node": "^2.9.1",
     "@azure/storage-blob": "^12.17.0",
+    "@google-cloud/storage": "^7.17.3",
     "@types/sequelize": "^4.28.20",
     "axios": "^1.12.2",
     "cors": "^2.8.5",
