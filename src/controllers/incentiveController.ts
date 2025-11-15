@@ -822,6 +822,8 @@ export const incentiveController = {
           "shippingAddressId",
           "createdAt",
           "rewardId",
+          'registrationId',
+          "completedDate"
         ],
         include: [
           {
