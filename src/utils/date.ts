@@ -50,3 +50,8 @@ export const dateToStringYYYMMDD = (date: Date | null | undefined) => {
 
   return `${year}${month}${day}`;
 };
+
+export const addDay = (date: Date, numberOfDay: number) => {
+  const millisecondsPerDay = 1000 * 60 * 60 * 24;
+  return new Date(date.getTime() + numberOfDay * millisecondsPerDay);
+};
