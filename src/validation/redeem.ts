@@ -33,7 +33,7 @@ export const GetRedeemSchema = baseSearchQuerySchema
       .string()
       .optional()
       .transform((val) => (val?.trim() ? val.trim().toLowerCase() : undefined))
-      .pipe(z.enum(EDirectionFilter).optional().default(EDirectionFilter.Asc)),
+      .pipe(z.enum(EDirectionFilter).optional().default(EDirectionFilter.Desc)),
 
     startDate: z
       .string()
