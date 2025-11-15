@@ -23,7 +23,7 @@ const gcpService = {
           "https://dev.farmsookbyfarmtech.com",
           "https://qa.farmsookbyfarmtech.com",
           "https://uat.farmsookbyfarmtech.com",
-          "https://prod.farmsookbyfarmtech.com",
+          "https://farmsookbyfarmtech.com",
         ],
         responseHeader: ["*"], //* Might have to try to remove some custom headers from FrontEnd that is being used with azure blob and set to ["Content-Type"] to enhance security
         method: ["GET", "PUT"],
