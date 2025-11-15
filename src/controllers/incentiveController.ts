@@ -807,14 +807,15 @@ export const incentiveController = {
         where[Op.and].push({ createdAt: { [Op.gte]: startDate } });
       }
 
-      if (endDate && startDate && startDate < endDate) {
-        where[Op.and].push({ createdAt: { [Op.lte]: endDate } });
+      if (endDate) {
+        const nextDay = addDay(endDate, 1);
+        where[Op.and].push({ createdAt: { [Op.lt]: nextDay } });
       }
 
-      if (endDate && startDate && startDate === endDate) {
-        const nextDay = addDay(endDate, 1);
-        where[Op.and].push({ createdAt: { [Op.lte]: nextDay } });
-      }
+      // if (endDate && startDate && startDate === endDate) {
+      //   const nextDay = addDay(endDate, 1);
+      //   where[Op.and].push({ createdAt: { [Op.lte]: nextDay } });
+      // }
 
       const { rows, count } = await RedeemModel.findAndCountAll({
         attributes: [
