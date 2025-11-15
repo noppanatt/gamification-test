@@ -810,7 +810,7 @@ export const incentiveController = {
         where[Op.and].push({ createdAt: { [Op.lte]: endDate } });
       }
 
-      const result = await RedeemModel.findAll({
+      const { rows, count } = await RedeemModel.findAndCountAll({
         attributes: [
           "id",
           "unit",
@@ -822,8 +822,8 @@ export const incentiveController = {
           "shippingAddressId",
           "createdAt",
           "rewardId",
-          'registrationId',
-          "completedDate"
+          "registrationId",
+          "completedDate",
         ],
         include: [
           {
@@ -839,7 +839,10 @@ export const incentiveController = {
         order,
       });
 
-      return customResponse(res, HttpStatusCode.Ok, { redeems: result });
+      return customResponse(res, HttpStatusCode.Ok, {
+        redeems: rows,
+        count: count,
+      });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
