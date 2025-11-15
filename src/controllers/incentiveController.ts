@@ -240,7 +240,7 @@ export const incentiveController = {
           page: game?.page,
           durationDays: game?.durationDays ?? 0,
           point: game?.point ?? 0,
-          multiple: game?.multiply,
+          multiply: game?.multiply,
           rewardIds: game?.rewardIds,
           dropOffDays: game?.dropOffDays,
           pushMessage: game?.pushMessage ?? "",
