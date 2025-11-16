@@ -28,7 +28,7 @@ export class GameModel extends Model<
   declare point: CreationOptional<number>;
   declare multiply: CreationOptional<number>;
   declare rewardIds: CreationOptional<string>;
-  declare dropOffDays: CreationOptional<string>;
+  declare dropOffDays: CreationOptional<number>;
   declare pushMessage: CreationOptional<string>;
   declare timeToPush: CreationOptional<string>;
   declare pushAmount: CreationOptional<number>;
@@ -93,7 +93,7 @@ export function initGameModel(sequelize: Sequelize) {
         allowNull: true,
       },
       dropOffDays: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       pushMessage: {
