@@ -911,7 +911,7 @@ export const incentiveController = {
       const todayWithoutTime = dateWithoutTimeUTC(today);
       const yesterday = new Date(todayWithoutTime);
       yesterday.setUTCDate(yesterday.getUTCDate() - 1);
-      console.log({ todayWithoutTime, yesterday });
+
       const yesterDayRedeemList = await RedeemModel.findAll({
         where: {
           createdAt: { [Op.gte]: yesterday, [Op.lte]: todayWithoutTime },
@@ -987,8 +987,8 @@ export const incentiveController = {
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Send email successfully.",
-        yesterDayRedeemList,
         yesterday,
+        todayWithoutTime,
       });
     } catch (error) {
       errorResponseHandler(error, req, res);
