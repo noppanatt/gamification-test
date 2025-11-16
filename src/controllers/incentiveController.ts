@@ -990,6 +990,7 @@ export const incentiveController = {
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Send email successfully.",
+        yesterDayRedeemList,
       });
     } catch (error) {
       errorResponseHandler(error, req, res);
