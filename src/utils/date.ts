@@ -61,3 +61,17 @@ export const dateWithoutTimeUTC = (date: Date) => {
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   );
 };
+
+export const getTodayBKK = (date: Date) => {
+  const bkkOffsetMinutes = 420;
+  const offsetDiffMinutes = date.getTimezoneOffset() + bkkOffsetMinutes;
+  const offsetDiffMilliseconds = offsetDiffMinutes * 60 * 1000;
+  const addedOffsetDate = new Date(date.getTime() + offsetDiffMilliseconds);
+  return new Date(
+    new Date(
+      addedOffsetDate.getFullYear(),
+      addedOffsetDate.getMonth(),
+      addedOffsetDate.getDate()
+    ).getTime() - offsetDiffMilliseconds
+  );
+};

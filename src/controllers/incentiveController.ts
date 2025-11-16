@@ -25,7 +25,7 @@ import {
   dateTimeToString,
   dateToStringDDMMYYHHMM,
   dateToStringDDMMYYYY,
-  dateWithoutTimeUTC,
+  getTodayBKK,
 } from "../utils/date";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import gcpService from "../utils/google-cloud";
@@ -907,10 +907,9 @@ export const incentiveController = {
   },
   generateDailyRedeemAndSendEmail: async (req: Request, res: Response) => {
     try {
-      const today = new Date();
-      const todayWithoutTime = dateWithoutTimeUTC(today);
+      const todayWithoutTime = getTodayBKK(new Date());
       const yesterday = new Date(todayWithoutTime);
-      yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+      yesterday.setDate(yesterday.getDate() - 1); // subtract 1 day in Bangkok local
 
       const yesterDayRedeemList = await RedeemModel.findAll({
         where: {
