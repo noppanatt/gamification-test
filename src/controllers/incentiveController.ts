@@ -29,7 +29,7 @@ import {
 } from "../utils/date";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
 import gcpService from "../utils/google-cloud";
-import { sendEmail, TEmailData } from "../utils/mailer";
+import { TEmailData } from "../utils/mailer";
 import customResponse from "../utils/response";
 import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
@@ -910,11 +910,11 @@ export const incentiveController = {
       const today = new Date();
       const todayWithoutTime = dateWithoutTime(today);
       const yesterday = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() - 1
+        todayWithoutTime.getFullYear(),
+        todayWithoutTime.getMonth(),
+        todayWithoutTime.getDate() - 1
       );
-
+      console.log({ todayWithoutTime, yesterday });
       const yesterDayRedeemList = await RedeemModel.findAll({
         where: {
           createdAt: { [Op.gte]: yesterday, [Op.lte]: todayWithoutTime },
@@ -986,11 +986,12 @@ export const incentiveController = {
         ],
       };
 
-      await sendEmail(emailData);
+      // await sendEmail(emailData);
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Send email successfully.",
-        yesterDayRedeemList,
+        yesterday,
+        todayWithoutTime,
       });
     } catch (error) {
       errorResponseHandler(error, req, res);
