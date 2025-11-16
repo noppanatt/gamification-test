@@ -55,3 +55,9 @@ export const addDay = (date: Date, numberOfDay: number) => {
   const millisecondsPerDay = 1000 * 60 * 60 * 24;
   return new Date(date.getTime() + numberOfDay * millisecondsPerDay);
 };
+
+export const dateWithoutTimeUTC = (date: Date) => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
+};
