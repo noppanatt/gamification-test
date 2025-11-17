@@ -251,7 +251,7 @@ export const incentiveController = {
 
         console.log("Update to FARMSOOK with new status:", !!rule.active);
         await axios.post(
-          "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
+          "https://uat.farmsookbyfarmtech.com/api/games/update-rules",
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
