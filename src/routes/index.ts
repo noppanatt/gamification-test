@@ -59,7 +59,7 @@ export function setupRoutes(app: Express) {
   //* Redeem
   router.get("/reward/redeem", incentiveController.getRedeemList);
 
-  router.get("/reward/redeem/export", incentiveController.getRedeemListByIds);
+  router.post("/reward/redeem/export", incentiveController.getRedeemListByIds);
 
   router.post("/reward/redeem/:referenceId", incentiveController.redeemReward);
 
