@@ -46,6 +46,8 @@ import {
   updateRewardSchema,
 } from "../validation/user";
 
+const FARMSOOK_BASE_URL = process.env.FARMSOOK_BASE_URL;
+
 export const incentiveController = {
   // uploadFile: async (req: Request, res: Response) => {
   //   try {
@@ -251,8 +253,10 @@ export const incentiveController = {
         }));
 
         console.log("Update to FARMSOOK with new status:", !!rule.active);
+        const updateRuleURL = `${FARMSOOK_BASE_URL}/games/update-rules`;
+
         await axios.post(
-          "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
+          updateRuleURL,
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
