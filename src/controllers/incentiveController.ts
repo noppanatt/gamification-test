@@ -31,6 +31,7 @@ import { errorResponseHandler } from "../utils/errorResponseHandler";
 import gcpService from "../utils/google-cloud";
 import { sendEmail, TEmailData } from "../utils/mailer";
 import customResponse from "../utils/response";
+import { validationExportByIdsSchema } from "../validation/export-by-ids.dto";
 import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
 import {
@@ -850,6 +851,16 @@ export const incentiveController = {
         redeems: rows,
         count: count,
       });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  getRedeemListByIds: async (req: Request, res: Response) => {
+    try {
+      const { ids } = validationExportByIdsSchema.parse(req.body);
+      const { rows, count } = await incentiveService.getRedeemExportByIds(ids);
+
+      return customResponse(res, HttpStatusCode.Ok, {result: {rows, count}});
     } catch (error) {
       errorResponseHandler(error, req, res);
     }

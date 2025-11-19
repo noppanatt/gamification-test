@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import * as XLSX from "xlsx";
 import sequelize from "../database/index";
 import { AppMasterModel } from "../database/sequelize/appMaster";
@@ -171,5 +172,38 @@ export const incentiveService = {
     });
 
     return { buffer, fileName };
+  },
+
+  getRedeemExportByIds: async (ids: string[]) => {
+    return RedeemModel.findAndCountAll({
+      attributes: [
+        "id",
+        "unit",
+        "redemptionPoints",
+        "name",
+        "phoneNumber",
+        "email",
+        "address",
+        "shippingAddressId",
+        "createdAt",
+        "rewardId",
+        "registrationId",
+        "completedDate",
+      ],
+      include: [
+        {
+          model: RewardModel,
+          as: "reward",
+          attributes: ["id", "rewardId", "name", "points"],
+          paranoid: false,
+        },
+      ],
+      where: {
+        id: {
+          [Op.in]: ids,
+        },
+      },
+      order: [["createdAt", "DESC"]],
+    });
   },
 };
