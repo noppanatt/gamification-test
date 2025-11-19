@@ -252,7 +252,7 @@ export const incentiveController = {
 
         console.log("Update to FARMSOOK with new status:", !!rule.active);
         await axios.post(
-          "https://uat.farmsookbyfarmtech.com/api/games/update-rules",
+          "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
@@ -860,7 +860,9 @@ export const incentiveController = {
       const { ids } = validationExportByIdsSchema.parse(req.body);
       const { rows, count } = await incentiveService.getRedeemExportByIds(ids);
 
-      return customResponse(res, HttpStatusCode.Ok, {result: {rows, count}});
+      return customResponse(res, HttpStatusCode.Ok, {
+        result: { rows, count },
+      });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
