@@ -1,11 +1,14 @@
 import axios, { HttpStatusCode } from "axios";
+import ejs from "ejs";
 import { Request, Response } from "express";
-import { OrderItem } from "sequelize";
+import * as fs from "fs";
+import path from "path";
+import { Op, OrderItem, WhereOptions } from "sequelize";
 import { ERuleOrderBy } from "src/enums/rule.enum";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
-import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
 import sequelize from "../database/index";
+import { AppMasterModel } from "../database/sequelize/appMaster";
 import { CustomerMasterModel } from "../database/sequelize/customerMaster";
 import { GameModel } from "../database/sequelize/game";
 import { RedeemModel } from "../database/sequelize/redeem";
@@ -16,10 +19,20 @@ import { UserModel } from "../database/sequelize/user";
 import { EUpdatePointMethod } from "../enums/update-point.enum";
 import { incentiveService } from "../services/incentiveService";
 import { rewardService } from "../services/rewardService";
-import { getPresignedUrl } from "../utils/azure-blob";
+import { calculateOffset } from "../utils/common";
+import {
+  addDay,
+  dateTimeToString,
+  dateToStringDDMMYYHHMM,
+  dateToStringDDMMYYYY,
+  getTodayBKK,
+} from "../utils/date";
 import { errorResponseHandler } from "../utils/errorResponseHandler";
+import gcpService from "../utils/google-cloud";
+import { sendEmail, TEmailData } from "../utils/mailer";
 import customResponse from "../utils/response";
-import { RedeemSchema } from "../validation/redeem";
+import { validationExportByIdsSchema } from "../validation/export-by-ids.dto";
+import { GetRedeemSchema, RedeemSchema } from "../validation/redeem";
 import { CreateRewardSchema, editRewardSchema } from "../validation/reward";
 import {
   CreateGameRuleBody,
@@ -27,7 +40,13 @@ import {
   editGameRuleSchema,
   getGameRuleSchema,
 } from "../validation/rulebook";
-import { getUserPointSchema, updateRewardSchema } from "../validation/user";
+import {
+  getAllUserPointSchema,
+  getUserPointSchema,
+  updateRewardSchema,
+} from "../validation/user";
+
+const FARMSOOK_BASE_URL = process.env.FARMSOOK_BASE_URL;
 
 export const incentiveController = {
   // uploadFile: async (req: Request, res: Response) => {
@@ -122,7 +141,7 @@ export const incentiveController = {
         rewardIds: r.rewardId,
         dropOffDays: r.dropOffDays != null ? String(r.dropOffDays) : null,
         pushMessage: r.pushMessage ?? null,
-        timeToPush: r.timeToPush ? new Date(r.timeToPush) : null,
+        timeToPush: r.timeToPush ?? null,
         pushAmount: r.pushAmount ?? null,
         startDate: r?.startDate ? new Date(r.startDate) : null,
         endDate: r?.endDate ? new Date(r.endDate) : null,
@@ -224,7 +243,7 @@ export const incentiveController = {
           page: game?.page,
           durationDays: game?.durationDays ?? 0,
           point: game?.point ?? 0,
-          multiple: game?.multiply,
+          multiply: game?.multiply,
           rewardIds: game?.rewardIds,
           dropOffDays: game?.dropOffDays,
           pushMessage: game?.pushMessage ?? "",
@@ -234,8 +253,10 @@ export const incentiveController = {
         }));
 
         console.log("Update to FARMSOOK with new status:", !!rule.active);
+        const updateRuleURL = `${FARMSOOK_BASE_URL}/games/update-rules`;
+
         await axios.post(
-          "https://qa.farmsookbyfarmtech.com/api/games/update-rules",
+          updateRuleURL,
           { newActive: !rule.active, games },
           {
             headers: { "Content-Type": "application/json" },
@@ -336,12 +357,12 @@ export const incentiveController = {
       }
 
       const generatedBlobName = rewardService.generateRewardBlobPath(fileId);
-      const blobObject = await getPresignedUrl(
-        generatedBlobName,
-        EXPIRES_IN_SECOND
+      const blobUrl = await gcpService.getPreSignedURL(
+        "read",
+        generatedBlobName
       );
 
-      return customResponse(res, 200, { blobObject });
+      return customResponse(res, 200, { blobObject: { blobUrl } });
     } catch (error) {
       errorResponseHandler(error, req, res);
     }
@@ -618,17 +639,48 @@ export const incentiveController = {
         appMasterId
       );
 
+      const result = {
+        userId: "",
+        points: 0,
+        app: "",
+      };
+
       if (!user) {
-        return customResponse(res, HttpStatusCode.NotFound, {
-          message: `userId: ${referenceId} was not found.`,
+        const userNew = await UserModel.create({
+          referenceId,
+          appMasterId: appMasterId,
         });
+
+        await userNew.reload({
+          include: [
+            {
+              model: AppMasterModel,
+              as: "appMaster",
+              attributes: ["id", "name"],
+            },
+          ],
+        });
+
+        result.userId = userNew.id;
+        result.points = userNew.points;
+        result.app = userNew.appMaster.name;
+
+        return customResponse(res, HttpStatusCode.Ok, { result });
       }
 
-      const result = {
-        userId: user.id,
-        points: user.points,
-        app: user.appMaster.name,
-      };
+      result.userId = user.id;
+      result.points = user.points;
+      result.app = user.appMaster.name;
+
+      return customResponse(res, HttpStatusCode.Ok, { result });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  getAllUserPoint: async (req: Request, res: Response) => {
+    try {
+      const { appMasterId } = getAllUserPointSchema.parse(req.query);
+      const result = await incentiveService.getAllUserPoint(appMasterId);
 
       return customResponse(res, HttpStatusCode.Ok, { result });
     } catch (error) {
@@ -730,6 +782,95 @@ export const incentiveController = {
       errorResponseHandler(error, req, res);
     }
   },
+  getRedeemList: async (req: Request, res: Response) => {
+    try {
+      const {
+        appMasterId,
+        direction,
+        limit,
+        orderBy,
+        page,
+        searchText,
+        startDate,
+        endDate,
+      } = GetRedeemSchema.parse(req.query);
+
+      const order: OrderItem[] = [["createdAt", direction]];
+      const where = {
+        [Op.and]: [{ appMasterId }] as WhereOptions<RedeemModel>[],
+      };
+
+      if (searchText) {
+        where[Op.and].push([
+          {
+            registrationId: { [Op.iLike]: `%${searchText}%` },
+          },
+        ]);
+      }
+
+      if (startDate) {
+        where[Op.and].push({ createdAt: { [Op.gte]: startDate } });
+      }
+
+      if (endDate) {
+        const nextDay = addDay(endDate, 1);
+        where[Op.and].push({ createdAt: { [Op.lt]: nextDay } });
+      }
+
+      // if (endDate && startDate && startDate === endDate) {
+      //   const nextDay = addDay(endDate, 1);
+      //   where[Op.and].push({ createdAt: { [Op.lte]: nextDay } });
+      // }
+
+      const { rows, count } = await RedeemModel.findAndCountAll({
+        attributes: [
+          "id",
+          "unit",
+          "redemptionPoints",
+          "name",
+          "phoneNumber",
+          "email",
+          "address",
+          "shippingAddressId",
+          "createdAt",
+          "rewardId",
+          "registrationId",
+          "completedDate",
+        ],
+        include: [
+          {
+            model: RewardModel,
+            as: "reward",
+            attributes: ["id", "rewardId", "name", "points"],
+            paranoid: false,
+          },
+        ],
+        where,
+        offset: calculateOffset(page, limit),
+        limit,
+        order,
+      });
+
+      return customResponse(res, HttpStatusCode.Ok, {
+        redeems: rows,
+        count: count,
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  getRedeemListByIds: async (req: Request, res: Response) => {
+    try {
+      const { ids } = validationExportByIdsSchema.parse(req.body);
+      const { rows, count } = await incentiveService.getRedeemExportByIds(ids);
+
+      return customResponse(res, HttpStatusCode.Ok, {
+        result: { rows, count },
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
   redeemReward: async (req: Request, res: Response) => {
     try {
       //* parse
@@ -745,11 +886,9 @@ export const incentiveController = {
       });
 
       if (!user) {
-        if (!user) {
-          return customResponse(res, HttpStatusCode.NotFound, {
-            message: `userId: ${referenceId} was not found.`,
-          });
-        }
+        return customResponse(res, HttpStatusCode.NotFound, {
+          message: `userId: ${referenceId} was not found.`,
+        });
       }
 
       //* check rewardId exist
@@ -774,37 +913,98 @@ export const incentiveController = {
       }
 
       //* redemption
-      await sequelize.transaction(async (transaction) => {
-        //* create redeem
-        await RedeemModel.create(
-          {
-            name: body.name,
-            phoneNumber: body.phoneNumber,
-            email: body?.email,
-            address: body.address,
-            unit: body.unit,
-            redemptionPoints: reward.points,
-            rewardId: reward.id,
-            appMasterId: body.appMasterId,
-            shippingAddressId: body?.shippingAddressId,
-            userId: user.id,
-          },
-          { transaction }
-        );
-
-        //* deduct balance points
-        await UserModel.decrement("points", {
-          by: reward.points,
-          where: {
-            id: user.id,
-            appMasterId: body.appMasterId,
-          },
-          transaction,
-        });
-      });
+      await incentiveService.redeemReward(body, reward, user);
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Reward redeemed successfully.",
+      });
+    } catch (error) {
+      errorResponseHandler(error, req, res);
+    }
+  },
+  generateDailyRedeemAndSendEmail: async (req: Request, res: Response) => {
+    try {
+      const todayWithoutTime = getTodayBKK(new Date());
+      const yesterday = new Date(todayWithoutTime);
+      yesterday.setDate(yesterday.getDate() - 1); // subtract 1 day in Bangkok local
+
+      const yesterDayRedeemList = await RedeemModel.findAll({
+        where: {
+          createdAt: { [Op.gte]: yesterday, [Op.lte]: todayWithoutTime },
+        },
+        include: [
+          {
+            model: RewardModel,
+            as: "reward",
+            attributes: ["id", "name"],
+          },
+        ],
+      });
+      const rows: any[] = [];
+      yesterDayRedeemList.map((row) => {
+        const sheetRow = {
+          ["Customer Id"]: row?.registrationId ?? "",
+          ["Date"]: dateToStringDDMMYYYY(row.createdAt),
+          ["Start Time"]: dateTimeToString(row.createdAt),
+          ["Completed Time"]: dateToStringDDMMYYHHMM(row?.completedDate),
+          ["Full Name"]: row?.name ?? "",
+          ["Phone Number"]: row?.phoneNumber ?? "",
+          ["Email"]: row?.email ?? "",
+          ["Address Information"]: row?.address ?? "",
+          ["Redeem Reward"]: row?.reward?.name ?? "",
+          ["Unit"]: row.unit ?? "",
+        };
+
+        rows.push(sheetRow);
+      });
+
+      const { buffer, fileName } =
+        await incentiveService.generateDailyRedeemSheetBuffer(rows, yesterday);
+
+      const templatePath = path.join(
+        __dirname,
+        "..",
+        "emails",
+        "reward-redemption.ejs"
+      );
+
+      const html = fs.readFileSync(templatePath, "utf-8");
+      const htmlFormat = ejs.render(html, {});
+
+      const emailData: TEmailData = {
+        html: htmlFormat,
+        subject: "Reward Redemption Notification",
+        to: [
+          "noppanat.b@codemonday.com",
+          // "ThipwipaN@betagro.com",
+          "nassaroon.b@codemonday.com",
+          "thodsaphon.s@codemonday.com",
+        ],
+        sender: {
+          name: "Retail Web Stockmovement",
+          email: "smtp_stockmovement@betagro.com",
+        },
+        cc: [
+          "nassaroon.b@codemonday.com",
+          "thodsaphon.s@codemonday.com",
+          "noppanat.b@codemonday.com",
+        ],
+        attachments: [
+          {
+            filename: fileName,
+            content: buffer,
+            contentType:
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          },
+        ],
+      };
+
+      await sendEmail(emailData);
+
+      return customResponse(res, HttpStatusCode.Created, {
+        message: "Send email successfully.",
+        yesterday,
+        todayWithoutTime,
       });
     } catch (error) {
       errorResponseHandler(error, req, res);

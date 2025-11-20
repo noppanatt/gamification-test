@@ -57,12 +57,20 @@ export function setupRoutes(app: Express) {
   router.put("/reward/active", incentiveController.toggleRewardStatus);
 
   //* Redeem
+  router.get("/reward/redeem", incentiveController.getRedeemList);
+
+  router.post("/reward/redeem/export", incentiveController.getRedeemListByIds);
+
   router.post("/reward/redeem/:referenceId", incentiveController.redeemReward);
 
   //* Point
   router.get("/point", incentiveController.getUserPointByUserId);
 
+  router.get("/point/all", incentiveController.getAllUserPoint);
+
   router.put("/point/:referenceId", incentiveController.updateUserPoint);
+
+  router.get("/cron", incentiveController.generateDailyRedeemAndSendEmail);
 
   app.use("/incentive", router);
 }

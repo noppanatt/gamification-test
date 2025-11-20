@@ -13,6 +13,12 @@ export const getUserPointSchema = z.object({
   appMasterId: z.coerce.number().positive(),
 });
 
+export const getAllUserPointSchema = z.object({
+  appMasterId: z.coerce.number().positive(),
+});
+
+export type TGetAllUserPointSchema = z.infer<typeof getAllUserPointSchema>;
+
 export type TUpdateRewardSchema = z.infer<typeof updateRewardSchema>;
 
 export type TGetUserPointSchema = z.infer<typeof getUserPointSchema>;

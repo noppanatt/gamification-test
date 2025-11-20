@@ -21,6 +21,7 @@ export class RedeemModel extends Model<
   declare unit: number;
   declare redemptionPoints: number;
   declare name: string;
+  declare registrationId: CreationOptional<string>;
   declare phoneNumber: CreationOptional<string>;
   declare email: CreationOptional<string>;
   declare address: string;
@@ -29,10 +30,11 @@ export class RedeemModel extends Model<
   declare userId: ForeignKey<UserModel["id"]>;
   declare rewardId: ForeignKey<RewardModel["id"]>;
   declare appMasterId: ForeignKey<AppMasterModel["id"]>;
+  declare completedDate: CreationOptional<Date>;
 
-  declare updatedAt: NonAttribute<Date>;
-  declare createdAt: NonAttribute<Date>;
-  declare deletedAt: NonAttribute<Date>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+  declare deletedAt: CreationOptional<Date>;
   declare user: NonAttribute<UserModel>;
   declare reward: NonAttribute<RewardModel>;
   declare appMaster: NonAttribute<AppMasterModel>;
@@ -56,17 +58,40 @@ export function initRedeemModel(sequelize: Sequelize) {
       name: {
         type: DataTypes.STRING,
       },
+      registrationId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       phoneNumber: {
         type: DataTypes.STRING,
+        allowNull: true,
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: true,
       },
       address: {
         type: DataTypes.STRING,
+        allowNull: true,
       },
       shippingAddressId: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      completedDate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
         allowNull: true,
       },
     },

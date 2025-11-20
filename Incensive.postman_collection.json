@@ -123,7 +123,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/rule/active?appId=1&ruleId=e84668e4-510d-4672-a56c-56bac783c6ae",
+							"raw": "{{BACKEND_URL}}/incentive/rule/active?appId=1&ruleId=05e03224-9829-4d3f-8ad5-6cbb53a0eac0",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
@@ -139,8 +139,13 @@
 								},
 								{
 									"key": "ruleId",
-									"value": "e84668e4-510d-4672-a56c-56bac783c6ae",
-									"description": "uuid"
+									"value": "05e03224-9829-4d3f-8ad5-6cbb53a0eac0",
+									"description": "05e03224-9829-4d3f-8ad5-6cbb53a0eac0"
+								},
+								{
+									"key": null,
+									"value": "",
+									"disabled": true
 								}
 							]
 						}
@@ -1336,6 +1341,363 @@
 							"body": "{\n    \"success\": true,\n    \"message\": \"updated rewardId : c316e8f8-9740-43e3-8b8d-9b4dec3ec2a1 success\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Redeem reward",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddressId\": \"\",\n    \"rewardId\": \"968f200f-862f-4c06-b509-31f17f8a6697\",\n    \"appMasterId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"redeem",
+								":referenceId"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceId",
+									"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+									"description": "uuid"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"redeem",
+										":referenceId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "58"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3a-NEdfZDEdYdQQ4ElwccDeZPk7Z7c\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 11:11:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Reward redeemed successfully.\"\n}"
+						},
+						{
+							"name": "Not enough points",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"redeem",
+										":referenceId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "referenceId",
+											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
+											"description": "uuid"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-TJHi0eHmMPA7lMlIlmCw1hPKg8U\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 11:12:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Not enough points.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all redeem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/reward/redeem?page=1&limit=10&searchText=&orderBy=employee_code&startDate=2025-11-08T17:00:00.000Z&endDate=2025-11-10T17:00:00.000Z&appMasterId=1",
+							"host": [
+								"{{BACKEND_URL}}"
+							],
+							"path": [
+								"incentive",
+								"reward",
+								"redeem"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "searchText",
+									"value": ""
+								},
+								{
+									"key": "orderBy",
+									"value": "employee_code"
+								},
+								{
+									"key": "direction",
+									"value": "DESC",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-11-08T17:00:00.000Z",
+									"description": "2025-11-13T17:00:00.000Z"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-11-10T17:00:00.000Z",
+									"description": "2025-11-13T17:00:00.000Z"
+								},
+								{
+									"key": "appMasterId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all redeem",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BACKEND_URL}}/incentive/reward/redeem?page=1&limit=10&searchText=&orderBy=employee_code&startDate=2025-11-08T17:00:00.000Z&endDate=2025-11-10T17:00:00.000Z&appMasterId=1",
+									"host": [
+										"{{BACKEND_URL}}"
+									],
+									"path": [
+										"incentive",
+										"reward",
+										"redeem"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "searchText",
+											"value": ""
+										},
+										{
+											"key": "orderBy",
+											"value": "employee_code"
+										},
+										{
+											"key": "direction",
+											"value": "DESC",
+											"disabled": true
+										},
+										{
+											"key": "startDate",
+											"value": "2025-11-08T17:00:00.000Z",
+											"description": "2025-11-13T17:00:00.000Z"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-11-10T17:00:00.000Z",
+											"description": "2025-11-13T17:00:00.000Z"
+										},
+										{
+											"key": "appMasterId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1963"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7ab-itc0yqyOjOF4Dp2fzWK+TO125UQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 14 Nov 2025 20:06:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"redeems\": [\n        {\n            \"id\": \"708b9f52-0584-4277-b726-80495934d4a2\",\n            \"unit\": 1,\n            \"redemptionPoints\": 300,\n            \"name\": \"Noppanat Eiei\",\n            \"phoneNumber\": \"0844738509\",\n            \"email\": \"noppanat.b@codemonday.com\",\n            \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n            \"shippingAddressId\": \"\",\n            \"createdAt\": \"2025-11-10T03:35:40.360Z\",\n            \"rewardId\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n            \"reward\": {\n                \"id\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n                \"rewardId\": \"R-001\",\n                \"name\": \"ถุงผ้าฟาร์มสุข\",\n                \"points\": 300\n            }\n        },\n        {\n            \"id\": \"93fd2284-6837-4143-b86a-b6587c293427\",\n            \"unit\": 1,\n            \"redemptionPoints\": 300,\n            \"name\": \"Noppanat Eiei\",\n            \"phoneNumber\": \"0844738509\",\n            \"email\": \"noppanat.b@codemonday.com\",\n            \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n            \"shippingAddressId\": \"\",\n            \"createdAt\": \"2025-11-10T03:38:59.047Z\",\n            \"rewardId\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n            \"reward\": {\n                \"id\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n                \"rewardId\": \"R-001\",\n                \"name\": \"ถุงผ้าฟาร์มสุข\",\n                \"points\": 300\n            }\n        },\n        {\n            \"id\": \"82228f6d-071d-4ffa-9f65-04cdf12ebf40\",\n            \"unit\": 1,\n            \"redemptionPoints\": 300,\n            \"name\": \"นัตสึ จะเลี้ยงหมู\",\n            \"phoneNumber\": \"0973566058\",\n            \"email\": \"nassaroon.b@codemonday.com\",\n            \"address\": \"88/88\",\n            \"shippingAddressId\": \"\",\n            \"createdAt\": \"2025-11-10T03:45:20.964Z\",\n            \"rewardId\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n            \"reward\": {\n                \"id\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n                \"rewardId\": \"R-001\",\n                \"name\": \"ถุงผ้าฟาร์มสุข\",\n                \"points\": 300\n            }\n        },\n        {\n            \"id\": \"535851e7-65de-449e-9215-b297d4be9c1a\",\n            \"unit\": 1,\n            \"redemptionPoints\": 300,\n            \"name\": \"Natsu เทสเตอร์\",\n            \"phoneNumber\": \"0948693889\",\n            \"email\": null,\n            \"address\": \"111\",\n            \"shippingAddressId\": \"\",\n            \"createdAt\": \"2025-11-10T09:24:05.260Z\",\n            \"rewardId\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n            \"reward\": {\n                \"id\": \"bd1afa46-b7a8-4b42-8f87-533ea23ba2bd\",\n                \"rewardId\": \"R-001\",\n                \"name\": \"ถุงผ้าฟาร์มสุข\",\n                \"points\": 300\n            }\n        }\n    ]\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1444,7 +1806,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"method\": \"INCREASE\", // INCREASE || DECREASE\n    \"amount\": 100,\n    \"appMasterId\": 1\n}",
+							"raw": "{\n    \"method\": \"INCREASE\", // INCREASE || DECREASE\n    \"amount\": 0,\n    \"appMasterId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1464,7 +1826,7 @@
 							"variable": [
 								{
 									"key": "referenceId",
-									"value": "f0eb17d6-fa20-4ad4-9c2c-929e04a0ba48",
+									"value": "d40a3dd1-5034-4f24-8740-e1c8299aae48",
 									"description": "Farmer uuid"
 								}
 							]
@@ -1693,210 +2055,52 @@
 					]
 				},
 				{
-					"name": "Redeem reward",
+					"name": "Get all user point",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddressId\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
+							"raw": "{{BACKEND_URL}}/incentive/point/all?appMasterId=1",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
 							"path": [
 								"incentive",
-								"reward",
-								"redeem",
-								":referenceId"
+								"point",
+								"all"
 							],
 							"query": [
 								{
-									"key": "",
-									"value": null,
-									"disabled": true
-								}
-							],
-							"variable": [
-								{
-									"key": "referenceId",
-									"value": "cceeab58-c070-42bb-b733-b930ec817cac",
-									"description": "uuid"
+									"key": "appMasterId",
+									"value": "1"
 								}
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "201",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
-									"host": [
-										"{{BACKEND_URL}}"
-									],
-									"path": [
-										"incentive",
-										"reward",
-										"redeem",
-										":referenceId"
-									],
-									"query": [
-										{
-											"key": "",
-											"value": null,
-											"disabled": true
-										}
-									],
-									"variable": [
-										{
-											"key": "referenceId",
-											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
-											"description": "uuid"
-										}
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "58"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"3a-NEdfZDEdYdQQ4ElwccDeZPk7Z7c\""
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 03 Oct 2025 11:11:22 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "99 - Test cron",
+			"item": [
+				{
+					"name": "Test daily email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BACKEND_URL}}/incentive/cron",
+							"host": [
+								"{{BACKEND_URL}}"
 							],
-							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"message\": \"Reward redeemed successfully.\"\n}"
-						},
-						{
-							"name": "Not enough points",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Noppanat Eiei\",\n    \"phoneNumber\": \"0844738509\",\n    \"email\": \"noppanat.b@codemonday.com\", //* optional\n    \"address\": \"491/16 Silom Plaza Building, 2nd Floor, Si Lom Rd, Si Lom, Bang Rak, Bangkok 10500\",\n    \"unit\": 1,\n    \"shippingAddress\": \"\",\n    \"rewardId\": \"5d0cbc4e-e851-4c1a-b964-57298b5f9b3a\",\n    \"appMasterId\": 1\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BACKEND_URL}}/incentive/reward/redeem/:referenceId",
-									"host": [
-										"{{BACKEND_URL}}"
-									],
-									"path": [
-										"incentive",
-										"reward",
-										"redeem",
-										":referenceId"
-									],
-									"query": [
-										{
-											"key": "",
-											"value": null,
-											"disabled": true
-										}
-									],
-									"variable": [
-										{
-											"key": "referenceId",
-											"value": "cceeab58-c070-42bb-b733-b930ec817cac",
-											"description": "uuid"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": null,
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "48"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"30-TJHi0eHmMPA7lMlIlmCw1hPKg8U\""
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 03 Oct 2025 11:12:43 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"message\": \"Not enough points.\"\n}"
+							"path": [
+								"incentive",
+								"cron"
+							]
 						}
-					]
+					},
+					"response": []
 				}
 			]
 		},

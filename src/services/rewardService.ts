@@ -1,6 +1,5 @@
-import { EXPIRES_IN_SECOND } from "../constants/azure-blob-constant";
-import { getPresignedUrl } from "../utils/azure-blob";
 import { generateUUID } from "../utils/common";
+import gcpService from "../utils/google-cloud";
 
 export const rewardService = {
   generateRewardBlobPath: (fileId: string) => {
@@ -10,16 +9,15 @@ export const rewardService = {
     const fileId = generateUUID();
     const generatedBlobName = rewardService.generateRewardBlobPath(fileId);
 
-    const blobObject = await getPresignedUrl(
+    const blobUrl = await gcpService.getPreSignedURL(
+      "write",
       generatedBlobName,
-      EXPIRES_IN_SECOND
     );
 
     return {
-      ...blobObject,
+      blobUrl,
       fileId,
       url: generatedBlobName,
-      headers: { "x-ms-blob-type": "BlockBlob" },
     };
   },
 };

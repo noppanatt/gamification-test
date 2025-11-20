@@ -24,7 +24,7 @@ const getClient = async (): Promise<BlobServiceClient> => {
 
   const blobClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    cred
+    cred,
   );
 
   return blobClient;
@@ -60,7 +60,7 @@ const getBlobUrl = (
   accountName: string,
   containerName: string,
   blobName: string,
-  sasToken: string
+  sasToken: string,
 ) =>
   `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}${sasToken}`;
 
@@ -73,7 +73,7 @@ const createBlobSas = (
     contentType?: string;
     correlationId?: string;
     expiresOnSeconds: number;
-  }
+  },
 ) => {
   const sasOptions: BlobSASSignatureValues = {
     permissions: BlobSASPermissions.parse("cwr"), // permissions
@@ -90,7 +90,7 @@ const createBlobSas = (
   const sasToken = generateBlobSASQueryParameters(
     sasOptions,
     delegationKey,
-    accountName
+    accountName,
   ).toString();
 
   //* Prepend sasToken with `?`
@@ -118,7 +118,7 @@ function createBlobSasWithSharedKey(opts: {
 
   const cred = new StorageSharedKeyCredential(
     constants.accountName,
-    constants.key
+    constants.key,
   );
   const sas = generateBlobSASQueryParameters(values, cred).toString();
   return sas.startsWith("?") ? sas : `?${sas}`;
@@ -128,7 +128,7 @@ export const getPresignedUrl = async (
   blobName: string,
   expiresOnSeconds: number,
   contentType?: string | undefined,
-  correlationId?: string | undefined
+  correlationId?: string | undefined,
 ) => {
   const blobVersion = new Date().toISOString().split("T")[0] as string;
 
@@ -146,7 +146,7 @@ export const getPresignedUrl = async (
     constants.accountName,
     constants.containerName,
     blobName,
-    sasToken
+    sasToken,
   );
 
   return { blobUrl, blobVersion, correlationId };
@@ -155,7 +155,7 @@ export const getPresignedUrl = async (
 export const isFileUploaded = async (prefix: string) => {
   const blobClient = await getClient();
   const containerClient = blobClient.getContainerClient(
-    constants.containerName
+    constants.containerName,
   );
   const iter = containerClient.listBlobsFlat({ prefix });
   const blobItem = await iter.next();
