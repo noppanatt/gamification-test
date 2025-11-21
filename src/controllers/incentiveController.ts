@@ -872,6 +872,8 @@ export const incentiveController = {
     }
   },
   redeemReward: async (req: Request, res: Response) => {
+    const transaction = await sequelize.transaction();
+
     try {
       //* parse
       const body = RedeemSchema.parse(req.body);
@@ -883,9 +885,12 @@ export const incentiveController = {
           referenceId,
           appMasterId: body.appMasterId,
         },
+        transaction,
+        lock: transaction.LOCK.UPDATE,
       });
 
       if (!user) {
+        await transaction.rollback();
         return customResponse(res, HttpStatusCode.NotFound, {
           message: `userId: ${referenceId} was not found.`,
         });
@@ -897,9 +902,12 @@ export const incentiveController = {
           id: body.rewardId,
           active: true,
         },
+        transaction,
+        lock: transaction.LOCK.UPDATE,
       });
 
       if (!reward) {
+        await transaction.rollback();
         return customResponse(res, HttpStatusCode.NotFound, {
           message: `rewardId: ${body.rewardId} was not found.`,
         });
@@ -907,18 +915,22 @@ export const incentiveController = {
 
       //* check point balance
       if (user.points < reward.points) {
+        await transaction.rollback();
         return customResponse(res, HttpStatusCode.BadRequest, {
           message: "Not enough points.",
         });
       }
 
       //* redemption
-      await incentiveService.redeemReward(body, reward, user);
+      await incentiveService.redeemReward(body, reward, user, transaction);
+
+      await transaction.commit();
 
       return customResponse(res, HttpStatusCode.Created, {
         message: "Reward redeemed successfully.",
       });
     } catch (error) {
+      await transaction.rollback();
       errorResponseHandler(error, req, res);
     }
   },

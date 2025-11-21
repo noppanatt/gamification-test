@@ -1,6 +1,5 @@
-import { Op } from "sequelize";
+import { Op, Transaction } from "sequelize";
 import * as XLSX from "xlsx";
-import sequelize from "../database/index";
 import { AppMasterModel } from "../database/sequelize/appMaster";
 import { RedeemModel } from "../database/sequelize/redeem";
 import { RewardModel } from "../database/sequelize/reward";
@@ -46,37 +45,36 @@ export const incentiveService = {
   redeemReward: async (
     body: TRedeemSchema,
     reward: RewardModel,
-    user: UserModel
+    user: UserModel,
+    transaction: Transaction
   ) => {
     const today = new Date();
     //* redemption
-    await sequelize.transaction(async (transaction) => {
-      //* create redeem
-      await RedeemModel.create(
-        {
-          name: body.name,
-          phoneNumber: body.phoneNumber,
-          email: body?.email,
-          address: body.address,
-          unit: body.unit,
-          redemptionPoints: reward.points,
-          rewardId: reward.id,
-          appMasterId: body.appMasterId,
-          shippingAddressId: body?.shippingAddressId,
-          userId: user.id,
-          registrationId: body?.registrationId,
-        },
-        { transaction }
-      );
-      //* deduct balance points
-      await UserModel.decrement("points", {
-        by: reward.points,
-        where: {
-          id: user.id,
-          appMasterId: body.appMasterId,
-        },
-        transaction,
-      });
+    //* create redeem
+    await RedeemModel.create(
+      {
+        name: body.name,
+        phoneNumber: body.phoneNumber,
+        email: body?.email,
+        address: body.address,
+        unit: body.unit,
+        redemptionPoints: reward.points,
+        rewardId: reward.id,
+        appMasterId: body.appMasterId,
+        shippingAddressId: body?.shippingAddressId,
+        userId: user.id,
+        registrationId: body?.registrationId,
+      },
+      { transaction }
+    );
+    //* deduct balance points
+    await UserModel.decrement("points", {
+      by: reward.points,
+      where: {
+        id: user.id,
+        appMasterId: body.appMasterId,
+      },
+      transaction,
     });
     const completeTime = new Date();
     //* Update to form
